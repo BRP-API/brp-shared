@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  title: GBA datum
+  description: |
+    Definitie voor een datum conform LO GBA
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    GbaDatum:
+      type: string
+      pattern: ^[0-9]{8}$
+      example: "20180700"

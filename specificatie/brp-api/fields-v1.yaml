@@ -1,0 +1,21 @@
+openapi: 3.1.0
+info:
+  title: Fields
+  description: |
+    Definities voor Fields en Field, parameters waarmee een consumer aangeeft welke velden van een Resource moet worden geleverd.  
+  version: 1.0.0
+components:
+  schemas:
+    Field:
+      description: |
+        Het pad naar een gewenst veld in punt-gescheiden formaat. Bijvoorbeeld "burgerservicenummer", "geboorte.datum", "partners.naam.voornamen".
+      type: string
+      pattern: ^[a-zA-Z0-9\._]{1,200}$
+    Fields:
+      description: |
+        Een lijst van minimaal 1 en maximaal 130 Field parameters
+      type: array
+      maxItems: 130
+      minItems: 1
+      items:
+        $ref: '#/components/schemas/Field'
