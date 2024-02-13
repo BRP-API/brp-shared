@@ -1,0 +1,16 @@
+openapi: 3.1.0
+info:
+  title: Maximaal 30 karakters lang tekst inclusief de .,_ leestekens
+  description: |
+    Definitie voor tekst bestaande uit minimaal 1 en maximaal 30 karakters. De karakters kunnen zijn:
+      - kleine letters (a-z)
+      - hoofdletters (A-Z)
+      - cijfers (0-9)
+      - punt (.), komma (,) en de liggend streepje (_) leestekens
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    TekstMetLeestekens30Lang:
+      type: string
+      pattern: ^[a-zA-Z0-9\.,_]{1,30}$

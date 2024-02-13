@@ -7,7 +7,7 @@ info:
   contact: {}
 components:
   schemas:
-    InvalidParams:
+    InvalidParam:
       type: object
       description: Details over fouten in opgegeven parameters
       properties:
@@ -16,18 +16,14 @@ components:
           format: uri
           example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1
         name:
-          type: string
-          pattern: ^[a-zA-Z0-9\.,_]{1,30}$
           description: Naam van de parameter
+          $ref: '../tekst/tekst-30-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens30Lang'
           example: "huisnummer"
         code:
-          type: string
-          pattern: ^[a-zA-Z0-9\.,_]{1,25}$
           description: Systeemcode die het type fout aangeeft
-          minLength: 1
+          $ref: '../tekst/tekst-25-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens25Lang'
           example: "integer"
         reason:
-          type: string
-          pattern: ^[a-zA-Z0-9\.,_ ]{1,80}$
           description: Beschrijving van de fout op de parameterwaarde
+          $ref: '../tekst/tekst-80-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens80Lang'
           example: Waarde is geen geldig getal.

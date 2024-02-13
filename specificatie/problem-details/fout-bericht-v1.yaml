@@ -4,7 +4,6 @@ info:
   description: |
     Definitie voor Foutbericht, een JSON representatie in lijn met [RFC7807](https://tools.ietf.org/html/rfc7807).
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     Foutbericht:
@@ -16,24 +15,21 @@ components:
           format: uri
           description: Link naar meer informatie over deze fout
         title:
-          type: string
-          pattern: ^[a-zA-Z0-9À-ž \.\-]{1,80}$
           description: Beschrijving van de fout
+          $ref: '../tekst/tekst-80-diakriet-v1.yaml#/components/schemas/TekstMetDiakrieten80Lang'
         status:
           type: integer
           minimum: 100
           maximum: 600
           description: Http status code
         detail:
-          type: string
-          pattern: ^[a-zA-Z0-9À-ž \.\-\(\)\,]{1,200}$
           description: Details over de fout
+          $ref: '../tekst/tekst-200-diakriet-incl-haak-leestekens-v1.yaml#/components/schemas/TekstMetDiakrietenEnHaakLeestekens200Lang'
         instance:
           type: string
           format: uri
           description: Uri van de aanroep die de fout heeft veroorzaakt
         code:
           type: string
-          pattern: ^[a-zA-Z0-9]{1,25}$
           description: Systeemcode die het type fout aangeeft
-          minLength: 1
+          $ref: '../tekst/tekst-25-v1.yaml#/components/schemas/Tekst25Lang'

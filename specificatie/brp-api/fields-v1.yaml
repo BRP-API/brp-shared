@@ -4,6 +4,7 @@ info:
   description: |
     Definities voor Fields en Field, parameters waarmee een consumer aangeeft welke velden van een Resource moet worden geleverd.  
   version: 1.0.0
+  contact: {}
 components:
   schemas:
     Field:

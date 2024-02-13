@@ -1,0 +1,16 @@
+openapi: 3.1.0
+info:
+  title: Maximaal 80 karakters lang tekst inclusief de .,_ en spatie leestekens
+  description: |
+    Definitie voor tekst bestaande uit minimaal 1 en maximaal 80 karakters. De karakters kunnen zijn:
+      - kleine letters (a-z)
+      - hoofdletters (A-Z)
+      - cijfers (0-9)
+      - punt (.), komma (,), liggend streepje (_) en de spatie ( ) leestekens
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    TekstMetLeestekens80Lang:
+      type: string
+      pattern: ^[a-zA-Z0-9\.,_ ]{1,80}$

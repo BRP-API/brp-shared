@@ -17,4 +17,4 @@ components:
               Foutmelding per fout in een parameter. Alle gevonden fouten worden één keer teruggemeld.
             type: array
             items:
-              $ref: 'invalid-param-v1.yaml#/components/schemas/InvalidParams'
+              $ref: 'invalid-param-v1.yaml#/components/schemas/InvalidParam'
