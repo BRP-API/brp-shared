@@ -1,0 +1,153 @@
+openapi: 3.1.0
+info:
+  title: Adres
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    AdresseerbaarObjectIdentificatie:
+      type: string
+      pattern: ^[0-9]{16}$
+      description: |
+        De verblijfplaats van de persoon kan een ligplaats, een standplaats of een verblijfsobject zijn.
+      example: "0226010000038820"
+    Huisletter:
+      description: |
+        Een toevoeging aan een huisnummer in de vorm van een letter die door de gemeente aan een adresseerbaar object is gegeven.
+      type: string
+      pattern: ^[a-zA-Z]{1}$
+      example: "a"
+    Huisnummer:
+      description: |
+        Een nummer dat door de gemeente aan een adresseerbaar object is gegeven.
+      type: integer
+      minimum: 1
+      maximum: 99999
+      example: 14
+    Huisnummertoevoeging:
+      description: |
+        Een toevoeging aan een huisnummer of een combinatie van huisnummer en huisletter die door de gemeente aan een adresseerbaar object is gegeven.
+      type: string
+      pattern: ^[a-zA-Z0-9 \-]{1,4}$
+      example: "bis"
+    IndicatieVastgesteldVerblijftNietOpAdres:
+      description: |
+        Geeft aan dat is vastgesteld dat de persoon niet meer op de geregistreerde adres/locatie staat ingeschreven.
+      type: boolean
+    KorteStraatnaam:
+      description: |
+        De officiële naam van een openbare ruimte uit de Basisregistratie Gebouwen en Adressen (BAG), zo nodig verkort tot maximaal 24 tekens, of de straatnaam van een niet-BAG adres.
+      type: string
+      maxLength: 24
+    NummeraanduidingIdentificatie:
+      description: |
+        Unieke identificatie van een nummeraanduiding (en het bijbehorende adres) in de BAG.
+      type: string
+      pattern: ^[0-9]{16}$
+      example: "0518200000366054"
+    OfficieleStraatnaam:
+      description: |
+        De officiële naam van een openbare ruimte uit de Basisregistratie Gebouwen en Adressen (BAG).
+      type: string
+      maxLength: 80
+    Postcode:
+      description: |
+        De door PostNL vastgestelde code die bij een bepaalde combinatie van een straatnaam en een huisnummer hoort.
+      type: string
+      pattern: ^[1-9]{1}[0-9]{3}[ ]?[A-Za-z]{2}$
+      example: "2341SX"
+    Woonplaats:
+      description: |
+        Een woonplaats is een gedeelte van het grondgebied van de gemeente met een naam.
+      title: woonplaats naam
+      type: string
+      pattern: ^[a-zA-Z0-9À-ž \(\)\,\.\-\']{1,80}$
+      example: "Duiven"
+    Adres:
+      description: |
+        Gegevens over het adres van een persoon.
+        * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
+        * **functieAdres** - wordt gevuld met waarden voor 'Functie_Adres' in 'tabelwaarden.csv'.
+        * **aanduidingBijHuisnummer** - wordt gevuld met waarden voor 'Aanduiding_Bij_Huisnummer' in 'tabelwaarden.csv'.
+        * **datumVan** : de datum van aangifte of ambtshalve melding van verblijf en adres.
+        * **datumIngangGeldigheid** : datum waarop de gegevens over de verblijfplaats geldig zijn geworden.
+      allOf:
+        - $ref : 'verblijfplaats-v1.yaml#/components/schemas/AbstractVerblijfplaats'
+        - type: object
+          properties:
+            verblijfadres:
+              $ref: "#/components/schemas/VerblijfadresBinnenland"
+            functieAdres:
+              $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            adresseerbaarObjectIdentificatie:
+              $ref: '#/components/schemas/AdresseerbaarObjectIdentificatie'
+            nummeraanduidingIdentificatie:
+              $ref: '#/components/schemas/NummeraanduidingIdentificatie'
+            datumVan:
+              $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+            datumIngangGeldigheid:
+              $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+            indicatieVastgesteldVerblijftNietOpAdres:
+              $ref: '#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
+            inOnderzoek:
+              $ref: "#/components/schemas/AdresInOnderzoek"
+    AdresInOnderzoek:
+      allOf:
+        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            type:
+              type: boolean
+            datumVan:
+              type: boolean
+            datumIngangGeldigheid:
+              type: boolean
+            nummeraanduidingIdentificatie:
+              type: boolean
+            adresseerbaarObjectIdentificatie:
+              type: boolean
+            functieAdres:
+              type: boolean
+    VerblijfadresBinnenland:
+      type: object
+      properties:
+        officieleStraatnaam:
+          $ref: '#/components/schemas/OfficieleStraatnaam'
+        korteStraatnaam:
+          $ref: '#/components/schemas/KorteStraatnaam'
+        huisnummer:
+          $ref: '#/components/schemas/Huisnummer'
+        huisletter:
+          $ref: '#/components/schemas/Huisletter'
+        huisnummertoevoeging:
+          $ref: '#/components/schemas/Huisnummertoevoeging'
+        aanduidingBijHuisnummer:
+          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        postcode:
+          $ref: '#/components/schemas/Postcode'
+        woonplaats:
+          $ref: '#/components/schemas/Woonplaats'
+        inOnderzoek:
+          $ref: "#/components/schemas/VerblijfadresBinnenlandInOnderzoek"
+    VerblijfadresBinnenlandInOnderzoek:
+      allOf:
+        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            aanduidingBijHuisnummer:
+              type: boolean
+            huisletter:
+              type: boolean
+            huisnummer:
+              type: boolean
+            huisnummertoevoeging:
+              type: boolean
+            officieleStraatnaam:
+              type: boolean
+            postcode:
+              type: boolean
+            korteStraatnaam:
+              type: boolean
+            woonplaats:
+              type: boolean
+      
