@@ -11,6 +11,14 @@ Given(/^de persoon heeft ?(?:nog)? een '?(?:ex-)?partner' met ?(?:alleen)? de vo
     createGegevensgroepCollectie(this.context, 'partner', dataTable);
 });
 
+Given(/^de persoon heeft geen (?:actuele partner|\(ex\)partner)$/, function () {
+    // doe niks
+});
+
+Given(/^de persoon heeft nooit een actueel of ontbonden huwelijk of partnerschap gehad$/, function () {
+    // doe niets
+});
+
 Given(/^de 'partner' is gewijzigd naar de volgende gegevens$/, async function (dataTable) {
     wijzigGegevensgroep(this.context, 'partner', dataTable);
 });

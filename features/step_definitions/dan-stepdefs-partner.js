@@ -25,6 +25,12 @@ Then(/^heeft de response een persoon met een 'partner' zonder gegevens$/, functi
     createCollectieObjectMetSubCollectieObject(this.context, 'persoon', 'partner');
 });
 
+Then(/^heeft de response een persoon met een 'partner' zonder '(\w*)' gegevens$/, function (naamObjectProperty) {
+    this.context.verifyResponse = true;
+
+    createCollectieObjectMetSubCollectieObjectMetObjectVeld(this.context, 'persoon', 'partner', naamObjectProperty);
+});
+
 Then(/^heeft de response een persoon zonder partners$/, function () {
     this.context.verifyResponse = true;
 

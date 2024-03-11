@@ -33,6 +33,10 @@ Then(/^heeft de persoon ?(?:nog)? een 'ouder' met ?(?:alleen)? de volgende gegev
     createSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'ouder', dataTable);
 });
 
+Then(/^heeft de 'ouder' ?(?:alleen)? de volgende '(\w*)' gegevens$/, function (naamObjectProperty, dataTable) {
+    createObjectVeldInLastSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'ouder', naamObjectProperty, dataTable);
+});
+
 Then(/^heeft de 'ouder' geen '(\w*)' gegevens$/, function (naamObjectProperty) {
     createObjectVeldInLastSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'ouder', naamObjectProperty);
 });

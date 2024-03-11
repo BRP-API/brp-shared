@@ -131,3 +131,33 @@ Functionaliteit: Ouder dan stap definities
     | naam                | waarde    |
     | burgerservicenummer | 000000012 |
     En heeft de 'ouder' geen 'naam' gegevens
+
+  Abstract Scenario: Dan heeft de 'ouder' (alleen) de volgende '[gegevensgroep]' gegevens
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": [
+        {
+          "ouders": [
+            {
+              "burgerservicenummer": "000000012",
+              "geboorte": {
+                "datum": "2022-05-06"
+              }
+            }
+          ]
+        }
+      ]
+    }
+    """
+    Dan heeft de response een persoon met een 'ouder' met de volgende gegevens
+    | naam                | waarde    |
+    | burgerservicenummer | 000000012 |
+    En <stap definitie met hetzelfde gedrag>
+    | naam  | waarde     |
+    | datum | 2022-05-06 |
+
+    Voorbeelden:
+    | stap definitie met hetzelfde gedrag                     |
+    | heeft de 'ouder' de volgende 'geboorte' gegevens        |
+    | heeft de 'ouder' alleen de volgende 'geboorte' gegevens |

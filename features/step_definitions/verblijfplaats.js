@@ -66,6 +66,14 @@ function createPersoonMetVerblijfplaatsBuitenland(context, burgerservicenummer, 
     createVerblijfplaatsBuitenland(context, dataTable);
 }
 
+function createPersoonMetVerblijfplaats(context, burgerservicenummer, dataTable) {
+    createPersoon(context, burgerservicenummer);
+
+    let sqlData = context.sqlData.at(-1);
+
+    createVerblijfplaatsVoorkomen(sqlData, undefined, dataTable, undefined, false);
+}
+
 function createWoonadres(context, adresId, dataTable) {
     let sqlData = context.sqlData.at(-1);
 
@@ -93,6 +101,7 @@ function corrigeerVerblijfplaats(context, adresId, dataTable, isWoonadres) {
 module.exports = { 
     createPersoonMetWoonadres,
     createPersoonMetBriefadres,
+    createPersoonMetVerblijfplaats,
     createPersoonMetVerblijfplaatsBuitenland,
     createWoonadres,
     createBriefadres,

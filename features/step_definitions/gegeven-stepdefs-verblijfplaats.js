@@ -3,6 +3,7 @@ const deepEqualInAnyOrder = require('deep-equal-in-any-order');
 const should = require('chai').use(deepEqualInAnyOrder).should();
 const { createPersoonMetWoonadres,
         createPersoonMetBriefadres,
+        createPersoonMetVerblijfplaats,
         createPersoonMetVerblijfplaatsBuitenland,
         createWoonadres,
         createBriefadres,
@@ -19,6 +20,10 @@ Given(/^de persoon met burgerservicenummer '(\d*)' heeft adres '(\w*)' als brief
 
 Given(/^de persoon met burgerservicenummer '(\d*)' is ingeschreven op een buitenlands adres met de volgende gegevens$/, function (burgerservicenummer, dataTable) {
     createPersoonMetVerblijfplaatsBuitenland(this.context, burgerservicenummer, dataTable);
+});
+
+Given(/^de persoon met burgerservicenummer '(\d*)' heeft de volgende 'verblijfplaats' gegevens$/, function (burgerservicenummer, dataTable) {
+    createPersoonMetVerblijfplaats(this.context, burgerservicenummer, dataTable);
 });
 
 Given(/^de persoon is ?(?:vervolgens)? ingeschreven op adres '(\w*)' met de volgende gegevens$/, function (adresId, dataTable) {

@@ -70,6 +70,23 @@ Functionaliteit: Partner dan stap definities
     """
     Dan heeft de response een persoon met een 'partner' zonder gegevens
 
+  Scenario: Dan heeft de response een persoon met een 'partner' zonder '[gegevensgroep]' gegevens
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": [
+        {
+          "partners": [
+            {
+              "naam": {}
+            }
+          ]
+        }
+      ]
+    }
+    """
+    Dan heeft de response een persoon met een 'partner' zonder 'naam' gegevens
+
   Scenario: Dan heeft de response een persoon zonder partners
     Gegeven de response body is gelijk aan
     """

@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 const { setWorldConstructor, setDefaultTimeout, Before, After, AfterAll } = require('@cucumber/cucumber');
 const { valideer200Response, valideerProblemDetailsResponse } = require('./responseHelpers');
 const { rollbackSqlStatements } = require('./postgresqlHelpers');
+const fs = require('fs');
 
 setWorldConstructor(World);
 

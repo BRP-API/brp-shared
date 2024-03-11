@@ -32,3 +32,7 @@ Given(/^de persoon is gewijzigd naar de volgende gegevens$/, function (dataTable
 Given(/^de persoon is gecorrigeerd naar de volgende gegevens$/, function (dataTable) {
     wijzigPersoon(this.context, dataTable, true);
 });
+
+Given(/^de persoon heeft (?:GEEN|geen) '(.*)' gegevens$/, function (_) {
+    // doe niets
+});

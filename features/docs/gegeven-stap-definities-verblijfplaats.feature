@@ -354,3 +354,13 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     |      | persoon        | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr) VALUES($1,$2,$3,$4,$5)                                      | 9999,0,0,P,000000012     |
     |      | verblijfplaats | INSERT INTO public.lo3_pl_verblijfplaats(pl_id,adres_id,volg_nr,adres_functie,adreshouding_start_datum,onjuist_ind) VALUES($1,$2,$3,$4,$5,$6)         | 9999,4999,1,W,20230102,O |
     |      |                | INSERT INTO public.lo3_pl_verblijfplaats(pl_id,adres_id,volg_nr,adreshouding_start_datum) VALUES($1,$2,$3,$4)                                         | 9999,4999,0,20230800     |
+
+  Scenario: de persoon met burgerservicenummer '[bsn]' heeft de volgende 'verblijfplaats' gegevens
+    Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende 'verblijfplaats' gegevens
+    | naam                              | waarde |
+    | land vanwaar ingeschreven (14.10) | 0000   |
+    Dan zijn de gegenereerde SQL statements
+    | stap | categorie      | text                                                                                                                                                  | values               |
+    | 1    | inschrijving   | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES((SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl),current_timestamp,$1) RETURNING * | 0                    |
+    |      | persoon        | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr) VALUES($1,$2,$3,$4,$5)                                      | 9999,0,0,P,000000012 |
+    |      | verblijfplaats | INSERT INTO public.lo3_pl_verblijfplaats(pl_id,volg_nr,vestiging_land_code) VALUES($1,$2,$3)                                                          | 9999,0,0000          |
