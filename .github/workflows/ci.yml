@@ -1,0 +1,28 @@
+name: continuous integration
+
+on:
+  push:
+    paths:
+      - features/**
+      - .github/workflows/ci.yml
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Step Definitions
+        run: |
+          ./scripts/specs-verify.sh
