@@ -1,0 +1,19 @@
+name: continuous integration
+
+on:
+  push:
+    paths:
+      - features/**
+      - .github/workflows/ci.yml
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Validate Step Definitions
+        run: |
+          ./scripts/specs-verify.sh
