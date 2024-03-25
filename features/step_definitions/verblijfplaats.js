@@ -92,6 +92,10 @@ function createVerblijfplaatsBuitenland(context, dataTable) {
     createVerblijfplaatsVoorkomen(sqlData, undefined, dataTable, undefined, false);
 }
 
+function createVerblijfplaats(context, dataTable) {
+    createVerblijfplaatsBuitenland(context, dataTable);
+}
+
 function corrigeerVerblijfplaats(context, adresId, dataTable, isWoonadres) {
     let sqlData = context.sqlData.at(-1);
 
@@ -106,5 +110,6 @@ module.exports = {
     createWoonadres,
     createBriefadres,
     createVerblijfplaatsBuitenland,
+    createVerblijfplaats,
     corrigeerVerblijfplaats
 }

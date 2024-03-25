@@ -70,6 +70,11 @@ Before({tags: '@autorisatie'}, function() {
     this.context.baseUrl = this.context.autzUrl;
 });
 
+Before({tags: '@protocollering'}, function() {
+    global.logger.debug('protocollering scope. set baseUrl to autzUrl');
+    this.context.baseUrl = this.context.autzUrl;
+});
+
 After(async function({ pickle }) {
     if(pickle.tags.map((t) => t.name).includes('@stap-documentatie')) {
         return;

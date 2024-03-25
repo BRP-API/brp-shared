@@ -8,6 +8,7 @@ const { createPersoonMetWoonadres,
         createWoonadres,
         createBriefadres,
         createVerblijfplaatsBuitenland,
+        createVerblijfplaats,
         corrigeerVerblijfplaats } = require('./verblijfplaats');
 
 Given(/^de persoon met burgerservicenummer '(\d*)' is ingeschreven op adres '(\w*)' met de volgende gegevens$/, function (burgerservicenummer, adresId, dataTable) {
@@ -24,6 +25,10 @@ Given(/^de persoon met burgerservicenummer '(\d*)' is ingeschreven op een buiten
 
 Given(/^de persoon met burgerservicenummer '(\d*)' heeft de volgende 'verblijfplaats' gegevens$/, function (burgerservicenummer, dataTable) {
     createPersoonMetVerblijfplaats(this.context, burgerservicenummer, dataTable);
+});
+
+Given(/^de persoon heeft de volgende 'verblijfplaats' gegevens$/, function (dataTable) {  
+    createVerblijfplaats(this.context, dataTable);
 });
 
 Given(/^de persoon is ?(?:vervolgens)? ingeschreven op adres '(\w*)' met de volgende gegevens$/, function (adresId, dataTable) {

@@ -105,23 +105,29 @@ async function getOAuthAccessToken(accessTokenUrl, oAuthSettings) {
     }
 }
 
-async function createBearerAuthorizationHeader(afnemerId, oAuthSettings) {
-    const oAuthClientSettings = afnemerId === undefined
-        ? oAuthSettings.clients[0]
-        : oAuthSettings.clients.find(client => client.afnemerID === afnemerId);
+async function createBearerAuthorizationHeader(afnemerId, gemeenteCode, oAuthSettings) {
+    const oAuthClientSettings = oAuthSettings.clients.find(client => client.afnemerID === afnemerId && client.gemeenteCode === gemeenteCode);
     if(oAuthClientSettings === undefined) {
-        global.logger.warn(`geen oAuthSettings gevonden voor afnemerId '${afnemerId}'`);
+        global.logger.warn(`geen oAuthSettings gevonden voor afnemerId '${afnemerId}' en gemeenteCode: '${gemeenteCode}'`);
         return undefined;
     }
+
+    const key = gemeenteCode === undefined
+        ? afnemerId
+        : `${afnemerId}-${gemeenteCode}`;
+
     if(global.accessToken === undefined) {
+        global.accessToken = {};
+    }
+    if(global.accessToken[key] === undefined) {
         global.logger.debug('geen access token. Authenticate');
-        global.accessToken = await getOAuthAccessToken(oAuthSettings.accessTokenUrl, oAuthClientSettings);
+        global.accessToken[key] = await getOAuthAccessToken(oAuthSettings.accessTokenUrl, oAuthClientSettings);
     }
 
     return [
         {
             naam: 'Authorization',
-            waarde: 'Bearer ' + global.accessToken
+            waarde: 'Bearer ' + global.accessToken[key]
         }
     ];
 }
@@ -168,6 +174,8 @@ async function sendBevragenRequest(baseUrl, url, extraHeaders, dataTable, httpMe
         headers: createHeaders(dataTable, extraHeaders)
     };
 
+    global.logger.debug(config);
+
     return await sendRequest(config);
 }
 
@@ -177,7 +185,7 @@ async function handleRequest(context, endpoint, dataTable, httpMethod='post') {
     const url = context.baseUrl;
 
     const authzHeader = context.oAuth.enable
-        ? await createBearerAuthorizationHeader(afnemerId, context.oAuth)
+        ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
         : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
     if(authzHeader === undefined) {
         return;
