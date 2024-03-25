@@ -45,10 +45,14 @@ Then(/^heeft de persoon een 'partner' met ?(?:alleen)? de volgende '(\w*)' gegev
     createSubCollectieObjectMetObjectVeldInLastCollectieObject(this.context, 'persoon', 'partner', naamObjectProperty, dataTable);
 });
 
+Then(/^heeft de persoon geen partners$/, function () {
+    createSubCollectieObjectenInLastCollectieObject(this.context, 'persoon', 'partner');
+});
+
 Then(/^heeft de 'partner' ?(?:alleen)? de volgende '(\w*)' gegevens$/, function (naamObjectProperty, dataTable) {
     createObjectVeldInLastSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'partner', naamObjectProperty, dataTable);
 });
 
-Then(/^heeft de persoon geen partners$/, function () {
-    createSubCollectieObjectenInLastCollectieObject(this.context, 'persoon', 'partner');
+Then(/^heeft de 'partner' geen '(\w*)' gegevens$/, function (naamObjectProperty) {
+    createObjectVeldInLastSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'partner', naamObjectProperty);
 });

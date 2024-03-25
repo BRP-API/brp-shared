@@ -29,7 +29,7 @@ Functionaliteit: RNI dan stap definities
     | heeft de response een persoon met een 'rni' met de volgende gegevens        |
     | heeft de response een persoon met een 'rni' met alleen de volgende gegevens |
 
-  Abstract Scenario: Dan heeft de persoon een 'kind' met (alleen) de volgende gegevens
+  Abstract Scenario: Dan heeft de persoon een 'rni' met (alleen) de volgende gegevens
     Gegeven de response body is gelijk aan
     """
     {
@@ -48,7 +48,7 @@ Functionaliteit: RNI dan stap definities
     Dan heeft de response een persoon met de volgende gegevens
     | burgerservicenummer |
     | 000000012           |
-    Dan <stap definitie met hetzelfde gedrag>
+    En <stap definitie met hetzelfde gedrag>
     | naam                | waarde                                      |
     | omschrijvingVerdrag | Belastingverdrag tussen België en Nederland |
 

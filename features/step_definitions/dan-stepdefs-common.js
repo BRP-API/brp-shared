@@ -24,3 +24,9 @@ Then(/^heeft de response (\d*) (\w*)$/, function (aantal, naamCollectieObject) {
         ];
     }
 });
+
+Then(/^heeft de response geen (\w*)$/, function (naamCollectieObject) {
+    this.context.verifyResponse = true;
+
+    createCollectieObjecten(this.context, naamCollectieObject);
+});

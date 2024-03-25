@@ -3,6 +3,20 @@
 @stap-documentatie
 Functionaliteit: Persoon dan stap definities
 
+  Abstract Scenario: Dan heeft de response [0/geen] personen
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": []
+    }
+    """
+    Dan heeft de response <aantal> personen
+
+    Voorbeelden:
+    | aantal |
+    | geen   |
+    | 0      |
+
   Scenario: Dan heeft de response 1 persoon
     Gegeven de response body is gelijk aan
     """
@@ -11,6 +25,15 @@ Functionaliteit: Persoon dan stap definities
     }
     """
     Dan heeft de response 1 persoon
+
+  Scenario: Dan heeft de response 2 personen
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": [ {}, {} ]
+    }
+    """
+    Dan heeft de response 2 personen
 
   Abstract Scenario: Dan heeft de response (nog) een persoon met (alleen) de volgende gegevens
     Gegeven de response body is gelijk aan
@@ -33,6 +56,28 @@ Functionaliteit: Persoon dan stap definities
     | heeft de response een persoon met alleen de volgende gegevens     |
     | heeft de response nog een persoon met de volgende gegevens        |
     | heeft de response nog een persoon met alleen de volgende gegevens |
+
+  Scenario: Dan heeft de response een persoon met de volgende gegevens (meerdere personen)
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": [
+        {
+          "burgerservicenummer": "000000012"
+        },
+        {
+          "burgerservicenummer": "000000013"
+        }
+      ]
+    }
+    """
+    Dan heeft de response 2 personen
+    En heeft de response een persoon met de volgende gegevens
+    | naam                | waarde    |
+    | burgerservicenummer | 000000012 |
+    En heeft de response nog een persoon met de volgende gegevens
+    | naam                | waarde    |
+    | burgerservicenummer | 000000013 |
 
   Abstract Scenario: Dan heeft de response een persoon met (alleen) de volgende '[gegevensgroep]' gegevens
     Gegeven de response body is gelijk aan

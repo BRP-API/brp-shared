@@ -199,3 +199,24 @@ Functionaliteit: Partner dan stap definities
     En heeft de 'partner' de volgende 'naam' gegevens
     | voornamen |
     | Karel     |
+
+  Scenario: Dan heeft de 'partner' geen '[gegevensgroep]' gegevens
+    Gegeven de response body is gelijk aan
+    """
+    {
+      "personen": [
+        {
+          "partners": [
+            {
+              "burgerservicenummer": "000000012",
+              "naam": {}
+            }
+          ]
+        }
+      ]
+    }
+    """
+    Dan heeft de response een persoon met een 'partner' met de volgende gegevens
+    | naam                | waarde    |
+    | burgerservicenummer | 000000012 |
+    En heeft de 'partner' geen 'naam' gegevens

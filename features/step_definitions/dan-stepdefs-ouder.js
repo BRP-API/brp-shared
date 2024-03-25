@@ -3,6 +3,7 @@ const { createCollectieObjectMetSubCollectieObject,
         createCollectieObjectMetSubCollectieObjecten,
         createCollectieObjectMetSubCollectieObjectMetObjectVeld,
         createSubCollectieObjectInLastCollectieObject,
+        createSubCollectieObjectMetObjectVeldInLastCollectieObject,
         createObjectVeldInLastSubCollectieObjectInLastCollectieObject } = require('./dataTable2ObjectFactory');
 
 Then(/^heeft de response een persoon met een 'ouder' met ?(?:alleen)? de volgende gegevens$/, function (dataTable) {
@@ -31,6 +32,18 @@ Then(/^heeft de response een persoon zonder ouders$/, function () {
 
 Then(/^heeft de persoon ?(?:nog)? een 'ouder' met ?(?:alleen)? de volgende gegevens$/, function (dataTable) {
     createSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'ouder', dataTable);
+});
+
+Then(/^heeft de persoon een 'ouder' met ?(?:alleen)? de volgende '(\w*)' gegevens$/, function (naamObjectProperty, dataTable) {
+    createSubCollectieObjectMetObjectVeldInLastCollectieObject(this.context, 'persoon', 'ouder', naamObjectProperty, dataTable);
+});
+
+Then(/^heeft de persoon een 'ouder' zonder gegevens$/, function () {
+    createSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'ouder');
+});
+
+Then(/^heeft de persoon een 'ouder' zonder '(\w*)' gegevens$/, function (naamObjectProperty) {
+    createSubCollectieObjectMetObjectVeldInLastCollectieObject(this.context, 'persoon', 'ouder', naamObjectProperty);
 });
 
 Then(/^heeft de 'ouder' ?(?:alleen)? de volgende '(\w*)' gegevens$/, function (naamObjectProperty, dataTable) {
