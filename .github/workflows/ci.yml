@@ -29,3 +29,13 @@ jobs:
       - name: Validate Step Definitions
         run: |
           ./scripts/specs-verify.sh
+      - name: Genereer test rapportage
+        if: always()
+        run: |
+          node ./scripts/generate-cucumber-reports.js
+      - name: Upload test rapportage
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Reports
+          path: test-reports
