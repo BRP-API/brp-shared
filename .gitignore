@@ -2,3 +2,12 @@
 node_modules
 
 test-reports
+
+c*.suo
+*.user
+
+[Dd]ebug/
+[Rr]elease/
+[Oo]bj/
+
+.vs/
