@@ -1,7 +1,7 @@
 #language: nl
 
 @stap-documentatie
-Functionaliteit: Persoon, Inschrijving gegeven stap definities
+Functionaliteit: Verblijfstitel gegeven stap definities
 
   Achtergrond:
     Gegeven de 1e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '9999'
