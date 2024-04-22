@@ -43,6 +43,11 @@ Before(function({ pickle }) {
         global.logger.debug('create db pool');
         global.pool = new Pool(this.context.sql.poolConfig);
     }
+
+    if(this.context.logFileToAssert !== undefined && fs.existsSync(this.context.logFileToAssert)) {
+        const array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
+        this.context.nrOfLogLines = array.length;
+    }
 });
 
 Before({tags: '@api'}, function() {
@@ -83,5 +88,12 @@ After(async function({ pickle }) {
 
     if(this.context.gezag !== undefined) {
         fs.writeFileSync(this.context.gezagDataPath, JSON.stringify([], null, '\t'));
+    }
+
+    if(this.context.logFileToAssert !== undefined && fs.existsSync(this.context.logFileToAssert)) {
+        const array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
+        if(this.context.nrOfLogLines + 1 !== array.length) {
+            global.logger.warn(`${global.scenario.name}. nr of loglines ${array.length} should be ${this.context.nrOfLogLines + 1}`);
+        }
     }
 });

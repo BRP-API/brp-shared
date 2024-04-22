@@ -4,11 +4,12 @@ class World {
     constructor(parameters) {
         this.context = parameters;
 
-        this.context.autzUrl = 'http://localhost:8000/haalcentraal/api/brp'
+        this.context.autzUrl = 'http://localhost:8080/haalcentraal/api/brp'
         this.context.apiUrl = 'http://localhost:8000/haalcentraal/api/brp'
         this.context.proxyUrl = 'http://localhost:5002/haalcentraal/api/brp'
 
-        this.context.gezagDataPath = '';
+        this.context.gezagDataPath = './test-data/GezagMock/test-data.json';
+        this.context.logFileToAssert = './test-data/logs/brp-proxy.json';
 
         this.context.sql = {
             useDb: true,
@@ -25,13 +26,21 @@ class World {
         };
 
         this.context.oAuth = {
-            enable: false,
-            accessTokenUrl: 'https://login.dev.idsecure.nl/nidp/oauth/nam/token',
+            enable: true,
+            accessTokenUrl: 'http://identityserver:6000/connect/token',
             clients:[
                 {
                     afnemerID: '000008',
-                    clientId: '',
-                    clientSecret: '',
+                    gemeenteCode: '0800',
+                    clientId: 'client met gemeentecode',
+                    clientSecret: 'secret',
+                    scopes: [ '000000099000000080000' ],
+                    resourceServer: 'ResourceServer02'
+                },
+                {
+                    afnemerID: '000008',
+                    clientId: 'client zonder gemeentecode',
+                    clientSecret: 'secret',
                     scopes: [ '000000099000000080000' ],
                     resourceServer: 'ResourceServer02'
                 }
