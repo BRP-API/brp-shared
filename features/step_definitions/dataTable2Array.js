@@ -5,10 +5,12 @@ function createArrayFrom(dataTable, columnNameMap) {
 
     if(dataTable.raw()[0][0] === "naam") {
         dataTable.hashes().forEach(function(row) {
-            const propertyName = columnNameMap.get(row.naam);
+            if(row.naam !== 'pl_id') {
+                const propertyName = columnNameMap.get(row.naam);
 
-            if(row.waarde !== undefined && row.waarde !== '') {
-                retval.push([ propertyName, toDateOrString(row.waarde, false) ]);
+                if(row.waarde !== undefined && row.waarde !== '') {
+                    retval.push([ propertyName, toDateOrString(row.waarde, false) ]);
+                }
             }
         });
     }
@@ -23,13 +25,29 @@ function fromHash(hash, columnNameMap) {
     let retval = [];
 
     Object.keys(hash).forEach(function(key) {
-        retval.push([ columnNameMap.get(key), toDateOrString(hash[key], false) ]);
+        if(key !== 'pl_id') {
+            retval.push([ columnNameMap.get(key), toDateOrString(hash[key], false) ]);
+        }
     });
 
     return retval;
 }
 
+function getPlId(dataTable) {
+    if(dataTable === undefined) {
+        return undefined;
+    }
+    
+    if(dataTable.raw()[0][0] === "naam") {
+        return dataTable.hashes().find(row => row.naam === 'pl_id')?.waarde;
+    }
+    else {
+        return dataTable.hashes()[0]['pl_id'];
+    }
+}
+
 module.exports = {
     createArrayFrom,
-    fromHash
+    fromHash,
+    getPlId
 }

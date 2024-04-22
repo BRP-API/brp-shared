@@ -12,6 +12,10 @@ When(/^([a-zA-Z-]*) wordt gezocht met de volgende parameters$/, async function (
     if(this.context.gezag !== undefined) {
         fs.writeFileSync(this.context.gezagDataPath, JSON.stringify(this.context.gezag, null, '\t'));
     }
+    if(this.context.downstreamApiResponseHeaders !== undefined){
+        fs.writeFileSync(this.context.downstreamApiDataPath + '/response-headers.json',
+                         JSON.stringify(this.context.downstreamApiResponseHeaders[0], null, '\t'));
+    }
 
     if(this.context.sqlData === undefined) {
         this.context.sqlData = [{}];

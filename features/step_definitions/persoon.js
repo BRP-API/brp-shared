@@ -1,4 +1,4 @@
-const { createArrayFrom } = require('./dataTable2Array');
+const { createArrayFrom, getPlId } = require('./dataTable2Array');
 const { columnNameMap, persoonTypeMap } = require('./brp');
 
 function getNextStapelNr(sqlData, gegevensgroep) {
@@ -13,11 +13,14 @@ function getNextStapelNr(sqlData, gegevensgroep) {
     return stapelNr+1;
 }
 
-function createInschrijving(context, dataTable, defaultGeheim = false) {
+function createInschrijving(context, dataTable, defaultGeheim = false, defaultPlId = undefined) {
     let sqlData = context.sqlData.at(-1);
 
     let data = [];
 
+    if(defaultPlId !== undefined) {
+        data.push([ 'pl_id', defaultPlId]);
+    }
     if(defaultGeheim) {
         data.push([ 'geheim_ind', '0' ]);
     }
@@ -55,7 +58,7 @@ function createPersoon(context, burgerservicenummer, dataTable = undefined) {
     }
     context.sqlData.push({});
 
-    createInschrijving(context, undefined, true);
+    createInschrijving(context, undefined, true, getPlId(dataTable));
 
     let sqlData = context.sqlData.at(-1);
 

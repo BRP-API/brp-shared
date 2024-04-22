@@ -103,13 +103,21 @@ function insertIntoAdresStatement(data) {
 }
 
 function insertIntoPersoonlijstStatement(data) {
+    let sqlGeneratedData = [];
+    if(data[0][0] === 'pl_id'){
+        sqlGeneratedData.push(['pl_id', data[0][1]]);
+        data.shift();
+    }
+    else{
+        sqlGeneratedData.push(['pl_id', '(SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl)']);
+
+    }
+    sqlGeneratedData.push(['mutatie_dt', 'current_timestamp']);
+
     let statement = insertIntoStatementMetSqlGeneratedData(
         'inschrijving',
         data,
-        [
-            ['pl_id', '(SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl)'],
-            ['mutatie_dt', 'current_timestamp']
-        ]
+        sqlGeneratedData
     );
     statement.text += ' RETURNING *';
 

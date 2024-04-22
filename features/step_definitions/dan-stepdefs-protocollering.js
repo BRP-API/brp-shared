@@ -1,11 +1,13 @@
 const { Then } = require('@cucumber/cucumber');
 const deepEqualInAnyOrder = require('deep-equal-in-any-order');
 const should = require('chai').use(deepEqualInAnyOrder).should();
-const { tableNameMap } = require('./brp');
 const { queryLastRow, queryRowCount } = require('./postgresqlHelpers');
 
 Then(/^heeft de persoon met burgerservicenummer '(\d*)' de volgende 'protocollering' gegevens$/, async function (burgerservicenummer, dataTable) {
     this.context.verifyResponse = false;
+
+    this.context.response.status?.should.equal(200, `response body: ${JSON.stringify(this.context.response.data, undefined, '\t')}`);
+
     const sqlData = dataTable.hashes()[0];
 
     const persoonSqlData = this.context.sqlData.find(s => s.persoon?.at(0).find(a => a[0] == 'burger_service_nr' && a[1] == burgerservicenummer));
@@ -25,6 +27,8 @@ Then(/^heeft de persoon met burgerservicenummer '(\d*)' de volgende 'protocoller
 
 Then(/^is voor de geauthenticeerde consumer '(\d*)' protocollering regels vastgelegd$/, async function (aantal) {
     this.context.verifyResponse = false;
+
+    this.context.response.status?.should.equal(200, `response body: ${JSON.stringify(this.context.response.data, undefined, '\t')}`);
 
     const tabelNaam = 'protocollering';
     const afnemerId = this.context.afnemerId ?? this.context.oAuth?.clients[0].afnemerID;

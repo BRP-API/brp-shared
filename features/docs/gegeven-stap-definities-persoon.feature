@@ -60,7 +60,6 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
     | 1    | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES((SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl),current_timestamp,$1) RETURNING * | 7                           |
     |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam) VALUES($1,$2,$3,$4,$5,$6)                    | 9999,0,0,P,000000012,Jansen |
 
-
   Scenario: de persoon heeft de volgende gegevens
     Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
     | naam                  | waarde |
@@ -98,3 +97,21 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
     | 1    | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES((SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl),current_timestamp,$1) RETURNING * | 0                             |
     |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam,onjuist_ind) VALUES($1,$2,$3,$4,$5,$6,$7)     | 9999,0,1,P,000000012,Jansen,O |
     |      |              | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,geslachts_naam) VALUES($1,$2,$3,$4,$5)                                         | 9999,0,0,P,Janssen            |
+
+  Scenario: de persoon heeft een niet-gegenereerd pl_id (kolom variant)
+    Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
+    | pl_id |
+    | 9999  |
+    Dan zijn de gegenereerde SQL statements
+    | stap | categorie    | text                                                                                                             | values               |
+    | 1    | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES(9999,current_timestamp,$1) RETURNING *             | 0                    |
+    |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr) VALUES($1,$2,$3,$4,$5) | 9999,0,0,P,000000012 |
+
+  Scenario: de persoon heeft een niet-gegenereerd pl_id (rij variant)
+    Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
+    | naam  | waarde |
+    | pl_id | 9999   |
+    Dan zijn de gegenereerde SQL statements
+    | stap | categorie    | text                                                                                                             | values               |
+    | 1    | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES(9999,current_timestamp,$1) RETURNING *             | 0                    |
+    |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr) VALUES($1,$2,$3,$4,$5) | 9999,0,0,P,000000012 |

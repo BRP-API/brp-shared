@@ -10,6 +10,7 @@ class World {
 
         this.context.gezagDataPath = './test-data/GezagMock/test-data.json';
         this.context.logFileToAssert = './test-data/logs/brp-proxy.json';
+        this.context.downstreamApiDataPath = './test-data/DownstreamApi';
 
         this.context.sql = {
             useDb: true,
