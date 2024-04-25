@@ -37,7 +37,7 @@ function createGegevensgroepAutorisatie(context, afnemerCode, gegevensgroep) {
     switch(gegevensgroep) {
         case 'adressering binnenland':
             data.push(['ad_hoc_rubrieken',
-                       '10120 10240 10310 80910 81110 81120 81130 81140 PANM03 PANM04 PANM05 PANM06 PAVP03 PAVP04']);
+                       '10120 10240 10310 80910 81110 81120 81130 81140 81180 81190 PANM03 PANM04 PANM05 PANM06 PAVP03 PAVP04']);
             break;
         case 'verblijfplaats binnenland':
             data.push(['ad_hoc_rubrieken',
