@@ -1,0 +1,23 @@
+openapi: 3.1.0
+info:
+  title: VerblijfplaatsVoorkomen
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    AbstractVerblijfplaatsVoorkomen:
+      type: object
+      description: |
+        Gegevens over het voorkomen van een verblijf of woonlocatie van een persoon.
+      required:
+        - type
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          Adres: 'verblijfplaats-voorkomen-adres-v1.yaml#/components/schemas/AdresVoorkomen'
+          Locatie: 'verblijfplaats-voorkomen-locatie-v1.yaml#/components/schemas/LocatieVoorkomen'
+          VerblijfplaatsBuitenland: 'verblijfplaats-voorkomen-buitenland-v1.yaml#/components/schemas/VerblijfplaatsBuitenlandVoorkomen'
+          VerblijfplaatsOnbekend: 'verblijfplaats-voorkomen-onbekend-v1.yaml#/components/schemas/VerblijfplaatsOnbekendVoorkomen'
