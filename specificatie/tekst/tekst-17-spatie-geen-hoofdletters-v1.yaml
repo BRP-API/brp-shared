@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: Maximaal 17 karakters lang tekst, inclusief spatie, exclusief hoofdletters
+  description: |
+    Definitie voor tekst bestaande uit minimaal 1 en maximaal 17 karakters. De karakters kunnen zijn:
+      - kleine letters (a-z)
+      - cijfers (0-9)
+      - spatie ( )
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Tekst:
+      type: string
+      pattern: ^[a-z0-9 ]{1,17}$

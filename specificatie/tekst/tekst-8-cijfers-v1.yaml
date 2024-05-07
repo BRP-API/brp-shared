@@ -1,13 +1,10 @@
 openapi: 3.1.0
 info:
-  title: GBA datum
-  description: |
-    Definitie voor een datum conform LO GBA
+  title: tekst bestaande uit 8 cijfers
   version: 1.0.0
   contact: {}
 components:
   schemas:
-    GbaDatum:
+    Cijfers:
       type: string
       pattern: ^[0-9]{8}$
-      example: "20180700"
