@@ -1,0 +1,10 @@
+openapi: 3.1.0
+info:
+  title: tekst bestaande uit 9 cijfers
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Cijfers:
+      type: string
+      pattern: ^[0-9]{9}$

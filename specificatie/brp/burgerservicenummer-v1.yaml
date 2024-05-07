@@ -8,6 +8,5 @@ info:
 components:
   schemas:
     Burgerservicenummer:
-      type: string
-      pattern: ^[0-9]{9}$
+      $ref: '../tekst/tekst-9-cijfers-v1.yaml#/components/schemas/Cijfers'
       example: "555555021"
