@@ -17,13 +17,16 @@ components:
           example: https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.5.1
         name:
           description: Naam van de parameter
-          $ref: '../tekst/tekst-30-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens30Lang'
-          example: "huisnummer"
+          type: string
+          pattern: ^[a-zA-Z0-9\._]{1,30}$
+          example: huisnummer
         code:
           description: Systeemcode die het type fout aangeeft
-          $ref: '../tekst/tekst-25-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens25Lang'
-          example: "integer"
+          type: string
+          pattern: ^[a-zA-Z0-9]{1,25}$
+          example: integer
         reason:
           description: Beschrijving van de fout op de parameterwaarde
-          $ref: '../tekst/tekst-80-leestekens-v1.yaml#/components/schemas/TekstMetLeestekens80Lang'
+          type: string
+          pattern: ^[a-zA-Z0-9\., ]{1,80}$
           example: Waarde is geen geldig getal.

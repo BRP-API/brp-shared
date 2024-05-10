@@ -20,7 +20,6 @@ components:
         type:
           type: string
         langFormaat:
-          $ref: '../tekst/tekst-17-spatie-geen-hoofdletters-v1.yaml#/components/schemas/Tekst'
           type: string
           pattern: ^[a-z0-9 ]{1,17}$
       discriminator:

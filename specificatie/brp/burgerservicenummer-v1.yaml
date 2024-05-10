@@ -4,9 +4,9 @@ info:
   description: |
     Definitie voor burgerservicenummer, een identificatienummer van een persoon geregistreerd in de BRP
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     Burgerservicenummer:
-      $ref: '../tekst/tekst-9-cijfers-v1.yaml#/components/schemas/Cijfers'
+      type: string
+      pattern: ^[0-9]{9}$
       example: "555555021"

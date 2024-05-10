@@ -2,7 +2,6 @@ openapi: 3.1.0
 info:
   title: InOnderzoek
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     GbaInOnderzoek:
@@ -12,6 +11,7 @@ components:
         - datumIngangOnderzoek
       properties:
         aanduidingGegevensInOnderzoek:
-          $ref: '../tekst/tekst-6-cijfers-v1.yaml#/components/schemas/Cijfers'
+          type: string
+          pattern: ^[0-9]{6}$
         datumIngangOnderzoek:
           $ref: 'datum-v1.yaml#/components/schemas/GbaDatum'

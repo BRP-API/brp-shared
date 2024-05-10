@@ -8,5 +8,6 @@ info:
 components:
   schemas:
     GbaDatum:
-      $ref: '../tekst/tekst-8-cijfers-v1.yaml#/components/schemas/Cijfers'
-      example: "20180700"
+      type: string
+      pattern: ^[0-9]{8}$
+      example: '20180700'

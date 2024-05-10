@@ -5,15 +5,13 @@ info:
   contact: {}
 components:
   schemas:
-    OmschrijvingVerdrag:
-      type: string
-      description: |
-        Omschrijving van het verdrag op basis waarvan een zusterorganisatie in het buitenland de gegevens bij de RNI-deelnemer heeft aangeleverd.
-      pattern: ^[a-zA-Z0-9À-ž \.\-\']{1,50}$
     RniDeelnemer:
       type: object
       properties:
         deelnemer:
           $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
         omschrijvingVerdrag:
-          $ref: '#/components/schemas/OmschrijvingVerdrag'
+          description: |
+            Omschrijving van het verdrag op basis waarvan een zusterorganisatie in het buitenland de gegevens bij de RNI-deelnemer heeft aangeleverd.
+          type: string
+          pattern: ^[a-zA-Z0-9À-ž \.\-]{1,50}$
