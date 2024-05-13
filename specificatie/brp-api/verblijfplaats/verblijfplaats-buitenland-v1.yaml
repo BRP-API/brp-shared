@@ -5,40 +5,22 @@ info:
   contact: {}
 components:
   schemas:
-    Regel1:
-      type: string
-      maxLength: 40
-      description: |
-        Het eerste deel van een buitenlands adres. Vaak is dit een combinatie van de straat en huisnummer.
-      example: "1600 Pennsylvania Avenue NW"
-    Regel2:
-      type: string
-      maxLength: 50
-      description: |
-        Het tweede deel van een buitenlands adres. Vaak is dit een combinatie van woonplaats eventueel in combinatie met de postcode.
-      example: "Washington, DC 20500"
-    Regel3:
-      type: string
-      maxLength: 35
-      description: |
-        Het derde deel van een buitenlands adres is optioneel. Het gaat om een of meer geografische gebieden van het adres in het buitenland.
-      example: "Selangor"
     VerblijfadresBuitenland:
       type: object
       properties:
         regel1:
-          $ref: '#/components/schemas/Regel1'
+          $ref: '../../brp/verblijfplaats/regel1-v1.yaml#/components/schemas/Regel1'
         regel2:
-          $ref: '#/components/schemas/Regel2'
+          $ref: '../../brp/verblijfplaats/regel2-v1.yaml#/components/schemas/Regel2'
         regel3:
-          $ref: '#/components/schemas/Regel3'
+          $ref: '../../brp/verblijfplaats/regel3-v1.yaml#/components/schemas/Regel3'
         land:
-          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+          $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
         inOnderzoek:
           $ref: "#/components/schemas/VerblijfadresBuitenlandInOnderzoek"
     VerblijfadresBuitenlandInOnderzoek:
       allOf:
-        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
         - type: object
           properties:
             regel1:
@@ -54,20 +36,20 @@ components:
         * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
         * **land** - land waar de persoon is overleden. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
       allOf:
-      - $ref : 'verblijfplaats-v1.yaml#/components/schemas/AbstractVerblijfplaats'
+      - $ref : 'verblijfplaats-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaats'
       - type: object
         properties:
           verblijfadres:
             $ref: "#/components/schemas/VerblijfadresBuitenland"
           datumVan:
-            $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+            $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
           datumIngangGeldigheid:
-            $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+            $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
           inOnderzoek:
             $ref: '#/components/schemas/VerblijfplaatsBuitenlandInOnderzoek'
     VerblijfplaatsBuitenlandInOnderzoek:
       allOf:
-        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
         - type: object
           properties:
             type:

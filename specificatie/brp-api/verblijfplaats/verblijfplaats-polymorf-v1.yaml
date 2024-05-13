@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Verblijfplaats
+  title: verblijfplaats (polymorf)
   version: 1.0.0
   contact: {}
 components:
@@ -17,7 +17,7 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          Adres: 'verblijfplaats-adres-v1.yaml#/components/schemas/Adres'
-          Locatie: 'verblijfplaats-locatie-v1.yaml#/components/schemas/Locatie'
+          Adres: 'adres-v1.yaml#/components/schemas/Adres'
+          Locatie: 'locatie-v1.yaml#/components/schemas/Locatie'
           VerblijfplaatsBuitenland: 'verblijfplaats-buitenland-v1.yaml#/components/schemas/VerblijfplaatsBuitenland'
           VerblijfplaatsOnbekend: 'verblijfplaats-onbekend-v1.yaml#/components/schemas/VerblijfplaatsOnbekend'

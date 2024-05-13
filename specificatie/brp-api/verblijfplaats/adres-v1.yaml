@@ -1,0 +1,95 @@
+openapi: 3.1.0
+info:
+  title: Adres
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Adres:
+      description: |
+        Gegevens over het adres van een persoon.
+        * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
+        * **functieAdres** - wordt gevuld met waarden voor 'Functie_Adres' in 'tabelwaarden.csv'.
+        * **aanduidingBijHuisnummer** - wordt gevuld met waarden voor 'Aanduiding_Bij_Huisnummer' in 'tabelwaarden.csv'.
+        * **datumVan** : de datum van aangifte of ambtshalve melding van verblijf en adres.
+        * **datumIngangGeldigheid** : datum waarop de gegevens over de verblijfplaats geldig zijn geworden.
+      allOf:
+        - $ref : 'verblijfplaats-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaats'
+        - type: object
+          properties:
+            verblijfadres:
+              $ref: "#/components/schemas/VerblijfadresBinnenland"
+            functieAdres:
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            adresseerbaarObjectIdentificatie:
+              $ref: '../../brp/verblijfplaats/adresseerbaar-object-identificatie-v1.yaml#/components/schemas/AdresseerbaarObjectIdentificatie'
+            nummeraanduidingIdentificatie:
+              $ref: '../../brp/verblijfplaats/nummeraanduiding-identificatie-v1.yaml#/components/schemas/NummeraanduidingIdentificatie'
+            datumVan:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            datumIngangGeldigheid:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            indicatieVastgesteldVerblijftNietOpAdres:
+              $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
+            inOnderzoek:
+              $ref: "#/components/schemas/AdresInOnderzoek"
+    AdresInOnderzoek:
+      allOf:
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            type:
+              type: boolean
+            datumVan:
+              type: boolean
+            datumIngangGeldigheid:
+              type: boolean
+            nummeraanduidingIdentificatie:
+              type: boolean
+            adresseerbaarObjectIdentificatie:
+              type: boolean
+            functieAdres:
+              type: boolean
+    VerblijfadresBinnenland:
+      type: object
+      properties:
+        officieleStraatnaam:
+          $ref: '../../brp/verblijfplaats/straatnaam-officieel-v1.yaml#/components/schemas/OfficieleStraatnaam'
+        korteStraatnaam:
+          $ref: '../../brp/verblijfplaats/straatnaam-kort-v1.yaml#/components/schemas/KorteStraatnaam'
+        huisnummer:
+          $ref: '../../brp/verblijfplaats/huisnummer-v1.yaml#/components/schemas/Huisnummer'
+        huisletter:
+          $ref: '../../brp/verblijfplaats/huisletter-v1.yaml#/components/schemas/Huisletter'
+        huisnummertoevoeging:
+          $ref: '../../brp/verblijfplaats/huisnummertoevoeging-v1.yaml#/components/schemas/Huisnummertoevoeging'
+        aanduidingBijHuisnummer:
+          $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        postcode:
+          $ref: '../../brp/verblijfplaats/postcode-v1.yaml#/components/schemas/Postcode'
+        woonplaats:
+          $ref: '../../brp/verblijfplaats/woonplaats-v1.yaml#/components/schemas/Woonplaats'
+        inOnderzoek:
+          $ref: "#/components/schemas/VerblijfadresBinnenlandInOnderzoek"
+    VerblijfadresBinnenlandInOnderzoek:
+      allOf:
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            aanduidingBijHuisnummer:
+              type: boolean
+            huisletter:
+              type: boolean
+            huisnummer:
+              type: boolean
+            huisnummertoevoeging:
+              type: boolean
+            officieleStraatnaam:
+              type: boolean
+            postcode:
+              type: boolean
+            korteStraatnaam:
+              type: boolean
+            woonplaats:
+              type: boolean
+      

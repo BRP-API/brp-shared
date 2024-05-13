@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  title: adresseerbaar object identificatie
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    AdresseerbaarObjectIdentificatie:
+      type: string
+      pattern: ^[0-9]{16}$
+      description: |
+        De identificatiecode van een verblijfplaats
+      example: "0226010000038820"

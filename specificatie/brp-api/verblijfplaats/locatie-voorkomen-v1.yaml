@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: LocatieVoorkomen
+  title: locatie voorkomen
   version: 1.0.0
   contact: {}
 components:
@@ -11,26 +11,26 @@ components:
         * **functieAdres** - wordt gevuld met waarden voor 'Functie_Adres' in 'tabelwaarden.csv'.
         * **landVanWaarIngeschreven** : het land waar de persoon woonde voor (her)vestiging in Nederland. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
       allOf:
-        - $ref: 'verblijfplaats-voorkomen-v1.yaml#/components/schemas/AbstractVerblijfplaatsVoorkomen'
+        - $ref: 'verblijfplaats-voorkomen-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaatsVoorkomen'
         - type: object
           properties:
             datumVan:
-              $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
             datumTot:
-              $ref: 'datum-v1.yaml#/components/schemas/AbstractDatum'
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
             functieAdres:
-              $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
             verblijfadres:
               $ref: 'verblijfplaats-locatie-v1.yaml#/components/schemas/VerblijfadresLocatie'
             gemeenteVanInschrijving:
-              $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
             indicatieVastgesteldVerblijftNietOpAdres:
-              $ref: 'verblijfplaats-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
+              $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
             inOnderzoek:
               $ref: '#/components/schemas/LocatieVoorkomenInOnderzoek'
     LocatieVoorkomenInOnderzoek:
       allOf:
-        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
         - type: object
           properties:
             type:
