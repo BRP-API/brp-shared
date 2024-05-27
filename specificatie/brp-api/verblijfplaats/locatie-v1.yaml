@@ -34,8 +34,6 @@ components:
               $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
             verblijfadres:
               $ref: "#/components/schemas/VerblijfadresLocatie"
-            datumIngangGeldigheid:
-              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
             indicatieVastgesteldVerblijftNietOpAdres:
               $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
             inOnderzoek:

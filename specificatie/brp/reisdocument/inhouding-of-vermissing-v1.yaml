@@ -1,17 +1,12 @@
 openapi: 3.1.0
 info:
-  title: Reisdocument Inhouding of Vermissing (BRP variant)
+  title: reisdocument inhouding of vermissing
   version: 1.0.0
 components:
   schemas:
-    InhoudingOfVermissingBasis:
-      type: object
-      properties:
-        aanduiding:
-          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
     GbaInhoudingOfVermissing:
       allOf: 
-        - $ref: '#/components/schemas/InhoudingOfVermissingBasis'
+        - $ref: 'inhouding-of-vermissing-basis-v1.yaml#/components/schemas/InhoudingOfVermissingBasis'
         - type: object
           properties:
             datum:

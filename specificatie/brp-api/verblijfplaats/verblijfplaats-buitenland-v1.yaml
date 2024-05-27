@@ -43,8 +43,6 @@ components:
             $ref: "#/components/schemas/VerblijfadresBuitenland"
           datumVan:
             $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
-          datumIngangGeldigheid:
-            $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
           inOnderzoek:
             $ref: '#/components/schemas/VerblijfplaatsBuitenlandInOnderzoek'
     VerblijfplaatsBuitenlandInOnderzoek:

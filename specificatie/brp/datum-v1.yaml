@@ -2,9 +2,8 @@ openapi: 3.1.0
 info:
   title: Datum
   description: |
-    Definitie voor een datum conform LO BRP
+    datum conform LO BRP
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     GbaDatum:

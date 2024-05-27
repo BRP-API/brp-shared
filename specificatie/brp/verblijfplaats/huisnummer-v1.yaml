@@ -2,7 +2,6 @@ openapi: 3.1.0
 info:
   title: huisnummer
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     Huisnummer:

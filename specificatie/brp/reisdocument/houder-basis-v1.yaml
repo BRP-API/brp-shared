@@ -1,0 +1,11 @@
+openapi: 3.1.0
+info:
+  title: reisdocument houder (basis)
+  version: 1.0.0
+components:
+  schemas:
+    ReisdocumenthouderBasis:
+      type: object
+      properties:
+        burgerservicenummer:
+          $ref: '../burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'

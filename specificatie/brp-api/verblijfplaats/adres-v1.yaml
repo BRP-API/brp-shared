@@ -27,8 +27,6 @@ components:
               $ref: '../../brp/verblijfplaats/nummeraanduiding-identificatie-v1.yaml#/components/schemas/NummeraanduidingIdentificatie'
             datumVan:
               $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
-            datumIngangGeldigheid:
-              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
             indicatieVastgesteldVerblijftNietOpAdres:
               $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
             inOnderzoek:

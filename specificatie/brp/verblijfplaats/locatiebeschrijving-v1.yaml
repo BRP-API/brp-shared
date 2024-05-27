@@ -1,8 +1,7 @@
 openapi: 3.1.0
 info:
-  title: woonplaats
+  title: locatiebeschrijving
   version: 1.0.0
-  contact: {}
 components:
   schemas:
     Locatiebeschrijving:

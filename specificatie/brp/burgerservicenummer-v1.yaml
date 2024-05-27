@@ -1,6 +1,6 @@
 openapi: 3.1.0
 info:
-  title: Burgerservicenummer
+  title: burgerservicenummer
   description: |
     Definitie voor burgerservicenummer, een identificatienummer van een persoon geregistreerd in de BRP
   version: 1.0.0

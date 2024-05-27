@@ -1,0 +1,11 @@
+openapi: 3.1.0
+info:
+  title: reisdocument inhouding of vermissing (basis)
+  version: 1.0.0
+components:
+  schemas:
+    InhoudingOfVermissingBasis:
+      type: object
+      properties:
+        aanduiding:
+          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'

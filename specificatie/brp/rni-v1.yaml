@@ -1,11 +1,10 @@
 openapi: 3.1.0
 info:
-  title: Rni
+  title: Registratie niet-ingezetenen (RNI) 
   version: 1.0.0
-  contact: {}
 components:
   schemas:
-    RniDeelnemer:
+    RniDeelnemerBasis:
       type: object
       properties:
         deelnemer:
@@ -15,3 +14,13 @@ components:
             Omschrijving van het verdrag op basis waarvan een zusterorganisatie in het buitenland de gegevens bij de RNI-deelnemer heeft aangeleverd.
           type: string
           pattern: ^[a-zA-Z0-9À-ž \.\-]{1,50}$
+    RniDeelnemer:
+      allOf: 
+        - $ref: '#/components/schemas/RniDeelnemerBasis'
+        - type: object
+          properties:
+            Categorie:
+              type: string
+              description: Naam van categorie waarop de RNI-deelnemer gegevens heeft aangeleverd
+              pattern: ^[a-zA-Z0-9À-ž \.\-\'\/]{1,40}$
+              example: Verblijfplaats

@@ -1,19 +1,14 @@
 openapi: 3.1.0
 info:
-  title: Reisdocument houder (BRP variant)
+  title: reisdocument houder
   version: 1.0.0
 components:
   schemas:
-    ReisdocumenthouderBasis:
-      type: object
-      properties:
-        burgerservicenummer:
-          $ref: '../burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
     GbaReisdocumenthouder:
       required: 
         - gemeenteVanInschrijving
       allOf:
-        - $ref: '#/components/schemas/ReisdocumenthouderBasis'
+        - $ref: 'houder-basis-v1.yaml#/components/schemas/ReisdocumenthouderBasis'
         - type: object
           properties:
             geheimhoudingPersoonsgegevens:

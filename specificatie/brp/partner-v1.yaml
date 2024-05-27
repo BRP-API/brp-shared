@@ -1,0 +1,61 @@
+openapi: 3.1.0
+info: 
+  title: partner
+  version: 1.0.0
+components: 
+  schemas:
+    PartnerBasis:
+      type: object
+      properties: 
+        burgerservicenummer:
+          $ref: 'burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
+        geslacht:
+          description: |
+            wordt gevuld met waarden voor 'Geslacht' in 'tabelwaarden.csv'.
+          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        soortVerbintenis:
+          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+    GbaPartner:
+      allOf: 
+        - $ref: '#/components/schemas/PartnerBasis'
+        - type: object
+          properties:
+            datumIngangFamilierechtelijkeBetrekking:
+              description: |
+                De datum waarop de familierechtelijke betrekking is ontstaan.
+              $ref: 'datum-v1.yaml#/components/schemas/GbaDatum'
+            naam:
+              $ref: 'naam/naam-basis-v1.yaml#/components/schemas/NaamBasis'
+            geboorte:
+              $ref: 'geboorte-v1.yaml#/components/schemas/GbaGeboorte'
+            aangaanHuwelijkPartnerschap:
+              $ref: '#/components/schemas/GbaAangaanHuwelijkPartnerschap'
+            ontbindingHuwelijkPartnerschap:
+              $ref: "#/components/schemas/GbaOntbindingHuwelijkPartnerschap"
+            inOnderzoek:
+              $ref: 'in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'
+    AangaanHuwelijkPartnerschapBasis:
+      type: object
+      properties:
+        land:
+          description: |
+            Het land waar het huwelijk is voltrokken of het partnerschap is aangegaan. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
+          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        plaats:
+          description: |
+            De gemeente waar het huwelijk is voltrokken of het partnerschap is aangegaan. Wordt gevuld met waarden uit de landelijke tabel "Gemeenten" voor een gemeente in Nederland of de omschrijving van een buitenlandse plaats.
+          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+    GbaAangaanHuwelijkPartnerschap:
+      allOf: 
+        - $ref: '#/components/schemas/AangaanHuwelijkPartnerschapBasis'
+        - type: object
+          properties:
+            datum:
+              description: |
+                De datum waarop het huwelijk is voltrokken of het partnerschap is aangegaan.
+              $ref: 'datum-v1.yaml#/components/schemas/GbaDatum'
+    GbaOntbindingHuwelijkPartnerschap:
+      type: object
+      properties:
+        datum:
+          $ref: 'datum-v1.yaml#/components/schemas/GbaDatum'
