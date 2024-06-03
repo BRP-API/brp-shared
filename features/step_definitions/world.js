@@ -72,6 +72,9 @@ class World {
             this.context.oAuth.clients[0].clientId = this.context.parameters.client.clientId; 
             this.context.oAuth.clients[0].clientSecret = this.context.parameters.client.clientSecret; 
         }
+        if(this.context.parameters?.enableOAuth !== undefined) {
+            this.context.oAuth.enable = this.context.parameters.enableOAuth === 'true';
+        }
     }
 }
 
