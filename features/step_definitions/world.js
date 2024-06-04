@@ -1,7 +1,10 @@
 const { createLogger, format, transports } = require('winston');
 
 function setContextProperties(parameters, context) {
-    Object.keys(parameters).forEach((key) => {
+    for(const key in parameters) {
+        if(!parameters.hasOwnProperty(key)) continue;
+        if(key === "__proto__" || key === "constructor") continue;
+
         if(typeof(parameters[key]) === 'object') {
             if(context[key] === undefined) {
                 context[key] = {};
@@ -11,7 +14,7 @@ function setContextProperties(parameters, context) {
         else {
             context[key] = parameters[key];
         }
-    });
+    }
 }
 
 function configureSqlSettings(context) {
