@@ -1,0 +1,11 @@
+openapi: 3.1.0
+info:
+  title: Reisdocumentnummer
+  description: |
+    Definitie voor Reisdocumentnummer, het identificatienummer van een reisdocument
+  version: 1.0.0
+components:
+  schemas:
+    Reisdocumentnummer:
+      type: string
+      pattern: ^[A-Z0-9]{9}$

@@ -1,0 +1,43 @@
+openapi: 3.1.0
+info:
+  title: locatie voorkomen
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    LocatieVoorkomen:
+      description: |
+        * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
+        * **functieAdres** - wordt gevuld met waarden voor 'Functie_Adres' in 'tabelwaarden.csv'.
+        * **landVanWaarIngeschreven** : het land waar de persoon woonde voor (her)vestiging in Nederland. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
+      allOf:
+        - $ref: 'verblijfplaats-voorkomen-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaatsVoorkomen'
+        - type: object
+          properties:
+            datumVan:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            datumTot:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            functieAdres:
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            verblijfadres:
+              $ref: 'verblijfplaats-locatie-v1.yaml#/components/schemas/VerblijfadresLocatie'
+            gemeenteVanInschrijving:
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            indicatieVastgesteldVerblijftNietOpAdres:
+              $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
+            inOnderzoek:
+              $ref: '#/components/schemas/LocatieVoorkomenInOnderzoek'
+    LocatieVoorkomenInOnderzoek:
+      allOf:
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            type:
+              type: boolean
+            datumVan:
+              type: boolean
+            functieAdres:
+              type: boolean
+            datumTot:
+              type: boolean

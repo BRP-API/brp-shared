@@ -1,0 +1,31 @@
+openapi: 3.1.0
+info:
+  title: Reisdocument
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    ReisdocumentInOnderzoek:
+      allOf: 
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            reisdocumentnummer:
+              type: boolean
+            soort:
+              type: boolean
+            datumEindeGeldigheid:
+              type: boolean
+    Reisdocument:
+      allOf: 
+        - $ref: '../../brp/reisdocument/reisdocument-v1.yaml#/components/schemas/ReisdocumentBasis'
+        - type: object
+          properties:
+            datumEindeGeldigheid:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            inhoudingOfVermissing:
+              $ref: 'inhouding-of-vermissing-v1.yaml#/components/schemas/InhoudingOfVermissing'
+            houder:
+              $ref: 'houder-v1.yaml#/components/schemas/Reisdocumenthouder'
+            inOnderzoek:
+              $ref: '#/components/schemas/ReisdocumentInOnderzoek'

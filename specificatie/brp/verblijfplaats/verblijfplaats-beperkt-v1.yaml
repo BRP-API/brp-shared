@@ -1,0 +1,35 @@
+openapi: 3.1.0
+info: 
+  title: verblijfplaats beperkt
+  version: 1.0.0
+components: 
+  schemas:
+    GbaVerblijfplaatsBeperkt:
+      type: object
+      properties:
+        straat:
+          $ref: 'straatnaam-kort-v1.yaml#/components/schemas/KorteStraatnaam'
+        huisnummer:
+          $ref: 'huisnummer-v1.yaml#/components/schemas/Huisnummer'
+        huisletter:
+          $ref: 'huisletter-v1.yaml#/components/schemas/Huisletter'
+        huisnummertoevoeging:
+          $ref: 'huisnummertoevoeging-v1.yaml#/components/schemas/Huisnummertoevoeging'
+        aanduidingBijHuisnummer:
+          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        postcode:
+          $ref: 'postcode-v1.yaml#/components/schemas/Postcode'
+        woonplaats:
+          $ref: 'woonplaats-v1.yaml#/components/schemas/Woonplaats'
+        locatiebeschrijving:
+          $ref: 'locatiebeschrijving-v1.yaml#/components/schemas/Locatiebeschrijving'
+        land:
+          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        regel1:
+          $ref: 'regel1-v1.yaml#/components/schemas/Regel1'
+        regel2:
+          $ref: 'regel2-v1.yaml#/components/schemas/Regel2'
+        regel3:
+          $ref: 'regel3-v1.yaml#/components/schemas/Regel3'
+        inOnderzoek:
+          $ref: '../in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'

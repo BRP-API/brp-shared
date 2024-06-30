@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info: 
+  title: kind
+  version: 1.0.0
+components: 
+  schemas:
+    Kind:
+      allOf: 
+        - $ref: '../brp/kind-v1.yaml#/components/schemas/KindBasis'
+        - type: object
+          properties:
+            naam:
+              $ref: 'naam/naam-basis-v1.yaml#/components/schemas/NaamBasis'
+            geboorte:
+              $ref: 'geboorte-v1.yaml#/components/schemas/Geboorte'
+            inOnderzoek:
+              $ref: '#/components/schemas/KindInOnderzoek'
+    KindInOnderzoek:
+      description: |
+        Geeft aan of de gegevens over het kind van de persoon in onderzoek zijn.
+      allOf:
+        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            burgerservicenummer:
+              type: boolean

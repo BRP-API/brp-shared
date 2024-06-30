@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info:
+  title: reisdocument houder
+  version: 1.0.0
+components:
+  schemas:
+    GbaReisdocumenthouder:
+      required: 
+        - gemeenteVanInschrijving
+      allOf:
+        - $ref: 'houder-basis-v1.yaml#/components/schemas/ReisdocumenthouderBasis'
+        - type: object
+          properties:
+            geheimhoudingPersoonsgegevens:
+              $ref: '../geheim-v1.yaml#/components/schemas/GbaGeheimhoudingPersoonsgegevens'
+            opschortingBijhouding:
+              $ref: '../opschorting-bijhouding-v1.yaml#/components/schemas/GbaOpschortingBijhouding'
+            gemeenteVanInschrijving:
+              description: wordt gebruikt om de afnemer te autoriseren voor het bevragen van het reisdocument
+              $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            inOnderzoek:
+              $ref: '../in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'

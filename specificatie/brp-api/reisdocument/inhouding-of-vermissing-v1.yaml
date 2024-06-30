@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Reisdocument Inhouding of Vermissing
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    InhoudingOfVermissingInOnderzoek:
+      allOf: 
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            datum:
+              type: boolean
+            aanduiding:
+              type: boolean
+    InhoudingOfVermissing:
+      allOf: 
+        - $ref: '../../brp/reisdocument/inhouding-of-vermissing-v1.yaml#/components/schemas/InhoudingOfVermissingBasis'
+        - type: object
+          properties:
+            datum:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            inOnderzoek:
+              $ref: '#/components/schemas/InhoudingOfVermissingInOnderzoek'
