@@ -1,7 +1,7 @@
 # BRP API lifecycle
 
 ``` mermaid
-flowchart LR
+flowchart TD
 
     subgraph Definieer
         Define
@@ -15,11 +15,16 @@ flowchart LR
     subgraph Implementeer
         direction LR
         Test --> Develop
-        Develop --> Test --> Deliver
+        Develop --> Test --> DeliverAPI
+    end
+    subgraph Beheer
+      direction LR
+      DeployACC --> DeployLAP --> DeployPRD
     end
 
     Definieer --> Ontwerp
     Ontwerp --> Implementeer
+    Implementeer --> Beheer
     
     
     Define["Definieer klant
@@ -44,9 +49,18 @@ flowchart LR
     API contract
     Implementatie"]
 
-    Deliver["Release
+    DeliverAPI["Release
     API contract
     Implementatie"]
+
+    DeployACC["Installeer 
+    release op ACC"]
+
+    DeployLAP["Installeer
+    release op LAP"]
+
+    DeployPRD["Installeer
+    release op PRD"]
 ```
 
 ## Ontwerp API contract
@@ -82,10 +96,11 @@ Gebruik:
 
 - [GitHub Pages](https://pages.github.com/)
 
-## Implementeer API contract
+## Implementeer & Valideer API contract
 
 ### .NET
-- [NSwag](https://github.com/RicoSuter/NSwag) voor het genereren van consumer/provider code uit een in OAS gespecificeerde API contract
+- [.NET 6.0](https://dotnet.microsoft.com/en-us/download/dotnet)
+- [NSwag](https://github.com/RicoSuter/NSwag) voor het genereren van consumer/provider .NET code uit een in OAS gespecificeerde API contract
 - [ECS (Elastic Common Schema)](https://www.elastic.co/guide/en/ecs-logging/dotnet/current/intro.html) voor het formatteren van logs conform de [Elastic Common Schema](https://www.elastic.co/guide/en/ecs-logging/overview/current/intro.html)
 
 ### JAVA
@@ -93,11 +108,22 @@ Gebruik:
 TODO
 
 ### Algemeen
-- Valideer met behulp van de in Gherkin gespecificeerde voorbeelden/scenarios en Cucumber geautomatiseerd de API contract implementatie
+- Valideer met behulp van de in Gherkin gespecificeerde voorbeelden/scenarios en Cucumber geautomatiseerd de API contract implementatie. De automation is geïmplementeerd met behulp van Javascript en wordt in de CI/CD pipeline uitgevoerd mbv [Node.js v20](https://github.com/marketplace/actions/setup-node-js-environment)
 - [SonarQube](https://docs.sonarsource.com/sonarqube/latest/) voor statische analyse van de provider implementatie ten behoeve van code kwaliteit
 - [CodeQL](https://codeql.github.com/docs/) voor geautomatiseerd uitvoeren van security checks
 - [GitHub Actions](https://docs.github.com/en/actions) voor het inrichten van een CI/CD pipeline voor geautomatiseerd builden, valideren en releasen van een API
+- [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) voor het genereren van consumer/provider code uit een in OAS gespecificeerde API contract
+- [Elastic Common Schema](https://www.elastic.co/guide/en/ecs-logging/overview/current/intro.html) voor het formatteren van applicatie logs zodat ten behoeve van uniforme verwerking door de ELK-stack
 
 ## Release API contract implementatie
 
+De BRP API wordt gepackaged als Docker Container images
+
+- Docker Desktop
+- Docker Compose
 - [GitHub Container Registry](https://github.com/features/packages)
+
+## Beheer API releases
+
+- Kubernetes/Rancher
+- ELK-stack
