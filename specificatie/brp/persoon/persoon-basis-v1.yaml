@@ -1,0 +1,28 @@
+openapi: 3.1.0
+info:
+  title: persoon
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    PersoonBasis:
+      type: object
+      properties:
+        burgerservicenummer:
+          $ref: '../identificatienummers/burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
+        geheimhoudingPersoonsgegevens:
+          $ref: '../geheim/indicatie-geheim-v1.yaml#/components/schemas/IndicatieGeheim'
+        geslacht:
+          $ref: '../geslacht/geslachtsaanduiding-v1.yaml#/components/schemas/Geslachtsaanduiding'
+        persoonInOnderzoek:
+          $ref: '../in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'
+        opschortingBijhouding:
+          $ref: '../opschorting-bijhouding-v1.yaml#/components/schemas/GbaOpschortingBijhouding'
+        gemeenteVanInschrijving:
+          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
+        rni:
+          type: array
+          items:
+            $ref: '../rni-v1.yaml#/components/schemas/RniDeelnemer'
+        verificatie:
+          $ref: '../verificatie-v1.yaml#/components/schemas/GbaVerificatie'

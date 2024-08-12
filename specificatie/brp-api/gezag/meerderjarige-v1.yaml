@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: meerderjarige
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Meerderjarige:
+      type: object
+      properties:
+        burgerservicenummer:
+          $ref: '../../brp/identificatienummers/burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'

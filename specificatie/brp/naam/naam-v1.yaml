@@ -4,7 +4,7 @@ info:
   version: 1.0.0
 components:
   schemas:
-    GbaNaamPersoon:
+    NaamPersoon:
       allOf:
         - $ref: 'naam-basis-v1.yaml#/components/schemas/NaamBasis'
         - properties:

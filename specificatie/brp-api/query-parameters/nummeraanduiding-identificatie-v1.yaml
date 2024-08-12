@@ -1,0 +1,13 @@
+openapi: 3.1.0
+info:
+  title: nummeraanduiding identificatie query parameter
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    NummeraanduidingIdentificatieFilter:
+      description: |
+        De identificatie van een nummeraanduiding uitgezonderd de standaardwaarde (0000000000000000)
+      type: string
+      pattern: ^(?!0{16})[0-9]{16}$
+      example: '0518200000366054'

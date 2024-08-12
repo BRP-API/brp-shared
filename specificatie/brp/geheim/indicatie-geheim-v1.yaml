@@ -1,10 +1,10 @@
 openapi: 3.1.0
 info:
-  title: geheim
+  title: geheim definitie
   version: 1.0.0
 components:
   schemas:
-    GbaGeheimhoudingPersoonsgegevens:
+    IndicatieGeheim:
       description: |
         Gegevens over het mogen verstrekken van persoonsgegevens aan derden / maatschappelijke instellingen.
       type: integer

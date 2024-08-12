@@ -1,0 +1,44 @@
+openapi: 3.1.0
+info:
+  title: naam gerelateerde
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    NaamBasis:
+      type: object
+      properties:
+        voornamen:
+          $ref: '../../brp/naam/voornamen-v1.yaml#/components/schemas/Voornamen'
+        adellijkeTitelPredicaat:
+          $ref: '../../brp/naam/adellijke-titel-predicaat-v1.yaml#/components/schemas/AdellijkeTitelPredicaatType'
+        voorvoegsel:
+          $ref: '../../brp/naam/voorvoegsel-v1.yaml#/components/schemas/Voorvoegsel'
+        geslachtsnaam:
+          $ref: '../../brp/naam/geslachtsnaam-v1.yaml#/components/schemas/Geslachtsnaam'
+        voorletters:
+          $ref: '../../brp-api/naam/voorletters-v1.yaml#/components/schemas/Voorletters'
+    NaamBasisInOnderzoek:
+      description: |
+        Geeft aan welke gegevens over de naam in onderzoek zijn.
+      allOf:
+        - $ref: '../../brp-api/in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            voornamen:
+              type: boolean
+            adellijkeTitelPredicaat:
+              type: boolean
+            voorvoegsel:
+              type: boolean
+            geslachtsnaam:
+              type: boolean
+            voorletters:
+              type: boolean
+    NaamGerelateerde:
+      allOf: 
+        - $ref: '#/components/schemas/NaamBasis'
+        - type: object
+          properties:
+            inOnderzoek:
+              $ref: '#/components/schemas/NaamBasisInOnderzoek'

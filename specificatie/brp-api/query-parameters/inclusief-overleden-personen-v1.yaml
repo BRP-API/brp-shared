@@ -1,0 +1,11 @@
+openapi: 3.1.0
+info:
+  title: inclusief overleden personen query parameter
+  version: 1.0.0
+components:
+  schemas:
+    InclusiefOverledenPersonen:
+      description: |
+        Als je ook overleden personen in het antwoord wilt, geef dan de parameter inclusiefOverledenPersonen op met waarde True.
+      type: boolean
+      example: true

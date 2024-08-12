@@ -12,7 +12,7 @@ components:
       type: object
       properties: 
         burgerservicenummer:
-          $ref: 'burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
+          $ref: 'identificatienummers/burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
         geslacht:
           description: |
             wordt gevuld met waarden voor 'Geslacht' in 'tabelwaarden.csv'.
@@ -31,6 +31,6 @@ components:
             naam:
               $ref: 'naam/naam-basis-v1.yaml#/components/schemas/NaamBasis'
             geboorte:
-              $ref: 'geboorte-v1.yaml#/components/schemas/GbaGeboorte'
+              $ref: 'geboorte/geboorte-v1.yaml#/components/schemas/Geboorte'
             inOnderzoek:
               $ref: 'in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'
