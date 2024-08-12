@@ -104,6 +104,7 @@ Gebruik:
 - [ECS (Elastic Common Schema)](https://www.elastic.co/guide/en/ecs-logging/dotnet/current/intro.html) voor het formatteren van logs conform de [Elastic Common Schema](https://www.elastic.co/guide/en/ecs-logging/overview/current/intro.html)
 
 ### JAVA
+- [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) voor het genereren van consumer/provider code uit een in OAS gespecificeerde API contract
 
 TODO
 
@@ -112,8 +113,8 @@ TODO
 - [SonarQube](https://docs.sonarsource.com/sonarqube/latest/) voor statische analyse van de provider implementatie ten behoeve van code kwaliteit
 - [CodeQL](https://codeql.github.com/docs/) voor geautomatiseerd uitvoeren van security checks
 - [GitHub Actions](https://docs.github.com/en/actions) voor het inrichten van een CI/CD pipeline voor geautomatiseerd builden, valideren en releasen van een API
-- [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) voor het genereren van consumer/provider code uit een in OAS gespecificeerde API contract
 - [Elastic Common Schema](https://www.elastic.co/guide/en/ecs-logging/overview/current/intro.html) voor het formatteren van applicatie logs zodat ten behoeve van uniforme verwerking door de ELK-stack
+- PostgreSQL 11.21-alpine container image voor het hosten van de BRP personen registratie database
 
 ## Release API contract implementatie
 
