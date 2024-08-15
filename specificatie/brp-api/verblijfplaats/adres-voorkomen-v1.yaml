@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: AdresVoorkomen
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    AdresVoorkomen:
+      description: |
+        Gegevens over het adres voorkomen van een persoon.
+        * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
+        * **functieAdres** - wordt gevuld met waarden voor 'Functie_Adres' in 'tabelwaarden.csv'.
+        * **aanduidingBijHuisnummer** - wordt gevuld met waarden voor 'Aanduiding_Bij_Huisnummer' in 'tabelwaarden.csv'.
+        * **datumVan** : de datum van aangifte of ambtshalve melding van verblijf en adres.
+        * **datumIngangGeldigheid** : datum waarop de gegevens over de verblijfplaats geldig zijn geworden.
+      allOf:
+        - $ref : 'verblijfplaats-voorkomen-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaatsVoorkomen'
+        - type: object
+          properties:
+            verblijfadres:
+              $ref: 'adres-v1.yaml#/components/schemas/VerblijfadresBinnenland'
+            functieAdres:
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            adresseerbaarObjectIdentificatie:
+              $ref: '../../brp/verblijfplaats/adresseerbaar-object-identificatie-v1.yaml#/components/schemas/AdresseerbaarObjectIdentificatie'
+            nummeraanduidingIdentificatie:
+              $ref: '../../brp/verblijfplaats/nummeraanduiding-identificatie-v1.yaml#/components/schemas/NummeraanduidingIdentificatie'
+            gemeenteVanInschrijving:
+              $ref: '../../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            datumVan:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            datumTot:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            indicatieVastgesteldVerblijftNietOpAdres:
+              $ref: 'indicatie-vastgesteld-verblijft-niet-op-adres-v1.yaml#/components/schemas/IndicatieVastgesteldVerblijftNietOpAdres'
+            inOnderzoek:
+              $ref: '#/components/schemas/AdresVoorkomenInOnderzoek'
+    AdresVoorkomenInOnderzoek:
+      allOf:
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            type:
+              type: boolean
+            gemeenteVanInschrijving:
+              type: boolean
+            datumVan:
+              type: boolean
+            datumTot:
+              type: boolean
+            nummeraanduidingIdentificatie:
+              type: boolean
+            adresseerbaarObjectIdentificatie:
+              type: boolean
+            functieAdres:
+              type: boolean

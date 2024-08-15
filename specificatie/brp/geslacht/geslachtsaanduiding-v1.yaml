@@ -1,0 +1,9 @@
+openapi: 3.1.0
+info:
+  title: persoon
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Geslachtsaanduiding:
+      $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'

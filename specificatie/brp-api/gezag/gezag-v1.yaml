@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: gezag
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    Gezag:
+      type: array
+      items: 
+        $ref: 'gezagsrelatie-polymorf-v1.yaml#/components/schemas/AbstractGezagsrelatie'
+      minItems: 0

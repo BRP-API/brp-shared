@@ -1,0 +1,50 @@
+openapi: 3.1.0
+info:
+  title: geboorte
+  version: 1.0.0
+components:
+  schemas:
+    GeboorteBasis:
+      type: object
+      properties:
+        datum:
+          $ref: 'datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+    GeboorteBeperkt:
+      allOf:
+        - $ref: '#/components/schemas/GeboorteBasis'
+        - type: object
+          properties:
+            inOnderzoek:
+              $ref: '#/components/schemas/GeboorteInOnderzoekBeperkt'
+    Geboorte:
+      description: |
+        Gegevens over de geboorte.
+        * **datum** - datum waarop de persoon is geboren.
+        * **land** - land waar de persoon is geboren. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
+        * **plaats** - gemeente waar de persoon is geboren. Wordt gevuld met waarden uit de landelijke tabel "Gemeenten" voor een gemeente in Nederland of als de persoon is geboren buiten Nederland de omschrijving van een buitenlandse plaatsnaam of aanduiding.
+      allOf:
+        - $ref: '#/components/schemas/GeboorteBasis'
+        - type: object
+          properties:
+            land:
+              $ref: '../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            plaats:
+              $ref: '../brp/waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            inOnderzoek:
+              $ref: '#/components/schemas/GeboorteInOnderzoek'
+    GeboorteInOnderzoekBeperkt:
+      allOf:
+        - $ref: 'in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            datum:
+              type: boolean
+    GeboorteInOnderzoek:
+      allOf:
+        - $ref: '#/components/schemas/GeboorteInOnderzoekBeperkt'
+        - type: object
+          properties:
+            land:
+              type: boolean
+            plaats:
+              type: boolean

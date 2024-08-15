@@ -1,0 +1,36 @@
+openapi: 3.1.0
+info:
+  title: verblijfplaats buitenland voorkomen
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    VerblijfplaatsBuitenlandVoorkomen:
+      description: |
+        * **gemeenteVanInschrijving** - wordt gevuld met waarden uit de landelijke tabel 'Gemeenten'.
+        * **land** - land waar de persoon is overleden. Wordt gevuld met waarden uit de landelijke tabel 'Landen'.
+      allOf:
+      - $ref : 'verblijfplaats-voorkomen-polymorf-v1.yaml#/components/schemas/AbstractVerblijfplaatsVoorkomen'
+      - type: object
+        properties:
+          verblijfadres:
+            $ref: 'verblijfplaats-buitenland-v1.yaml#/components/schemas/VerblijfadresBuitenland'
+          datumVan:
+            $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+            datumTot:
+              $ref: '../datum-polymorf-v1.yaml#/components/schemas/AbstractDatum'
+          inOnderzoek:
+            $ref: '#/components/schemas/VerblijfplaatsBuitenlandVoorkomenInOnderzoek'
+          rni:
+            $ref: '../../brp/rni-v1.yaml#/components/schemas/RniDeelnemer'
+    VerblijfplaatsBuitenlandVoorkomenInOnderzoek:
+      allOf:
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            type:
+              type: boolean
+            datumVan:
+              type: boolean
+            datumTot:
+              type: boolean

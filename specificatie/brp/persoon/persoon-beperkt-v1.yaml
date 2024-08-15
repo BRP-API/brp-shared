@@ -1,0 +1,18 @@
+openapi: 3.1.0
+info:
+  title: persoon beperkt
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    PersoonBeperkt:
+      allOf: 
+        - $ref: 'persoon-basis-v1.yaml#/components/schemas/PersoonBasis'
+        - type: object
+          properties:
+            geboorte:
+              $ref: '../geboorte/geboorte-beperkt-v1.yaml#/components/schemas/GeboorteBeperkt'
+            naam:
+              $ref: '../naam/naam-basis-v1.yaml#/components/schemas/NaamBasis'
+            verblijfplaats:
+              $ref: '../verblijfplaats/verblijfplaats-beperkt-v1.yaml#/components/schemas/GbaVerblijfplaatsBeperkt'

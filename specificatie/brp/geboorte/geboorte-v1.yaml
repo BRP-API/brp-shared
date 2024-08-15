@@ -1,0 +1,15 @@
+openapi: 3.1.0
+info:
+  title: geboorte definitie
+  version: 1.0.0
+components:
+  schemas:
+    Geboorte:
+      allOf:
+        - $ref: 'geboorte-beperkt-v1.yaml#/components/schemas/GeboorteBeperkt'
+        - type: object
+          properties:
+            land:
+              $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
+            plaats:
+              $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'

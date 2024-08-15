@@ -1,0 +1,12 @@
+openapi: 3.1.0
+info:
+  title: ouder (gezag)
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    GezagOuder:
+      allOf: 
+        - $ref: 'meerderjarige-v1.yaml#/components/schemas/Meerderjarige'
+      required: 
+        -  burgerservicenummer

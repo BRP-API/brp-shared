@@ -1,0 +1,22 @@
+openapi: 3.1.0
+info: 
+  title: kind
+  version: 1.0.0
+components: 
+  schemas:
+    KindBasis:
+      type: object
+      properties: 
+        burgerservicenummer:
+          $ref: 'identificatienummers/burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
+    GbaKind:
+      allOf: 
+        - $ref: '#/components/schemas/KindBasis'
+        - type: object
+          properties:
+            inOnderzoek:
+              $ref: 'in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'
+            naam:
+              $ref: 'naam/naam-basis-v1.yaml#/components/schemas/NaamBasis'
+            geboorte:
+              $ref: 'geboorte/geboorte-v1.yaml#/components/schemas/Geboorte'

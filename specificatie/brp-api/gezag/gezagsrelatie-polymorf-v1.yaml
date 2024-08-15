@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: gezagsrelatie
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    AbstractGezagsrelatie:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          TweehoofdigOuderlijkGezag: '#/components/schemas/TweehoofdigOuderlijkGezag'
+          EenhoofdigOuderlijkGezag: '#/components/schemas/EenhoofdigOuderlijkGezag'
+          GezamenlijkGezag: '#/components/schemas/GezamenlijkGezag'
+          Voogdij: '#/components/schemas/Voogdij'
+          TijdelijkGeenGezag: '#/components/schemas/TijdelijkGeenGezag'
+          GezagNietTeBepalen: '#/components/schemas/GezagNietTeBepalen'
+    TweehoofdigOuderlijkGezag:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'
+        - type: object
+          properties:
+            ouders:
+              type: array
+              items:
+                $ref: 'ouder-v1.yaml#/components/schemas/GezagOuder'
+              minItems: 2
+              maxItems: 2
+            minderjarige:
+              $ref: 'minderjarige-v1.yaml#/components/schemas/Minderjarige'
+    EenhoofdigOuderlijkGezag:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'
+        - type: object
+          properties:
+            ouder:
+              $ref: 'ouder-v1.yaml#/components/schemas/GezagOuder'
+            minderjarige:
+              $ref: 'minderjarige-v1.yaml#/components/schemas/Minderjarige'
+    GezamenlijkGezag:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'
+        - type: object
+          properties:
+            ouder:
+              $ref: 'ouder-v1.yaml#/components/schemas/GezagOuder'
+            derde:
+              $ref: 'meerderjarige-v1.yaml#/components/schemas/Meerderjarige'
+            minderjarige:
+              $ref: 'minderjarige-v1.yaml#/components/schemas/Minderjarige'
+    Voogdij:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'
+        - type: object
+          properties:
+            derden:
+              type: array
+              items:
+                $ref: 'meerderjarige-v1.yaml#/components/schemas/Meerderjarige'
+              minItems: 0
+              maxItems: 2
+            minderjarige:
+              $ref: 'minderjarige-v1.yaml#/components/schemas/Minderjarige'
+    TijdelijkGeenGezag:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'
+    GezagNietTeBepalen:
+      allOf:
+        - $ref: '#/components/schemas/AbstractGezagsrelatie'

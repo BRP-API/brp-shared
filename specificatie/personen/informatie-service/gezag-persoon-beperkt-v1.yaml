@@ -1,0 +1,14 @@
+openapi: 3.1.0
+info:
+  title: persoon beperkt met gezag
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    GezagPersoonBeperkt:
+      allOf:
+        - $ref: 'persoon-beperkt-v1.yaml#/components/schemas/PersoonBeperkt'
+        - type: object
+          properties:
+            gezag:
+              $ref: "../../brp-api/gezag/gezag-v1.yaml#/components/schemas/Gezag"

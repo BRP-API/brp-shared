@@ -1,0 +1,25 @@
+openapi: 3.1.0
+info:
+  title: Reisdocument houder
+  version: 1.0.0
+  contact: {}
+components:
+  schemas:
+    ReisdocumenthouderInOnderzoek:
+      allOf: 
+        - $ref: '../in-onderzoek-v1.yaml#/components/schemas/InOnderzoek'
+        - type: object
+          properties:
+            burgerservicenummer:
+              type: boolean
+    Reisdocumenthouder:
+      allOf:
+        - $ref: '../../brp/reisdocument/houder-v1.yaml#/components/schemas/ReisdocumenthouderBasis'
+        - type: object
+          properties:
+            geheimhoudingPersoonsgegevens:
+              $ref: '../geheim-v1.yaml#/components/schemas/GeheimhoudingPersoonsgegevens'
+            opschortingBijhouding:
+              $ref: '../opschorting-bijhouding-v1.yaml#/components/schemas/OpschortingBijhouding'
+            inOnderzoek:
+              $ref: '#/components/schemas/ReisdocumenthouderInOnderzoek'
