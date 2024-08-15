@@ -17,12 +17,12 @@ components:
         persoonInOnderzoek:
           $ref: '../in-onderzoek-v1.yaml#/components/schemas/GbaInOnderzoek'
         opschortingBijhouding:
-          $ref: '../opschorting-bijhouding-v1.yaml#/components/schemas/GbaOpschortingBijhouding'
+          $ref: '../opschorting-bijhouding/opschorting-bijhouding-v1.yaml#/components/schemas/OpschortingBijhouding'
         gemeenteVanInschrijving:
           $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
         rni:
           type: array
           items:
-            $ref: '../rni-v1.yaml#/components/schemas/RniDeelnemer'
+            $ref: '../rni/rni-deelnemer-v1.yaml#/components/schemas/RniDeelnemer'
         verificatie:
-          $ref: '../verificatie-v1.yaml#/components/schemas/GbaVerificatie'
+          $ref: '../verificatie/verificatie-v1.yaml#/components/schemas/Verificatie'

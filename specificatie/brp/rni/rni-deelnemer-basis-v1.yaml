@@ -8,19 +8,9 @@ components:
       type: object
       properties:
         deelnemer:
-          $ref: 'waardetabel-v1.yaml#/components/schemas/Waardetabel'
+          $ref: '../waardetabel-v1.yaml#/components/schemas/Waardetabel'
         omschrijvingVerdrag:
           description: |
             Omschrijving van het verdrag op basis waarvan een zusterorganisatie in het buitenland de gegevens bij de RNI-deelnemer heeft aangeleverd.
           type: string
           pattern: ^[a-zA-Z0-9À-ž \.\-]{1,50}$
-    RniDeelnemer:
-      allOf: 
-        - $ref: '#/components/schemas/RniDeelnemerBasis'
-        - type: object
-          properties:
-            Categorie:
-              type: string
-              description: Naam van categorie waarop de RNI-deelnemer gegevens heeft aangeleverd
-              pattern: ^[a-zA-Z0-9À-ž \.\-\'\/]{1,40}$
-              example: Verblijfplaats

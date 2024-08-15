@@ -25,7 +25,7 @@ components:
             nationaliteiten:
               type: array
               items:
-                $ref: '../nationaliteit-v1.yaml#/components/schemas/GbaNationaliteit'
+                $ref: '../nationaliteit-v1.yaml#/components/schemas/BrpNationaliteit'
             geboorte:
               $ref: '../geboorte/geboorte-v1.yaml#/components/schemas/Geboorte'
             overlijden:
@@ -44,16 +44,16 @@ components:
             gezag:
               $ref: '../../brp-api/gezag/gezag-v1.yaml#/components/schemas/Gezag'
             verblijfstitel:
-              $ref: '../verblijfstitel-v1.yaml#/components/schemas/GbaVerblijfstitel'
+              $ref: '../verblijfstitel/verblijfstitel-v1.yaml#/components/schemas/Verblijfstitel'
             kinderen:
               type: array
               items:
-                $ref: '../../brp/kind-v1.yaml#/components/schemas/GbaKind'
+                $ref: '../kind/kind-v1.yaml#/components/schemas/Kind'
             ouders:
               type: array
               items:
-                $ref: '../../brp/ouder-v1.yaml#/components/schemas/GbaOuder'
+                $ref: '../ouder/ouder-v1.yaml#/components/schemas/Ouder'
             partners:
               type: array
               items:
-                $ref: '../../brp/partner/partner-v1.yaml#/components/schemas/Partner'
+                $ref: '../partner/partner-v1.yaml#/components/schemas/Partner'

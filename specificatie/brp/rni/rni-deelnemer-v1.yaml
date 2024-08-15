@@ -1,0 +1,16 @@
+openapi: 3.1.0
+info:
+  title: Registratie niet-ingezetenen (RNI) 
+  version: 1.0.0
+components:
+  schemas:
+    RniDeelnemer:
+      allOf: 
+        - $ref: 'rni-deelnemer-basis-v1.yaml#/components/schemas/RniDeelnemerBasis'
+        - type: object
+          properties:
+            Categorie:
+              type: string
+              description: Naam van categorie waarop de RNI-deelnemer gegevens heeft aangeleverd
+              pattern: ^[a-zA-Z0-9À-ž \.\-\'\/]{1,40}$
+              example: Verblijfplaats
