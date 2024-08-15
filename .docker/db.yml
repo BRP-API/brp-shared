@@ -3,7 +3,7 @@ version: '3.7'
 services:
   postgres:
     container_name: db
-    image: postgres:11.21-alpine
+    image: postgres:14.11-alpine
     restart: always
     environment:
       - POSTGRES_USER=root
