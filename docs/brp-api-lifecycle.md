@@ -104,6 +104,7 @@ Gebruik:
 - [ECS (Elastic Common Schema)](https://www.elastic.co/guide/en/ecs-logging/dotnet/current/intro.html) voor het formatteren van logs conform de [Elastic Common Schema](https://www.elastic.co/guide/en/ecs-logging/overview/current/intro.html)
 
 ### JAVA
+- Spring Boot 3 / Spring Framework 6
 - [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) voor het genereren van consumer/provider code uit een in OAS gespecificeerde API contract
 
 TODO
