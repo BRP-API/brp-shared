@@ -48,36 +48,8 @@ Before(function({ pickle }) {
         const array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
         this.context.nrOfLogLines = array.length;
     }
-});
 
-Before({tags: '@api'}, function() {
-    global.logger.debug('api scope. set baseUrl to apiUrl');
     this.context.baseUrl = this.context.apiUrl;
-});
-
-Before({tags: '@proxy'}, function() {
-    global.logger.debug('proxy scope. set baseUrl to proxyUrl');
-    this.context.baseUrl = this.context.proxyUrl;
-});
-
-Before({tags: '@mock'}, function() {
-    global.logger.debug('mock scope. set baseUrl to mockUrl');
-    this.context.baseUrl = this.context.mockUrl;
-});
-
-Before({tags: '@input-validatie'}, function() {
-    global.logger.debug('input-validatie scope. set baseUrl to autzUrl');
-    this.context.baseUrl = this.context.autzUrl;
-});
-
-Before({tags: '@autorisatie'}, function() {
-    global.logger.debug('autorisatie scope. set baseUrl to autzUrl');
-    this.context.baseUrl = this.context.autzUrl;
-});
-
-Before({tags: '@protocollering'}, function() {
-    global.logger.debug('protocollering scope. set baseUrl to autzUrl');
-    this.context.baseUrl = this.context.autzUrl;
 });
 
 After(async function({ pickle }) {
@@ -97,9 +69,18 @@ After(async function({ pickle }) {
     }
 
     if(this.context.logFileToAssert !== undefined && fs.existsSync(this.context.logFileToAssert)) {
-        const array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
-        if(this.context.nrOfLogLines + 1 !== array.length) {
-            global.logger.warn(`${global.scenario.name}. nr of loglines ${array.length} should be ${this.context.nrOfLogLines + 1}`);
+        let array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
+        if(this.context.nrOfLogLines + 1 != array.length) {
+            // wacht 50 ms en check vervolgens nog een keer of er een log regel is toegevoegd
+            await sleep(50);
+            array = fs.readFileSync(this.context.logFileToAssert).toString().split("\n");
+            if(this.context.nrOfLogLines + 1 !== array.length) {
+                global.logger.warn(`${global.scenario.name}. nr of loglines ${array.length} should be ${this.context.nrOfLogLines + 1}`);
+            }
         }
     }
 });
+
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
