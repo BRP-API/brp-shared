@@ -364,88 +364,8 @@ Given(/^zijn van ouder ([1-2]) de volgende gegevens gecorrigeerd$/, function (ou
     );
 });
 
-
-// Given(/^heeft een ouder '(\d)' met de volgende gegevens$/, function (_, ouderType, dataTable) {
-//     createGegevensgroepCollectie(this.context, `ouder-${ouderType}`, dataTable);
-// });
-
-// Given(/^heeft een ouder 1 '(.*)' met burgerservicenummer '(\d*)'/, function (aanduiding, burgerservicenummer) {
-//     if (this.context.map === undefined) {
-//         this.context.map = new Map();
-//     }
-//     this.context.map.set(aanduiding, burgerservicenummer);
-
-//     let dataOuder = [
-//         ['naam', 'waarde'],
-//         ['geslachtsnaam (02.40)', aanduiding],
-//         ['datum ingang familierechtelijke betrekking (62.10)', 'gisteren - 17 jaar']
-//     ];
-
-//     createGegevensgroepCollectieMetBsn(this.context, `ouder-1`, new DataTable(dataOuder), burgerservicenummer); // met burgerservicenr
-//     // remove familie_betrek_start_datum (the last entry) from the dataOuder datatable
-//     // this field should only be available on ouder relaties (1/2)
-//     dataOuder.pop();
-
-//     createPersoon(this.context, burgerservicenummer, new DataTable(dataOuder)); // ouder PL
-
-//     let dataKind = [
-//         ['naam', 'waarde'],
-//         ['geboortedatum (03.10)', ''],
-//         ['geslachtsnaam (02.40)', getByValue(this.context.map, this.context.latestBsn)]
-//     ];
-
-//     createGegevensgroepCollectieMetBsn(this.context, `kind`, new DataTable(dataKind), this.context.latestBsn);
-
-//     let ouder = this.context.sqlData.pop();
-//     let kind = this.context.sqlData.pop();
-//     this.context.sqlData.push(ouder);
-//     this.context.sqlData.push(kind);
-// });
-
-// function getByValue(map, searchValue) {
-//     for (let [key, value] of map.entries()) {
-//         if (value === searchValue)
-//             return key;
-//     }
-// }
-
-// Given(/^heeft een ouder 2 '(.*)' met burgerservicenummer '(\d*)'/, function (aanduiding, burgerservicenummer) {
-//     if (this.context.map === undefined) {
-//         this.context.map = new Map();
-//     }
-//     this.context.map.set(aanduiding, burgerservicenummer);
-
-//     let dataOuder = [
-//         ['naam', 'waarde'],
-//         ['geslachtsnaam (02.40)', aanduiding]
-//     ];
-
-//     createGegevensgroepCollectieMetBsn(this.context, `ouder-2`, new DataTable(dataOuder), burgerservicenummer); // met burgerservicenr
-
-//     createPersoon(this.context, burgerservicenummer, new DataTable(dataOuder)); // ouder PL
-
-//     let dataKind = [
-//         ['naam', 'waarde'],
-//         ['geboortedatum (03.10)', '']
-//     ];
-
-//     createGegevensgroepCollectieMetBsn(this.context, `kind`, new DataTable(dataKind), this.context.latestBsn);
-
-//     let ouder = this.context.sqlData.pop();
-//     let kind = this.context.sqlData.pop();
-//     this.context.sqlData.push(ouder);
-//     this.context.sqlData.push(kind);
-// });
-
 Given(/^beide ouders zijn meerderjarig, niet overleden en staan niet onder curatele/, function () {
     // doe niets
-});
-
-Given(/^zijn de volgende gegevens van ouder 1 '(.*)' gewijzigd/, function (aanduiding, dataTable) {
-
-    let bsn = this.context.latestBsn;
-
-    aanvullenGegevensgroepMetBsn(this.context, bsn, dataTable, 'ouder-1-1');
 });
 
 /**
