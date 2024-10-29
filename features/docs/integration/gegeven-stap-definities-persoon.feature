@@ -13,8 +13,8 @@ Functionaliteit: Persoon stap definities
     | pl_id | geheim_ind |
     | 1     | 0          |
     En heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl_persoon'
-    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr |
-    | 1     | P            | 0         | 0       | 000000012         |
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam |
+    | 1     | P            | 0         | 0       | 000000012         | Gerda          |
 
   Scenario: is minderjarig
     Gegeven de persoon 'Gerda' met burgerservicenummer '000000012'
@@ -35,8 +35,8 @@ Functionaliteit: Persoon stap definities
     | pl_id | geheim_ind |
     | 1     | 0          |
     En heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl_persoon'
-    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr |
-    | 1     | P            | 0         | 0       | 000000012         |
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam |
+    | 1     | P            | 0         | 0       | 000000012         | Gerda          |
     En heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl_verblijfplaats'
     | pl_id | volg_nr | inschrijving_gemeente_code |
     | 1     | 0       | 0518                       |
