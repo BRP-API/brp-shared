@@ -6,8 +6,11 @@ Opnemen van "in onderzoek" status in de BRP API
 Besloten
 
 ## Context
-De status "in onderzoek" moet uitsluitend worden opgenomen in de BRP API wanneer deze relevant is voor het gebruik van de API-functie. 
+De status "in onderzoek" moet uitsluitend worden opgenomen in de BRP API wanneer deze relevant is voor het gebruik van de API-functie. Daarmee wordt afgeweken van de regel dat in onderzoek gegevens altijd moeten worden geleverd als de BRP API een BRP gegeven of BRP afgeleid gegeven levert dat in de registratie in onderzoek staat. 
+De BRP API levert geen "in onderzoek" gegevens over geleverde gegevens die niet tot de kern van de functionaliteit behoren, en geen bijdrage leveren aan beter begrip van de afnemer over hetgeen geleverd is.  
 
+Wat betekent "in onderzoek"?
+Een authentiek gegeven in een basosregistratie kan "in onderzoek" zijn, bijvoorbeeld omdat een terugmelding is gedaan door een afnemer die vermoedt dat het gegeven in de basisregistratie niet juist is. Als een gegeven in onderzoek staat, kan een afnemer besluiten het gegeven niet te gebruiken.  
 
 ## Beslissing
 - **Opnemen van "in onderzoek" status**: De BRP API zal de status "in onderzoek" opnemen wanneer dit relevant is voor het gebruik van de API. De Bewoning API wordt gebruikt om bewoner-samenstellingen op een verblijfplaats te achterhalen. 
