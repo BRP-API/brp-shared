@@ -10,7 +10,7 @@ De status "in onderzoek" moet uitsluitend worden opgenomen in de BRP API wanneer
 De BRP API levert geen "in onderzoek" gegevens over geleverde gegevens die niet tot de kern van de functionaliteit behoren, en geen bijdrage leveren aan beter begrip van de afnemer over hetgeen geleverd is.  
 
 Wat betekent "in onderzoek"?
-Een authentiek gegeven in een basosregistratie kan "in onderzoek" zijn, bijvoorbeeld omdat een terugmelding is gedaan door een afnemer die vermoedt dat het gegeven in de basisregistratie niet juist is. Als een gegeven in onderzoek staat, mag een afnemer besluiten het gegeven niet te gebruiken.  
+Een authentiek gegeven in een basisregistratie kan "in onderzoek" zijn, bijvoorbeeld omdat een terugmelding is gedaan door een afnemer die vermoedt dat het gegeven in de basisregistratie niet juist is. Als een gegeven in onderzoek staat, mag een afnemer besluiten het gegeven niet te gebruiken.  
 
 ## Beslissing
 - **Opnemen van "in onderzoek" status**: De BRP API zal de status "in onderzoek" opnemen wanneer dit relevant is voor het gebruik van de API. De Bewoning API wordt gebruikt om bewoner-samenstellingen op een verblijfplaats te achterhalen. 
@@ -27,15 +27,15 @@ Dit betekent dat:
   - Extra documentatie en communicatie nodig om de beslisregels duidelijk te maken.
 
 ## Alternatieven Overwogen
-- **Alternatief 1**: Alle onderzoeksstatussen van geleverde gegevens of onderliggende gegevens die in de afleiding zijn gebruikt wprden opgenom,en in de BRP API. In de BRP API Bewoning dus ook alle onderzoeken op naamgegevens en geboortedatum.
+- **Alternatief 1**: Alle onderzoeksstatussen van geleverde gegevens of onderliggende gegevens die in de afleiding zijn gebruikt worden opgenomen in de BRP API. In de BRP API Bewoning dus ook alle onderzoeken op naamgegevens en geboortedatum.
   - **Voordelen**: Vollediger beeld van alle onderzoeksstatussen.
   - **Nadelen**: Verhoogde complexiteit en mogelijk minder relevantie voor de primaire functies van de API, met als mogelijk gevolg dat het onderzoek dat wel relevant is wordt genegeerd.
 
 ## Besluitvormers
-- PO BRP API. afgestemd met DO LG. Besluit kan worden genomen. Juridische grondslag in het kader van het experiment dataminimalisatie.
+- PO BRP API. afgestemd met DO LG. Besluit kan worden genomen. Juridische grondslag in het kader van het [experiment dataminimalisatie].
 
 
 ## Datum
 28 november 2024
 
-
+[experiment dataminimalisatie]: https://www.rvig.nl/experimentbesluit-dataminimalisatie-brp-treedt-werking
