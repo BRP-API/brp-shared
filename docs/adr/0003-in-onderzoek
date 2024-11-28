@@ -1,0 +1,40 @@
+
+# Titel ADR
+Opnemen van "in onderzoek" status in de BRP API
+
+## Status
+Besloten
+
+## Context
+De status "in onderzoek" moet uitsluitend worden opgenomen in de BRP API wanneer deze relevant is voor het gebruik van de API-functie. 
+
+
+## Beslissing
+- **Opnemen van "in onderzoek" status**: De BRP API zal de status "in onderzoek" opnemen wanneer dit relevant is voor het gebruik van de API. De Bewoning API wordt gebruikt om bewoner-samenstellingen op een verblijfplaats te achterhalen. 
+Dit betekent dat:
+  - Een bewoner "in onderzoek" is als de verblijfplaats van de bewoner "in onderzoek" staat.
+  - Een bewoner niet "in onderzoek" is als de naam of geboortedatum van de bewoner in onderzoek staat.
+
+## Gevolgen
+- **Positief**:
+  - Verhoogde relevantie en bruikbaarheid van de API door alleen relevante onderzoeksstatussen op te nemen.
+  - Duidelijkheid voor gebruikers van de API over wanneer een bewoner als "in onderzoek" wordt beschouwd.
+- **Negatief**:
+  - Mogelijke verwarring als gebruikers niet goed geïnformeerd zijn over de criteria voor "in onderzoek" status.
+  - Extra documentatie en communicatie nodig om de beslisregels duidelijk te maken.
+
+## Alternatieven Overwogen
+- **Alternatief 1**: Alle onderzoeksstatussen opnemen in de BRP API, inclusief naam en geboortedatum.
+  - **Voordelen**: Vollediger beeld van alle onderzoeksstatussen.
+  - **Nadelen**: Verhoogde complexiteit en mogelijk minder relevantie voor de primaire functies van de API, met als mogelijk gevold dat het onderzoek dat wel relevant is wordt genegeerd.
+
+## Besluitvormers
+- PO BRP API. afgestemd met DO LG. Besluit kan worden genomen. Juridische grondslag in het kader van het experiment dataminimalisatie.
+
+
+## Datum
+28 november 2024
+
+---
+
+Laat me weten als je nog verdere vragen hebt of als ik ergens anders mee kan helpen!
