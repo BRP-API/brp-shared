@@ -16,7 +16,7 @@ Een authentiek gegeven in een basosregistratie kan "in onderzoek" zijn, bijvoorb
 - **Opnemen van "in onderzoek" status**: De BRP API zal de status "in onderzoek" opnemen wanneer dit relevant is voor het gebruik van de API. De Bewoning API wordt gebruikt om bewoner-samenstellingen op een verblijfplaats te achterhalen. 
 Dit betekent dat:
   - Een bewoner "in onderzoek" is als de verblijfplaats van de bewoner "in onderzoek" staat.
-  - Een bewoner niet "in onderzoek" is als de naam of geboortedatum van de bewoner in onderzoek staat.
+  - Een bewoner niet "in onderzoek" is als de naam of geboortedatum van de bewoner in onderzoek staat. Dat deze gegevens in onderzoek staan doet niets af aan het feit dat deze persoon een bewoner is op dit adres in deze periode en onderdeel uitmaakt van de geleverd bewonersamenstelling.
 
 ## Gevolgen
 - **Positief**:
@@ -27,7 +27,7 @@ Dit betekent dat:
   - Extra documentatie en communicatie nodig om de beslisregels duidelijk te maken.
 
 ## Alternatieven Overwogen
-- **Alternatief 1**: Alle onderzoeksstatussen opnemen in de BRP API, inclusief naam en geboortedatum.
+- **Alternatief 1**: Alle onderzoeksstatussen van geleverde gegevens of onderliggende gegevens die in de afleiding zijn gebruikt wprden opgenom,en in de BRP API. In de BRP API Bewoning dus ook alle onderzoeken op naamgegevens en geboortedatum.
   - **Voordelen**: Vollediger beeld van alle onderzoeksstatussen.
   - **Nadelen**: Verhoogde complexiteit en mogelijk minder relevantie voor de primaire functies van de API, met als mogelijk gevolg dat het onderzoek dat wel relevant is wordt genegeerd.
 
