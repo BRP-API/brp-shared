@@ -26,7 +26,7 @@ Dit betekent dat:
 ## Alternatieven Overwogen
 - **Alternatief 1**: Alle onderzoeksstatussen opnemen in de BRP API, inclusief naam en geboortedatum.
   - **Voordelen**: Vollediger beeld van alle onderzoeksstatussen.
-  - **Nadelen**: Verhoogde complexiteit en mogelijk minder relevantie voor de primaire functies van de API, met als mogelijk gevold dat het onderzoek dat wel relevant is wordt genegeerd.
+  - **Nadelen**: Verhoogde complexiteit en mogelijk minder relevantie voor de primaire functies van de API, met als mogelijk gevolg dat het onderzoek dat wel relevant is wordt genegeerd.
 
 ## Besluitvormers
 - PO BRP API. afgestemd met DO LG. Besluit kan worden genomen. Juridische grondslag in het kader van het experiment dataminimalisatie.
