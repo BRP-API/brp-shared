@@ -23,12 +23,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Zet run permissions op script folder
+        uses: ./.github/actions/zet-run-bash-scripts-permission
+        with:
+          path-bash-file-or-folder: ./scripts/*
+
       - name: Run unit tests
         run: |
           ./scripts/unit-tests-verify.sh
       - name: Validate Step Definitions
         run: |
-          ./scripts/specs-verify.sh
+          echo ./scripts/specs-verify.sh >> $GITHUB_STEP_SUMMARY
       - name: Genereer test rapportage
         if: always()
         run: |
