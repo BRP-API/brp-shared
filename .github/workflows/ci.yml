@@ -33,7 +33,7 @@ jobs:
           ./scripts/unit-tests-verify.sh
       - name: Validate Step Definitions
         run: |
-          echo ./scripts/specs-verify.sh >> $GITHUB_STEP_SUMMARY
+          ./scripts/specs-verify.sh >> $GITHUB_STEP_SUMMARY
       - name: Genereer test rapportage
         if: always()
         run: |
