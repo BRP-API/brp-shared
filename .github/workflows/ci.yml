@@ -28,10 +28,10 @@ jobs:
         with:
           path-bash-file-or-folder: ./scripts/*
 
-      - name: Run unit tests
+      - name: Run jest unit tests
         run: |
-          ./scripts/unit-tests-verify.sh
-      - name: Validate Step Definitions
+          ./scripts/unit-tests-verify.sh >> $GITHUB_STEP_SUMMARY
+      - name: Run cucumber scenarios
         run: |
           ./scripts/specs-verify.sh >> $GITHUB_STEP_SUMMARY
       - name: Genereer test rapportage
