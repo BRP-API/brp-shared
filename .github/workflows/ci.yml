@@ -30,7 +30,7 @@ jobs:
 
       - name: Run jest unit tests
         run: |
-          echo "### Jest Test Reports"
+          echo "### Jest Test Reports" >> $GITHUB_STEP_SUMMARY
           ./scripts/unit-tests-verify.sh >> $GITHUB_STEP_SUMMARY
       - name: Run cucumber scenarios
         run: |
