@@ -3,6 +3,7 @@ const { objectToDataTable, arrayOfArraysToDataTable } = require('./dataTableFact
 const { createPersoon,
         aanvullenPersoon,
         wijzigPersoon,
+        wijzigGeadopteerdPersoon,
         createKind,
         createOuder,
         wijzigOuder,
@@ -450,8 +451,7 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
 
     wijzigPersoon(
         kind,
-        objectToDataTable(kindData),
-        true
+        objectToDataTable(kindData)
     );
 
     createOuder(
@@ -489,6 +489,38 @@ Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduid
 
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, adoptieOuderData);
 });
+
+function gegevenAdoptieVanKindIsHerroepenVoorOuder(context, kind, aanduidingOuder, ouderType, dataTable) {
+    const ouder = getPersoon(context, aanduidingOuder);
+
+    const kindData = { ...kind.persoon.at(-1) };
+    kindData[toDbColumnName('aktenummer (81.20)')] = '1AR0200'
+
+    wijzigGeadopteerdPersoon(
+        kind,
+        objectToDataTable(kindData),
+        true
+    );
+
+    wijzigOuder(
+        kind,
+        ouderType,
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(ouder)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)]
+        ], dataTable),
+        true
+    );
+}
+
+Given(/^de adoptie van '(.*)' is herroepen voor '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
+    const kind = getPersoon(this.context, aanduidingKind);
+    const adoptieOuderData = arrayOfArraysToDataTable([
+        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 2 jaar']
+    ]);
+
+    gegevenAdoptieVanKindIsHerroepenVoorOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
+  });
 
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, dataTable);
