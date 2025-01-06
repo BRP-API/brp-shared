@@ -65,7 +65,7 @@ Functionaliteit: Persoon is geadopteerd
       |            | ouder-2      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam,familie_betrek_start_datum) VALUES($1,$2,$3,$4,$5,$6,$7) |            10001,0,0,2,000000024,P3,morgen - 4 jaar |
       # is dit gewenst? 2 dezelfde persoon rijen?
 
-Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2] met de volgende gegevens
+Scenario: de adoptie van '[kind aanduiding]' is herroepen voor '[ouder aanduiding]' als ouder [1 of 2]
     Gegeven de persoon 'P1' met burgerservicenummer '000000012'
     En de persoon 'P2' met burgerservicenummer '000000024'
     * 'P2' is geadopteerd door 'P1' als ouder 1 met de volgende gegevens
