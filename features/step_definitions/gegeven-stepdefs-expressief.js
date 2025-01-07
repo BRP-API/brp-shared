@@ -490,11 +490,12 @@ Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduid
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 
-function gegevenAdoptieVanKindIsHerroepenVoorOuder(context, kind, aanduidingOuder, ouderType, dataTable) {
-    const ouder = getPersoon(context, aanduidingOuder);
-
+function gegevenAdoptieVanKindIsHerroepenVoorBeideOuders(kind, dataTable, ouderType1 = 1, ouderType2 = 2) {
     const kindData = { ...kind.persoon.at(-1) };
     kindData[toDbColumnName('aktenummer (81.20)')] = '1AR0200'
+
+    const ouderData = { ...kind[`ouder-${ouderType1}`].at(-1) };
+    const ouder2Data = { ...kind[`ouder-${ouderType2}`].at(-1) };
 
     wijzigGeadopteerdPersoon(
         kind,
@@ -504,23 +505,33 @@ function gegevenAdoptieVanKindIsHerroepenVoorOuder(context, kind, aanduidingOude
 
     wijzigOuder(
         kind,
-        ouderType,
+        ouderType1,
         arrayOfArraysToDataTable([
-            ['burgerservicenummer (01.20)', getBsn(ouder)],
-            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)]
+            ['burgerservicenummer (01.20)', ouderData['burger_service_nr']],
+            ['geslachtsnaam (02.40)', ouderData['geslachts_naam']]
+        ], dataTable),
+        true
+    );
+
+    wijzigOuder(
+        kind,
+        ouderType2,
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', ouder2Data['burger_service_nr']],
+            ['geslachtsnaam (02.40)', ouder2Data['geslachts_naam']]
         ], dataTable),
         true
     );
 }
 
-Given(/^de adoptie van '(.*)' is herroepen voor '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
+Given(/^de adoptie van '(.*)' is herroepen voor beide ouders$/, function (aanduidingKind) {
     const kind = getPersoon(this.context, aanduidingKind);
     const adoptieOuderData = arrayOfArraysToDataTable([
         ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 2 jaar']
     ]);
 
-    gegevenAdoptieVanKindIsHerroepenVoorOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
-  });
+    gegevenAdoptieVanKindIsHerroepenVoorBeideOuders(kind, adoptieOuderData);
+});
 
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, dataTable);
