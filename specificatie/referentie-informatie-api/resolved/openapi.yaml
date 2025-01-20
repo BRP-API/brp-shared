@@ -380,13 +380,30 @@ components:
           properties:
             ouder:
               $ref: '#/components/schemas/GezagOuder'
-    Meerderjarige:
+    AbstractDerde:
       type: object
+      required:
+        - type
       properties:
-        burgerservicenummer:
-          $ref: '#/components/schemas/Burgerservicenummer'
-        naam:
-          $ref: '#/components/schemas/NaamVolledigeNaam'
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          Derde: '#/components/schemas/Derde'
+          OnbekendeDerde: '#/components/schemas/OnbekendeDerde'
+    Derde:
+      allOf:
+        - $ref: '#/components/schemas/AbstractDerde'
+        - type: object
+          properties:
+            burgerservicenummer:
+              $ref: '#/components/schemas/Burgerservicenummer'
+            naam:
+              $ref: '#/components/schemas/NaamVolledigeNaam'
+    OnbekendeDerde:
+      allOf:
+        - $ref: '#/components/schemas/AbstractDerde'
     GezamenlijkGezag:
       allOf:
         - $ref: '#/components/schemas/AbstractGezagsrelatie'
@@ -395,7 +412,7 @@ components:
             ouder:
               $ref: '#/components/schemas/GezagOuder'
             derde:
-              $ref: '#/components/schemas/Meerderjarige'
+              $ref: '#/components/schemas/AbstractDerde'
     Voogdij:
       allOf:
         - $ref: '#/components/schemas/AbstractGezagsrelatie'
@@ -404,7 +421,7 @@ components:
             derden:
               type: array
               items:
-                $ref: '#/components/schemas/Meerderjarige'
+                $ref: '#/components/schemas/AbstractDerde'
               minItems: 0
               maxItems: 2
     Toelichting:
