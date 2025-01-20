@@ -60,7 +60,7 @@ components:
             ouder:
               $ref: 'gezagouder-v1.yaml#/components/schemas/GezagOuder'
             derde:
-              $ref: 'meerderjarige-v1.yaml#/components/schemas/Meerderjarige'
+              $ref: 'derde-v1.yaml#/components/schemas/AbstractDerde'
 
     Voogdij:
       allOf:
@@ -70,7 +70,7 @@ components:
             derden:
               type: array
               items:
-                $ref: 'meerderjarige-v1.yaml#/components/schemas/Meerderjarige'
+                $ref: 'derde-v1.yaml#/components/schemas/AbstractDerde'
               minItems: 0
               maxItems: 2
 
