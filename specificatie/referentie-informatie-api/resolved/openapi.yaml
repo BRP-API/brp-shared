@@ -363,6 +363,7 @@ components:
       required:
         - burgerservicenummer
     TweehoofdigOuderlijkGezag:
+      description: De naam van dit type is onjuist. De juiste term is "gezamenlijk ouderlijk gezag", en moet worden gebruikt in de communicatie met de eindgebruiker. In de eerst volgende major versie zal het type worden aangepast.
       allOf:
         - $ref: '#/components/schemas/AbstractGezagsrelatie'
         - type: object
