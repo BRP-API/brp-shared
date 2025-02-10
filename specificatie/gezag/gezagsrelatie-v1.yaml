@@ -70,7 +70,7 @@ components:
             derden:
               type: array
               items:
-                $ref: 'derde-v1.yaml#/components/schemas/Derde'
+                $ref: 'derde-v1.yaml#/components/schemas/BekendeDerde'
               minItems: 0
               maxItems: 2
 
