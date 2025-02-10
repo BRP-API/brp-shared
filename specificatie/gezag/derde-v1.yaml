@@ -5,7 +5,7 @@ info:
 paths: {}
 components:
   schemas:
-    AbstractDerde:
+    Derde:
       type: object
       required:
         - type
@@ -15,12 +15,12 @@ components:
       discriminator:
         propertyName: type
         mapping:
-          Derde: '#/components/schemas/Derde'
+          BekendeDerde: '#/components/schemas/BekendeDerde'
           OnbekendeDerde: '#/components/schemas/OnbekendeDerde'
 
-    Derde:
+    BekendeDerde:
       allOf:
-        - $ref: '#/components/schemas/AbstractDerde'
+        - $ref: '#/components/schemas/Derde'
         - type: object
           properties:
             burgerservicenummer:
@@ -30,4 +30,4 @@ components:
 
     OnbekendeDerde:
       allOf:
-        - $ref: '#/components/schemas/AbstractDerde'
+        - $ref: '#/components/schemas/Derde'
