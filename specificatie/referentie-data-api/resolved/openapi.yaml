@@ -206,6 +206,9 @@ components:
           type: string
         minderjarige:
           $ref: '#/components/schemas/Minderjarige'
+        inOnderzoek:
+          type: boolean
+          description: Geeft aan dat de gezagsrelatie in onderzoek is.
       discriminator:
         propertyName: type
         mapping:
