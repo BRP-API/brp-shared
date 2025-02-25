@@ -5,5 +5,5 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 -f summary \
                 features/docs \
                 --tags "not @integratie" \
-                --tags "not @skip-verify"
-
+                --tags "not @skip-verify" \
+                > /dev/null
