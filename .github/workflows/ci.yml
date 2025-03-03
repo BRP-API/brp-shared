@@ -11,7 +11,7 @@ env:
   NODE_VERSION: '20'
 
 jobs:
-  validate:
+  continuous-integration:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -32,9 +32,8 @@ jobs:
         run: |
           echo "### Jest Test Reports" >> $GITHUB_STEP_SUMMARY
           ./scripts/unit-tests-verify.sh | sed '1d;$d' >> $GITHUB_STEP_SUMMARY
-      - name: Run cucumber scenarios
-        run: |
-          ./scripts/specs-verify.sh >> $GITHUB_STEP_SUMMARY
+      - name: Valideer functionele specs
+        uses: ./.github/actions/valideer-functionele-specs
       - name: Genereer test rapportage
         if: always()
         run: |

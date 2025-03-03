@@ -110,6 +110,8 @@ components:
           $ref: '#/components/schemas/AdresseerbaarObjectIdentificatieFilter'
         datum:
           $ref: '#/components/schemas/DatumFilter'
+        nummeraanduidingIdentificatie:
+          $ref: '#/components/schemas/NummeraanduidingIdentificatieFilter'
     DataApiResponse:
       type: object
       properties:
@@ -300,15 +302,32 @@ components:
           properties:
             ouder:
               $ref: '#/components/schemas/GezagOuder'
-    Meerderjarige:
+    Derde:
       type: object
+      required:
+        - type
       properties:
-        burgerservicenummer:
-          $ref: '#/components/schemas/Burgerservicenummer'
-        naam:
-          $ref: '#/components/schemas/NaamBasis'
-        geslacht:
-          $ref: '#/components/schemas/Geslachtsaanduiding'
+        type:
+          type: string
+      discriminator:
+        propertyName: type
+        mapping:
+          Derde: '#/components/schemas/BekendeDerde'
+          OnbekendeDerde: '#/components/schemas/OnbekendeDerde'
+    BekendeDerde:
+      allOf:
+        - $ref: '#/components/schemas/Derde'
+        - type: object
+          properties:
+            burgerservicenummer:
+              $ref: '#/components/schemas/Burgerservicenummer'
+            naam:
+              $ref: '#/components/schemas/NaamBasis'
+            geslacht:
+              $ref: '#/components/schemas/Geslachtsaanduiding'
+    OnbekendeDerde:
+      allOf:
+        - $ref: '#/components/schemas/Derde'
     GezamenlijkGezag:
       allOf:
         - $ref: '#/components/schemas/AbstractGezagsrelatie'
@@ -317,7 +336,7 @@ components:
             ouder:
               $ref: '#/components/schemas/GezagOuder'
             derde:
-              $ref: '#/components/schemas/Meerderjarige'
+              $ref: '#/components/schemas/Derde'
     Voogdij:
       allOf:
         - $ref: '#/components/schemas/AbstractGezagsrelatie'
@@ -326,7 +345,7 @@ components:
             derden:
               type: array
               items:
-                $ref: '#/components/schemas/Meerderjarige'
+                $ref: '#/components/schemas/BekendeDerde'
               minItems: 0
               maxItems: 2
     Toelichting:
@@ -421,6 +440,12 @@ components:
       type: string
       format: date
       example: '1964-09-24'
+    NummeraanduidingIdentificatieFilter:
+      type: string
+      pattern: ^(?!0{16})[0-9]{16}$
+      description: |
+        De unieke identificatie van een nummeraanduiding (en het bijbehorende adres) in de BAG.
+      example: '0518200000366054'
   responses:
     '400':
       description: Bad Request
