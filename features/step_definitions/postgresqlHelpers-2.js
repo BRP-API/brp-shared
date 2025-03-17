@@ -1,4 +1,5 @@
 const { tableNameMap } = require('./brp');
+const { toDateOrString } = require('./brpDatum');
 
 function mustLog(result) {
     return (result.rowCount === null || result.rowCount === 0) && global.scenario.tags.some(t => ['@protocollering'].includes(t));
@@ -44,6 +45,67 @@ async function executeStatements(client, statements) {
     return pkId;
 }
 
+async function truncate(tableName) {
+    if (!global.pool) {
+        global.logger.info('geen pool');
+        return;
+    }
+
+    const client = await global.pool.connect();
+    try {
+        await client.query('BEGIN');
+
+        await executeAndLogTruncateStatement(client, tableName);
+
+        await client.query('COMMIT');
+    }
+    catch (ex) {
+        global.logger.error(ex.message);
+        await client.query('ROLLBACK');
+    }
+    finally {
+        client?.release();
+    }
+}
+
+async function select(tableName, dataTable) {
+    if(!dataTable) {
+        global.logger.info('geen datatabel');
+        return;
+    }
+
+    if (!global.pool) {
+        global.logger.info('geen pool');
+        return;
+    }
+
+    const client = await global.pool.connect();
+    const results = [];
+
+    try {
+        await client.query('BEGIN');
+
+        dataTable.hashes().forEach(async (row) => {
+            let result = await executeAndLogStatement(client, selectStatement(tableName, Object.keys(row), Object.values(row)));
+            results.push( {
+                result: result,
+                row: row
+            });
+        });
+
+        await client.query('COMMIT');
+    }
+    catch (ex) {
+        global.logger.error(ex.message);
+        await client.query('ROLLBACK');
+    }
+    finally {
+        client?.release();
+    }
+
+    return results;
+}
+
 async function execute(sqlStatements) {
     if(!global.pool) {
         global.logger.info('geen pool');
@@ -69,14 +131,36 @@ async function execute(sqlStatements) {
     }
 }
 
-function deleteStatement(tabelNaam, id) {
+function selectStatement(tabelNaam, columns, values) {
+    values = values.map((v) => toDateOrString(v));
+    const whereColumns = columns.map((column, index) => column + `=$${index+1}`);
+
+    return {
+        text: `SELECT ${columns.join()} FROM public.${tabelNaam} WHERE ${whereColumns.join(` AND `)}`,
+        categorie: tabelNaam,
+        values: values
+    };
+}
+
+function deleteStatement(tabelNaam, id = undefined) {
     return {
         text: `DELETE FROM public.${tableNameMap.get(tabelNaam)}`,
         values: []
     }
 }
 
-async function executeAndLogDeleteStatement(client, tabelNaam, id=undefined) {
+function truncateStatement(tabelNaam, id = undefined) {
+    return {
+        text: `DELETE FROM public.${tabelNaam}`,
+        values: []
+    }
+}
+
+async function executeAndLogTruncateStatement(client, tabelNaam, id = undefined) {
+    return await executeAndLogStatement(client, truncateStatement(tabelNaam, id));
+}
+
+async function executeAndLogDeleteStatement(client, tabelNaam, id = undefined) {
     return await executeAndLogStatement(client, deleteStatement(tabelNaam, id));
 }
 
@@ -231,5 +315,7 @@ async function rollback(sqlContext, sqlData) {
 
 module.exports = {
     execute,
-    rollback
+    rollback,
+    truncate,
+    select
 }
