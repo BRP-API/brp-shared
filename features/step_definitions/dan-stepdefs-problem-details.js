@@ -16,6 +16,6 @@ Then(/^heeft de response een foutmelding$/, function (dataTable) {
     createVelden(this.context, dataTable);
 });
 
-Then(/^de volgende invalidParams foutmeldingen$/, function (dataTable) {
+Then(/^parameter foutmeldingen$/, function (dataTable) {
     createCollectieObjecten(this.context, 'invalidParams', dataTable);
 });

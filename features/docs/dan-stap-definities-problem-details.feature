@@ -51,7 +51,7 @@ Functionaliteit: Problem Details dan stap definities
       ]
     }
     """
-    Dan de volgende invalidParams foutmeldingen
+    Dan parameter foutmeldingen
     | code     | name          | reason                  |
     | required | geboortedatum | Parameter is verplicht. |
     | required | geslachtsnaam | Parameter is verplicht. |
@@ -93,7 +93,7 @@ Functionaliteit: Problem Details dan stap definities
     | detail   | De foutieve parameter(s) zijn: type.                        |
     | code     | paramsValidation                                            |
     | instance | /api/brp/personen                                           |
-    En de volgende invalidParams foutmeldingen
+    En parameter foutmeldingen
     | code     | name          | reason                  |
     | required | geboortedatum | Parameter is verplicht. |
     | required | geslachtsnaam | Parameter is verplicht. |

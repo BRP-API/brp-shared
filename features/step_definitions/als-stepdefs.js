@@ -127,7 +127,7 @@ When(/^([a-zA-Z-]*) wordt gezocht met een '(\w*)' aanroep$/, async function (end
     await handleRequest(this.context, relativeUrl, undefined, httpMethod);
 });
 
-When(/^het '([a-zA-Z0-9\.]*)' veld wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
+When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
     initializeAfnemerIdAndGemeenteCode(this.context);
 
     const endpoint = 'personen';
