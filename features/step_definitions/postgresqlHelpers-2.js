@@ -132,8 +132,13 @@ async function execute(sqlStatements) {
 }
 
 function selectStatement(tabelNaam, columns, values) {
-    values = values.map((v) => toDateOrString(v));
-    const whereColumns = columns.map((column, index) => column + `=$${index+1}`);
+    values = values.filter((v) => v.length > 0).map((v) => toDateOrString(v));
+
+    const whereColumns = columns.map((column, index) => {
+        return values[index] === undefined ?
+            column + ` IS NULL` :
+            column + `=$${index + 1}`
+    });
 
     return {
         text: `SELECT ${columns.join()} FROM public.${tabelNaam} WHERE ${whereColumns.join(` AND `)}`,
