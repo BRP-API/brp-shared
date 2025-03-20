@@ -41,15 +41,15 @@ Functionaliteit: Persoon, Inschrijving, Verblijfplaats gegeven stap definities
       |            | verblijfplaats | INSERT INTO public.lo3_pl_verblijfplaats(pl_id,volg_nr,adres_id,adres_functie,adreshouding_start_datum) VALUES($1,$2,$3,$4,$5)                        |       9999,0,4999,W,<datum> |
 
     Voorbeelden:
-      | stap                                                             | datum    | datum type       |
-      | persoon 'P1' is ingeschreven op adres 'A1' op '1 januari 2021'   | 20210101 | datum            |
-      | 'P1' is ingeschreven op adres 'A1' op '1 januari 2021'           | 20210101 | datum            |
-      | persoon 'P1' is ingeschreven op adres 'A1' op 'februari 2022'    | 20220200 | jaar maand datum |
-      | 'P1' is ingeschreven op adres 'A1' op 'februari 2022'            | 20220200 | jaar maand datum |
-      | persoon 'P1' is ingeschreven op adres 'A1' op '2023'             | 20230000 | jaar datum       |
-      | 'P1' is ingeschreven op adres 'A1' op '2023'                     | 20230000 | jaar datum       |
-      | persoon 'P1' is ingeschreven op adres 'A1' op een onbekend datum | 00000000 | onbekend datum   |
-      | 'P1' is ingeschreven op adres 'A1' op een onbekend datum         | 00000000 | onbekend datum   |
+      | stap                                                              | datum    | datum type       |
+      | persoon 'P1' is ingeschreven op adres 'A1' op '1 januari 2021'    | 20210101 | datum            |
+      | 'P1' is ingeschreven op adres 'A1' op '1 januari 2021'            | 20210101 | datum            |
+      | persoon 'P1' is ingeschreven op adres 'A1' op 'februari 2022'     | 20220200 | jaar maand datum |
+      | 'P1' is ingeschreven op adres 'A1' op 'februari 2022'             | 20220200 | jaar maand datum |
+      | persoon 'P1' is ingeschreven op adres 'A1' op '2023'              | 20230000 | jaar datum       |
+      | 'P1' is ingeschreven op adres 'A1' op '2023'                      | 20230000 | jaar datum       |
+      | persoon 'P1' is ingeschreven op adres 'A1' op een onbekende datum | 00000000 | onbekende datum  |
+      | 'P1' is ingeschreven op adres 'A1' op een onbekende datum         | 00000000 | onbekende datum  |
 
   Abstract Scenario: personen '[persoon aanduidingen]' zijn ingeschreven op adres '[adres aanduiding]' op [<datum type>]
     Gegeven adres 'A1'
@@ -80,7 +80,7 @@ Functionaliteit: Persoon, Inschrijving, Verblijfplaats gegeven stap definities
       | 'P1, P2' zijn ingeschreven op adres 'A1' op 'februari 2022'          | 20220200 | jaar maand datum |
       | personen 'P1 en P2' zijn ingeschreven op adres 'A1' op '2023'        | 20230000 | jaar datum       |
       | 'P1 en P2' zijn ingeschreven op adres 'A1' op '2023'                 | 20230000 | jaar datum       |
-      | 'P1 en P2' zijn ingeschreven op adres 'A1' op een onbekend datum     | 00000000 | jaar datum       |
+      | 'P1 en P2' zijn ingeschreven op adres 'A1' op een onbekende datum    | 00000000 | onbekende datum  |
 
   Abstract Scenario: persoon '[persoon aanduiding]' is [gisteren, vandaag of morgen] [aantal] jaar geleden ingeschreven op adres '[adres aanduiding]'
     Gegeven adres 'A1'
@@ -132,7 +132,7 @@ Functionaliteit: Persoon, Inschrijving, Verblijfplaats gegeven stap definities
       | 'P1, P2' zijn 2 jaar geleden ingeschreven op adres 'A1'                    | vandaag - 2 jaar  |
       | personen 'P1 en P2' zijn vandaag 2 jaar geleden ingeschreven op adres 'A1' | vandaag - 2 jaar  |
       | 'P1, P2' zijn gisteren 1 jaar geleden ingeschreven op adres 'A1'           | gisteren - 1 jaar |
-      | 'P1 en P2' is morgen 3 jaar geleden ingeschreven op adres 'A1'             | morgen - 3 jaar   |
+      | 'P1 en P2' zijn morgen 3 jaar geleden ingeschreven op adres 'A1'           | morgen - 3 jaar   |
 
   Abstract Scenario: heeft de volgende personen zonder burgerservicenummer als ouder
     Gegeven persoon 'P1'
