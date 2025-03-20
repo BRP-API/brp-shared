@@ -2,6 +2,10 @@ const { createGegevensgroepAutorisatie } = require('./autorisatie');
 const { toDateOrString } = require('./brpDatum');
 const axios = require('axios');
 
+function isStapDocumentatieScenario(context) {
+    return context.tags.includes('@stap-documentatie');
+}
+
 function createHeaders(dataTable, extraHeaders) {
     let headers = {};
 
@@ -169,7 +173,7 @@ async function sendRequest(config) {
     }
 }
 
-async function sendBevragenRequest(baseUrl, url, extraHeaders, dataTable, httpMethod) {
+async function sendBevragenRequest(context, baseUrl, url, extraHeaders, dataTable, httpMethod) {
     const config = {
         method: httpMethod,
         url: url ? `/${url}` : '',
@@ -178,7 +182,12 @@ async function sendBevragenRequest(baseUrl, url, extraHeaders, dataTable, httpMe
         headers: createHeaders(dataTable, extraHeaders)
     };
 
-    global.logger.debug(config);
+    global.logger.info('request headers', config.headers);
+    global.logger.info('request body', config.data);
+
+    if(isStapDocumentatieScenario(context)) {
+        return;
+    }
 
     return await sendRequest(config);
 }
@@ -188,14 +197,21 @@ async function handleRequest(context, endpoint, dataTable, httpMethod='post') {
     const gemeenteCode = context.gemeenteCode;
     const url = context.baseUrl;
 
-    const authzHeader = context.oAuth.enable
-        ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
-        : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
+    const authzHeader = isStapDocumentatieScenario(context)
+        ? [
+            {
+                naam: 'stap-documentatie-scenario',
+                waarde: 'true'
+            }
+        ]
+        : context.oAuth.enable
+            ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
+            : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
     if(authzHeader === undefined) {
         return;
     }
 
-    context.response = await sendBevragenRequest(url, endpoint, authzHeader, dataTable, httpMethod);
+    context.response = await sendBevragenRequest(context, url, endpoint, authzHeader, dataTable, httpMethod);
 }
 
 module.exports = {

@@ -3,55 +3,269 @@ const fs = require('fs');
 const { executeSqlStatements } = require('./postgresqlHelpers');
 const { execute } = require('./postgresqlHelpers-2');
 const { generateSqlStatementsFrom } = require('./sqlStatementsFactory');
+const { objectToDataTable, mapDataTableToEntiteit } = require('./dataTableFactory');
+
+function isStapDocumentatieScenario(context) {
+    return context.tags.includes('@stap-documentatie');
+}
+
+function getPersoon(context, aanduiding) {
+    return !aanduiding
+        ? context.data.personen.at(-1)
+        : context.data.personen.find(p => p.id === `persoon-${aanduiding}`);
+}
+
+function getPersoonBsn(context, aanduiding) {
+    return getPersoon(context, aanduiding).persoon.at(-1).burger_service_nr;
+}
 
 const { addDefaultAutorisatieSettings,
         handleRequest } = require('./requestHelpers');
 
-When(/^([a-zA-Z-]*) wordt gezocht met de volgende parameters$/, async function (endpoint, dataTable) {
-    if(this.context.afnemerID === undefined) {
-        this.context.afnemerID = this.context.oAuth.clients[0].afnemerID;
-        this.context.gemeenteCode = this.context.oAuth.clients[0].gemeenteCode;
+function initializeAfnemerIdAndGemeenteCode(context) {
+    if(context.afnemerID === undefined) {
+        context.afnemerID = context.oAuth.clients[0].afnemerID;
+        context.gemeenteCode = context.oAuth.clients[0].gemeenteCode;
+    }
+}
+
+function mapEndpointToRelativeUrl(context, endpoint) {
+    return context.apiEndpointPrefixMap.has(endpoint)
+        ? `${context.apiEndpointPrefixMap.get(endpoint)}/${endpoint}`
+        : '';
+}
+
+async function execSqlStatements(context) {
+    if(context.sqlData === undefined) {
+        context.sqlData = [{}];
     }
 
-    if(this.context.gezag !== undefined) {
+    if(context.data) {
+        const sqlStatements = generateSqlStatementsFrom(context.data);
+        global.logger.info('uit te voeren sql statements', sqlStatements);
+
+        if(!isStapDocumentatieScenario(context)) {
+            await execute(sqlStatements);
+        }
+    }
+    else {
+        if(!isStapDocumentatieScenario(context)) {
+            await executeSqlStatements(context.sql, context.sqlData, global.pool);
+        }
+    }
+}
+
+function createDataTableForRaadpleegMetBurgerservicenummer(burgerservicenummer, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'RaadpleegMetBurgerservicenummer',
+        fields: fields
+    };
+
+    if(burgerservicenummer) {
+        requestBody.burgerservicenummer = burgerservicenummer;
+    }
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetAdresseerbaarObjectIdentificatie(adresseerbaarObjectIdentificatie, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetAdresseerbaarObjectIdentificatie',
+        fields: fields
+    };
+
+    requestBody.adresseerbaarObjectIdentificatie = !adresseerbaarObjectIdentificatie
+        ? '0000000000000001'
+        : adresseerbaarObjectIdentificatie;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetGeslachtsnaamEnGeboortedatum',
+        fields: fields
+    };
+
+    requestBody.geslachtsnaam = !geslachtsnaam
+        ? 'doe'
+        : geslachtsnaam;
+    requestBody.geboortedatum = !geboortedatum
+        ? '2000-01-01'
+        : geboortedatum;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(geslachtsnaam, voornamen, gemeenteVanInschrijving, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetNaamEnGemeenteVanInschrijving',
+        fields: fields
+    };
+
+    requestBody.geslachtsnaam = !geslachtsnaam
+        ? 'doe'
+        : geslachtsnaam;
+    requestBody.voornamen = !voornamen
+        ? 'john'
+        : voornamen;
+    requestBody.gemeenteVanInschrijving = !gemeenteVanInschrijving
+        ? '0000'
+        : gemeenteVanInschrijving;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetNummeraanduidingIdentificatie(nummeraanduidingIdentificatie, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetNummeraanduidingIdentificatie',
+        fields: fields
+    };
+
+    requestBody.nummeraanduidingIdentificatie = !nummeraanduidingIdentificatie
+        ? '0000000000000001'
+        : nummeraanduidingIdentificatie;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetPostcodeEnHuisnummer(postcode, huisnummer, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetPostcodeEnHuisnummer',
+        fields: fields
+    };
+
+    requestBody.postcode = !postcode
+        ? '1000 AA'
+        : postcode;
+    requestBody.huisnummer = !huisnummer
+        ? '1'
+        : huisnummer;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForZoekMetStraatnaamHuisnummerEnGemeenteVanInschrijving(straat, huisnummer, gemeenteVanInschrijving, fields, parametersDataTable) {
+    let requestBody = {
+        type: 'ZoekMetStraatHuisnummerEnGemeenteVanInschrijving',
+        fields: fields
+    };
+
+    requestBody.straat = !straat
+        ? 'straat'
+        : straat;
+    requestBody.huisnummer = !huisnummer
+        ? '1'
+        : huisnummer;
+    requestBody.gemeenteVanInschrijving = !gemeenteVanInschrijving
+        ? '0000'
+        : gemeenteVanInschrijving;
+
+    mapDataTableToEntiteit(requestBody, parametersDataTable);
+
+    return objectToDataTable(requestBody);
+}
+
+function createDataTableForRequest(parameterNames, fields) {
+    let requestBody;
+    switch(parameterNames) {
+        case 'burgerservicenummer':
+            return createDataTableForRaadpleegMetBurgerservicenummer('000000001', fields, undefined);
+        case 'adresseerbaar object identificatie':
+            return createDataTableForZoekMetAdresseerbaarObjectIdentificatie(undefined, fields, undefined);
+        case 'geslachtsnaam en geboortedatum':
+            return createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(undefined, undefined, fields, undefined);
+        case 'geslachtsnaam, voornamen en gemeente van inschrijving':
+            return createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(undefined, undefined, undefined, fields, undefined);
+        case 'nummeraanduiding identificatie':
+            return createDataTableForZoekMetNummeraanduidingIdentificatie(undefined, fields, undefined);
+        case 'postcode en huisnummer':
+            return createDataTableForZoekMetPostcodeEnHuisnummer(undefined, undefined, fields, undefined);
+        case 'straatnaam, huisnummer en gemeente van inschrijving':
+            return createDataTableForZoekMetStraatnaamHuisnummerEnGemeenteVanInschrijving(undefined, undefined, undefined, fields, undefined);
+        default:
+            return undefined;
+    }
+}
+        
+async function handleRequestWithParameters(context, endpoint, parametersDataTable) {
+    initializeAfnemerIdAndGemeenteCode(context);
+
+    if(context.gezag !== undefined) {
         fs.writeFileSync(this.context.gezagDataPath, JSON.stringify(this.context.gezag, null, '\t'));
     }
-    if(this.context.downstreamApiResponseHeaders !== undefined) {
+    if(context.downstreamApiResponseHeaders !== undefined) {
         fs.writeFileSync(this.context.downstreamApiDataPath + '/response-headers.json',
                          JSON.stringify(this.context.downstreamApiResponseHeaders[0], null, '\t'));
     }
-    if(this.context.downstreamApiResponseBody !== undefined) {
+    if(context.downstreamApiResponseBody !== undefined) {
         fs.writeFileSync(this.context.downstreamApiDataPath + '/response-body.json',
                          this.context.downstreamApiResponseBody);
     }
 
-    if(this.context.sqlData === undefined) {
-        this.context.sqlData = [{}];
-    }
-    addDefaultAutorisatieSettings(this.context, this.context.afnemerID);
+    addDefaultAutorisatieSettings(context, context.afnemerID);
 
-    if(this.context.data) {
-        await execute(generateSqlStatementsFrom(this.context.data));
-    }
-    else {
-        await executeSqlStatements(this.context.sql, this.context.sqlData, global.pool);
-    }
+    await execSqlStatements(context);
 
-    const relativeUrl = this.context.apiEndpointPrefixMap.has(endpoint)
-        ? `${this.context.apiEndpointPrefixMap.get(endpoint)}/${endpoint}`
-        : '';
+    await handleRequest(context,
+                        mapEndpointToRelativeUrl(context, endpoint),
+                        parametersDataTable);
+}
 
-    await handleRequest(this.context, relativeUrl, dataTable);
+When(/^([a-zA-Z-]*) wordt gezocht met de volgende parameters$/, async function (endpoint, dataTable) {
+    global.logger.info(`als ${endpoint} wordt gezocht met de volgende parameters`);
+
+    await handleRequestWithParameters(this.context, endpoint, dataTable);
 });
 
 When(/^([a-zA-Z-]*) wordt gezocht met een '(\w*)' aanroep$/, async function (endpoint, httpMethod) {
-    if(this.context.afnemerID === undefined) {
-        this.context.afnemerID = this.context.oAuth.clients[0].afnemerID;
-    }
+    initializeAfnemerIdAndGemeenteCode(this.context);
 
-    const relativeUrl = this.context.apiEndpointPrefixMap.has(endpoint)
-        ? `${this.context.apiEndpointPrefixMap.get(endpoint)}/${endpoint}`
-        : '';
+    const relativeUrl = mapEndpointToRelativeUrl(this.context, endpoint);
 
     await handleRequest(this.context, relativeUrl, undefined, httpMethod);
+});
+
+When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
+    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met ${parameterNames}'`);
+
+    await handleRequestWithParameters(this.context,
+                                      'personen',
+                                      createDataTableForRequest(parameterNames, fields));
+});
+
+When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)'$/, async function (fields, burgerserservicenummers) {
+    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}'`);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, undefined));
+});
+
+When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)' en parameters$/, async function (fields, burgerserservicenummers, dataTable) {
+    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}' en parameters`);
+
+    await handleRequestWithParameters(this.context,
+                                      'personen',
+                                      createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, dataTable));
+});
+
+When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd (?:van personen gezocht met burgerservicenummer )?van '([a-zA-Z0-9]*)'$/, async function (fields, persoonAanduiding) {
+    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer van '${persoonAanduiding}'`);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForRaadpleegMetBurgerservicenummer(getPersoonBsn(this.context, persoonAanduiding), fields, undefined));
 });

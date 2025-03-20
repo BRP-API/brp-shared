@@ -51,6 +51,8 @@ Before(function({ pickle }) {
     }
 
     this.context.baseUrl = this.context.apiUrl;
+
+    this.context.tags = pickle.tags.map((t) => t.name);
 });
 
 After(async function({ pickle }) {
