@@ -34,10 +34,12 @@ function toExamplesTable(examples) {
 
 function toScenarioSection(element, tags) {
   let markdown = '';
-  let elementTags = element.tags.map(tag => tag.name);
-  const matchingTags = elementTags.filter(tag => tags.includes(tag));
-  if (matchingTags.length === 0) {
-    return '';
+  if (tags.length > 0) {
+    let elementTags = element.tags.map(tag => tag.name);
+    const matchingTags = elementTags.filter(tag => tags.includes(tag));
+    if (matchingTags.length === 0) {
+      return '';
+    }
   }
   markdown += `### ${element.keyword}: ${element.name}\n\n`;
   element.steps.forEach(step => {
@@ -54,42 +56,46 @@ function toScenarioSection(element, tags) {
 
 function toAbstractScenarioSection(element, tags) {
   let markdown = '';
-  let elementTags = element.tags.map(tag => tag.name);
-  const matchingTags = elementTags.filter(tag => tags.includes(tag));
-  if (matchingTags.length === 0) {
-    return '';
+
+  if (tags.length > 0) {
+    let elementTags = element.tags.map(tag => tag.name);
+    const matchingTags = elementTags.filter(tag => tags.includes(tag));
+    if (matchingTags.length === 0) {
+      return '';
+    }
   }
+
   const escapedName = element.name.replace(/</g, lt).replace(/>/g, gt);
-      markdown += `### ${element.keyword}: ${escapedName}\n\n`;
-      element.steps.forEach(step => {
-        markdown += `- ${step.keyword.replace(/\*/g, "-")} ${step.text.replace(/</g, lt).replace(/>/g, gt)}\n`.replace("- -", "  -");
-        if (step.dataTable) {
-          markdown += '\n';
-          markdown += toTable(step.dataTable);
-          markdown += '\n';
-        }
-      });
-
-      if (element.examples) {
-        markdown += '\n';
-        markdown += toExamplesTable(element.examples);
-        markdown += '\n';
-      }
-
+  markdown += `### ${element.keyword}: ${escapedName}\n\n`;
+  element.steps.forEach(step => {
+    markdown += `- ${step.keyword.replace(/\*/g, "-")} ${step.text.replace(/</g, lt).replace(/>/g, gt)}\n`.replace("- -", "  -");
+    if (step.dataTable) {
       markdown += '\n';
+      markdown += toTable(step.dataTable);
+      markdown += '\n';
+    }
+  });
+
+  if (element.examples) {
+    markdown += '\n';
+    markdown += toExamplesTable(element.examples);
+    markdown += '\n';
+  }
+
+  markdown += '\n';
   return markdown;
 }
 
 function toRuleSection(element, tags) {
   let markdown = '';
-  let elementTags = element.tags.map(tag => tag.name);
-  const matchingTags = elementTags.filter(tag => tags.includes(tag));
-  if (matchingTags.length === 0) {
-    return '';
+  if (tags.length > 0) {
+    let elementTags = element.tags.map(tag => tag.name);
+    const matchingTags = elementTags.filter(tag => tags.includes(tag));
+    if (matchingTags.length === 0) {
+      return '';
+    }
   }
-
   markdown += `## ${element.keyword}: ${element.name}\n\n`;
-
   if (element.elements && Array.isArray(element.elements)) {
     element.elements.forEach(ruleElement => {
 
@@ -112,7 +118,7 @@ function astToMarkdown(gherkinAST, tags) {
   let markdown = '';
 
   const feature = gherkinAST.feature;
-  markdown += `---\nlayout: page-with-side-nav\ntitle: ${feature.name}\n---\n\n`;
+  // markdown += `---\nlayout: page-with-side-nav\ntitle: ${feature.name}\n---\n\n`;
   markdown += `# ${feature.keyword}: ${feature.name}\n\n`;
 
   if (feature.description) {
