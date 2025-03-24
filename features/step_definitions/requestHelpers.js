@@ -145,6 +145,12 @@ function createBasicAuthorizationHeader(afnemerId, gemeenteCode) {
     ]
 }
 
+async function createAuthorizationHeader(context, afnemerId, gemeenteCode) {
+    context.oAuth.enable
+    ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
+    : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
+}
+
 function addDefaultAutorisatieSettings(context, afnemerID) {
     let sqlData = context.sqlData;
     if(sqlData === undefined) {
@@ -200,9 +206,8 @@ async function handleRequest(context, endpoint, dataTable, httpMethod='post') {
                 waarde: 'true'
             }
         ]
-        : context.oAuth.enable
-            ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
-            : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
+        : await createAuthorizationHeader(context, afnemerId, gemeenteCode);
+
     if(extraHeaders === undefined) {
         return;
     }
