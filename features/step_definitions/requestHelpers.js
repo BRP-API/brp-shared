@@ -146,9 +146,9 @@ function createBasicAuthorizationHeader(afnemerId, gemeenteCode) {
 }
 
 async function createAuthorizationHeader(context, afnemerId, gemeenteCode) {
-    context.oAuth.enable
-    ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
-    : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
+    return context.oAuth.enable
+        ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
+        : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
 }
 
 function addDefaultAutorisatieSettings(context, afnemerID) {
