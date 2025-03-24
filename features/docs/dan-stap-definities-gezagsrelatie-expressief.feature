@@ -360,7 +360,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         """
       Dan is het gezag over 'Bert' voogdij met derde 'Aart'
 
-  Regel: Dan is er tijdelijk geen gezag over '{aanduiding minderjarige}' met de toelichting '{toelichting}'
+  Regel: Dan is het gezag over '{aanduiding minderjarige}' tijdelijk geen gezag met de toelichting '{toelichting}'
 
     Scenario: tijdelijk geen gezag wordt verwacht
       Gegeven de response body is gelijk aan
@@ -384,7 +384,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
           ]
         }
         """
-      Dan is er tijdelijk geen gezag over 'Bert' met de toelichting 'dit is de reden dat er tijdelijk geen gezag is.'
+      Dan is het gezag over 'Bert' tijdelijk geen gezag met de toelichting 'dit is de reden dat er tijdelijk geen gezag is.'
 
   Regel: Dan is het gezag over '{aanduiding minderjarige}' niet te bepalen met de toelichting '{toelichting}'
 

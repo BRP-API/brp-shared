@@ -131,7 +131,7 @@ function createPersoonMetGezag(context, type, aanduidingMinderjarige, aanduiding
             gezag.type = 'TijdelijkGeenGezag';
             gezag.toelichting = toelichting;
             break;
-        case 'gezag niet te bepalen':
+        case 'niet te bepalen':
             gezag.type = 'GezagNietTeBepalen';
             gezag.toelichting = toelichting;
             break;
@@ -178,25 +178,13 @@ Then(/^is het gezag over '(\w*)' voogdij(?: met derde '(\w*)')?$/, function (aan
     this.context.expected = expected;
 });
 
-Then(/^is er tijdelijk geen gezag over '(\w*)' met de toelichting '([\w. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
+Then(/^is het gezag over '(\w*)' (niet te bepalen|tijdelijk geen gezag) met de toelichting '([\w. ]*)'$/, function (aanduidingMinderjarige, type, toelichting) {
     this.context.verifyResponse = true;
 
-    global.logger.info(`Dan is er tijdelijk geen gezag over '${aanduidingMinderjarige}' met de toelichting '${toelichting}'`);
+    global.logger.info(`Dan is het gezag over '${aanduidingMinderjarige}' ${type} met de toelichting '${toelichting}'`);
 
     const expected = {
-        personen: [ createPersoonMetGezag(this.context, 'tijdelijk geen gezag', aanduidingMinderjarige, undefined, undefined, toelichting) ]
-    };
-
-    this.context.expected = expected;
-});
-
-Then(/^is het gezag over '(\w*)' niet te bepalen met de toelichting '([\w. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
-    this.context.verifyResponse = true;
-
-    global.logger.info(`Dan is het gezag over '${aanduidingMinderjarige}' niet te bepalen met de toelichting '${toelichting}'`);
-
-    const expected = {
-        personen: [ createPersoonMetGezag(this.context, 'gezag niet te bepalen', aanduidingMinderjarige, undefined, undefined, toelichting) ]
+        personen: [ createPersoonMetGezag(this.context, type, aanduidingMinderjarige, undefined, undefined, toelichting) ]
     };
 
     this.context.expected = expected;
