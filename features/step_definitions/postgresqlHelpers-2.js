@@ -108,8 +108,8 @@ async function select(tableName, dataTable) {
 
 async function selectFirstOrDefault(tabelNaam, columnNames, whereColumnName, whereValue, defaultValue = '') {
     let statement = {
-        text: `SELECT ${columnNames.join(', ')} FROM public.${tabelNaam} WHERE ${whereColumnName} = '${whereValue}'`,
-        values: []
+        text: `SELECT ${columnNames.join(', ')} FROM public.${tabelNaam} WHERE ${whereColumnName} = $1`,
+        values: [whereValue]
     };
 
     const client = await global.pool.connect();
