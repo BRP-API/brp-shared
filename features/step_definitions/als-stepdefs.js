@@ -175,7 +175,6 @@ function createDataTableForZoekMetStraatnaamHuisnummerEnGemeenteVanInschrijving(
 }
 
 function createDataTableForRequest(parameterNames, fields) {
-    let requestBody;
     switch(parameterNames) {
         case 'burgerservicenummer':
             return createDataTableForRaadpleegMetBurgerservicenummer('000000001', fields, undefined);
@@ -234,7 +233,7 @@ When(/^([a-zA-Z-]*) wordt gezocht met een '(\w*)' aanroep$/, async function (end
     await handleRequest(this.context, relativeUrl, undefined, httpMethod);
 });
 
-When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
+When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
     global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met ${parameterNames}'`);
 
     await handleRequestWithParameters(this.context,
@@ -242,7 +241,7 @@ When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$
                                       createDataTableForRequest(parameterNames, fields));
 });
 
-When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)'$/, async function (fields, burgerserservicenummers) {
+When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)'$/, async function (fields, burgerserservicenummers) {
     global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}'`);
 
     await handleRequestWithParameters(this.context,
@@ -250,7 +249,7 @@ When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicen
         createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, undefined));
 });
 
-When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)' en parameters$/, async function (fields, burgerserservicenummers, dataTable) {
+When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)' en parameters$/, async function (fields, burgerserservicenummers, dataTable) {
     global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}' en parameters`);
 
     await handleRequestWithParameters(this.context,
@@ -258,7 +257,7 @@ When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd van personen gezocht met burgerservicen
                                       createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, dataTable));
 });
 
-When(/^'([a-zA-Z0-9\.]*)' wordt gevraagd (?:van personen gezocht met burgerservicenummer )?van '([a-zA-Z0-9]*)'$/, async function (fields, persoonAanduiding) {
+When(/^'([a-zA-Z0-9.]*)' wordt gevraagd (?:van personen gezocht met burgerservicenummer )?van '([a-zA-Z0-9]*)'$/, async function (fields, persoonAanduiding) {
     global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer van '${persoonAanduiding}'`);
 
     await handleRequestWithParameters(this.context,

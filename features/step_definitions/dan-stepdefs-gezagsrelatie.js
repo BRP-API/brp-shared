@@ -137,7 +137,7 @@ function createPersoonMetGezag(context, type, aanduidingMinderjarige, aanduiding
             break;
     }
 
-    return persoon = {
+    return {
         gezag: [gezag]
     };
 }
@@ -178,7 +178,7 @@ Then(/^is het gezag over '(\w*)' voogdij(?: met derde '(\w*)')?$/, function (aan
     this.context.expected = expected;
 });
 
-Then(/^is er tijdelijk geen gezag over '(\w*)' met de toelichting '([\w\. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
+Then(/^is er tijdelijk geen gezag over '(\w*)' met de toelichting '([\w. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
     this.context.verifyResponse = true;
 
     global.logger.info(`Dan is er tijdelijk geen gezag over '${aanduidingMinderjarige}' met de toelichting '${toelichting}'`);
@@ -190,7 +190,7 @@ Then(/^is er tijdelijk geen gezag over '(\w*)' met de toelichting '([\w\. ]*)'$/
     this.context.expected = expected;
 });
 
-Then(/^is het gezag over '(\w*)' niet te bepalen met de toelichting '([\w\. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
+Then(/^is het gezag over '(\w*)' niet te bepalen met de toelichting '([\w. ]*)'$/, function (aanduidingMinderjarige, toelichting) {
     this.context.verifyResponse = true;
 
     global.logger.info(`Dan is het gezag over '${aanduidingMinderjarige}' niet te bepalen met de toelichting '${toelichting}'`);
