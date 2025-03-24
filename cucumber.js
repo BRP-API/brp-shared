@@ -11,7 +11,8 @@ module.exports = {
     worldParameters: {
       logger: {
         level: 'info'
-      }
+      },
+      addAcceptGezagVersionHeader: true
     }
   }
 }

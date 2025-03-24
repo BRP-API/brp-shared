@@ -52,7 +52,10 @@ Before(function({ pickle }) {
 
     this.context.baseUrl = this.context.apiUrl;
 
-    this.context.tags = pickle.tags.map((t) => t.name);
+    const tags = pickle.tags.map((t) => t.name);
+    this.context.isStapDocumentatieScenario = tags.includes('@stap-documentatie');
+    this.context.isDeprecatedScenario = tags.includes('@deprecated');
+    this.context.isDataApiScenario = tags.includes('@data-api');
 });
 
 After(async function({ pickle }) {

@@ -12,10 +12,19 @@ function getPersoon(context, aanduiding) {
         : context.data.personen.find(p => p.id === `persoon-${aanduiding}`);
 }
 
-function getPersoonBsn(context, aanduiding) {
-    return getPersoon(context, aanduiding).persoon.at(-1).burger_service_nr;
+
+function getBsn(persoon) {
+    return persoon.persoon.at(-1).burger_service_nr;
 }
-        
+
+function getGeslachtsnaam(persoon) {
+    return persoon.persoon.at(-1).geslachts_naam;
+}
+
+function getVoornamen(persoon) {
+    return persoon.persoon.at(-1).voor_naam;
+}
+
 Then(/^heeft de response een persoon met een 'gezag' met ?(?:alleen)? de volgende gegevens$/, function (dataTable) {
     this.context.verifyResponse = true;
 
@@ -44,41 +53,71 @@ Then(/^heeft ?(?:het)? 'gezag' geen derden$/, function () {
     createSubSubCollectieObjectenInLastSubCollectieObjectInLastCollectieObject(this.context, 'persoon', 'gezag', 'derde');
 });
 
-function createDerde(context, aanduiding) {
-    return !aanduiding
-        ? { type: 'OnbekendeDerde' }
-        : { type: 'BekendeDerde', burgerservicenummer: getPersoonBsn(context, aanduiding) };
+function setProperty(obj, key, value) {
+    if(value) {
+        if(!obj) {
+            obj = {};
+        }
+        obj[key] = value;
+    }
 }
+
+function createGezagspersoon(context, aanduiding) {
+    const persoon = getPersoon(context, aanduiding);
+
+    let retval = {};
+
+    setProperty(retval, 'burgerservicenummer', getBsn(persoon));
+
+    if(!context.isDeprecatedScenario) {
+        retval.naam = {};
+
+        if(!context.isDataApiScenario) {
+            setProperty(retval.naam, 'volledigeNaam', getGeslachtsnaam(persoon));
+        }
+        else {
+            setProperty(retval.naam, 'voornamen', getVoornamen(persoon));
+            setProperty(retval.naam, 'geslachtsnaam', getGeslachtsnaam(persoon));
+        }
+    }
+
+    return retval;
+}
+
+function createDerde(context, aanduiding) {
+    if(!aanduiding) {
+        return { type: 'OnbekendeDerde' };
+    }
+
+    let retval = createGezagspersoon(context, aanduiding);
+    retval.type = 'BekendeDerde';
+
+    return retval;
+}
+
 function createPersoonMetGezag(context, type, aanduidingMinderjarige, aanduidingMeerderjarige1, aanduidingMeerderjarige2, toelichting = undefined) {
     let gezag = {
         type: type,
-        minderjarige: {
-            burgerservicenummer: getPersoonBsn(context, aanduidingMinderjarige)
-        }
+        minderjarige: createGezagspersoon(context, aanduidingMinderjarige)
     };
+
     switch(type) {
         case 'gezamenlijk ouderlijk gezag':
-            gezag.type = 'GezamenlijkOuderlijkGezag';
-            gezag.ouders =[
-                {
-                    burgerservicenummer: getPersoonBsn(context, aanduidingMeerderjarige1)
-                },
-                {
-                    burgerservicenummer: getPersoonBsn(context, aanduidingMeerderjarige2)
-                }
+            gezag.type = !context.isDeprecatedScenario
+                ? 'GezamenlijkOuderlijkGezag'
+                : 'TweehoofdigOuderlijkGezag';
+            gezag.ouders = [
+                createGezagspersoon(context, aanduidingMeerderjarige1),
+                createGezagspersoon(context, aanduidingMeerderjarige2)
             ];
             break;
         case 'eenhoofdig ouderlijk gezag':
             gezag.type = 'EenhoofdigOuderlijkGezag';
-            gezag.ouder = {
-                burgerservicenummer: getPersoonBsn(context, aanduidingMeerderjarige1)
-            };
+            gezag.ouder = createGezagspersoon(context, aanduidingMeerderjarige1);
             break;
         case 'gezamenlijk gezag':
             gezag.type = 'GezamenlijkGezag';
-            gezag.ouder = {
-                burgerservicenummer: getPersoonBsn(context, aanduidingMeerderjarige1)
-            },
+            gezag.ouder = createGezagspersoon(context, aanduidingMeerderjarige1);
             gezag.derde = createDerde(context, aanduidingMeerderjarige2);
             break;
         case 'voogdij':
@@ -118,13 +157,13 @@ Then(/^is het gezag over '(\w*)' (eenhoofdig ouderlijk gezag|gezamenlijk gezag) 
 Then(/^is het gezag over '(\w*)' (gezamenlijk gezag|gezamenlijk ouderlijk gezag) met ouder '(\w*)' en (?:ouder|derde) '(\w*)'$/, function (aanduidingMinderjarige, type, aanduidingMeerderjarige1, aanduidingMeerderjarige2) {
     this.context.verifyResponse = true;
 
-    global.logger.info(`Dan is het gezag over '${aanduidingMinderjarige}' ${type} met ouder '${aanduidingMeerderjarige1}' en derde '${aanduidingMeerderjarige2}'`);
-
     const expected = {
         personen: [ createPersoonMetGezag(this.context, type, aanduidingMinderjarige, aanduidingMeerderjarige1, aanduidingMeerderjarige2) ]
     };
 
     this.context.expected = expected;
+
+    global.logger.info(`Dan is het gezag over '${aanduidingMinderjarige}' ${type} met ouder '${aanduidingMeerderjarige1}' en derde '${aanduidingMeerderjarige2}'`, this.context.expected);
 });
        
 Then(/^is het gezag over '(\w*)' voogdij(?: met derde '(\w*)')?$/, function (aanduidingMinderjarige, aanduidingMeerderjarige) {

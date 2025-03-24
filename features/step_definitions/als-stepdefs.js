@@ -5,10 +5,6 @@ const { execute } = require('./postgresqlHelpers-2');
 const { generateSqlStatementsFrom } = require('./sqlStatementsFactory');
 const { objectToDataTable, mapDataTableToEntiteit } = require('./dataTableFactory');
 
-function isStapDocumentatieScenario(context) {
-    return context.tags.includes('@stap-documentatie');
-}
-
 function getPersoon(context, aanduiding) {
     return !aanduiding
         ? context.data.personen.at(-1)
@@ -44,12 +40,12 @@ async function execSqlStatements(context) {
         const sqlStatements = generateSqlStatementsFrom(context.data);
         global.logger.info('uit te voeren sql statements', sqlStatements);
 
-        if(!isStapDocumentatieScenario(context)) {
+        if(!context.isStapDocumentatieScenario) {
             await execute(sqlStatements);
         }
     }
     else {
-        if(!isStapDocumentatieScenario(context)) {
+        if(!context.isStapDocumentatieScenario) {
             await executeSqlStatements(context.sql, context.sqlData, global.pool);
         }
     }
@@ -204,15 +200,15 @@ async function handleRequestWithParameters(context, endpoint, parametersDataTabl
     initializeAfnemerIdAndGemeenteCode(context);
 
     if(context.gezag !== undefined) {
-        fs.writeFileSync(this.context.gezagDataPath, JSON.stringify(this.context.gezag, null, '\t'));
+        fs.writeFileSync(context.gezagDataPath, JSON.stringify(context.gezag, null, '\t'));
     }
     if(context.downstreamApiResponseHeaders !== undefined) {
-        fs.writeFileSync(this.context.downstreamApiDataPath + '/response-headers.json',
-                         JSON.stringify(this.context.downstreamApiResponseHeaders[0], null, '\t'));
+        fs.writeFileSync(context.downstreamApiDataPath + '/response-headers.json',
+                         JSON.stringify(context.downstreamApiResponseHeaders[0], null, '\t'));
     }
     if(context.downstreamApiResponseBody !== undefined) {
-        fs.writeFileSync(this.context.downstreamApiDataPath + '/response-body.json',
-                         this.context.downstreamApiResponseBody);
+        fs.writeFileSync(context.downstreamApiDataPath + '/response-body.json',
+                         context.downstreamApiResponseBody);
     }
 
     addDefaultAutorisatieSettings(context, context.afnemerID);

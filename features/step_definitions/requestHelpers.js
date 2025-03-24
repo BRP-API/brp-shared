@@ -2,10 +2,6 @@ const { createGegevensgroepAutorisatie } = require('./autorisatie');
 const { toDateOrString } = require('./brpDatum');
 const axios = require('axios');
 
-function isStapDocumentatieScenario(context) {
-    return context.tags.includes('@stap-documentatie');
-}
-
 function createHeaders(dataTable, extraHeaders) {
     let headers = {};
 
@@ -185,7 +181,7 @@ async function sendBevragenRequest(context, baseUrl, url, extraHeaders, dataTabl
     global.logger.info('request headers', config.headers);
     global.logger.info('request body', config.data);
 
-    if(isStapDocumentatieScenario(context)) {
+    if(context.isStapDocumentatieScenario) {
         return;
     }
 
@@ -197,7 +193,7 @@ async function handleRequest(context, endpoint, dataTable, httpMethod='post') {
     const gemeenteCode = context.gemeenteCode;
     const url = context.baseUrl;
 
-    const authzHeader = isStapDocumentatieScenario(context)
+    const extraHeaders = context.isStapDocumentatieScenario
         ? [
             {
                 naam: 'stap-documentatie-scenario',
@@ -207,11 +203,17 @@ async function handleRequest(context, endpoint, dataTable, httpMethod='post') {
         : context.oAuth.enable
             ? await createBearerAuthorizationHeader(afnemerId, gemeenteCode, context.oAuth)
             : createBasicAuthorizationHeader(afnemerId, gemeenteCode);
-    if(authzHeader === undefined) {
+    if(extraHeaders === undefined) {
         return;
     }
+    if(context.addAcceptGezagVersionHeader) {
+        extraHeaders.push({
+            naam: 'accept-gezag-version',
+            waarde: '2'
+        });
+    }
 
-    context.response = await sendBevragenRequest(context, url, endpoint, authzHeader, dataTable, httpMethod);
+    context.response = await sendBevragenRequest(context, url, endpoint, extraHeaders, dataTable, httpMethod);
 }
 
 module.exports = {
