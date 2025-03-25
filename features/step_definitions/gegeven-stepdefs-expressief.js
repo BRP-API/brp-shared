@@ -121,11 +121,11 @@ Given(/^persoon '(.*)'$/, function (aanduiding) {
     wijzigPersoonContext(this.context, aanduiding);
 });
 
-Given(/^is minderjarig/, function () {
+Given(/^(?:'(.*)' )?is minderjarig/, function (aanduiding) {
     const datumGeboorte = 'gisteren - 17 jaar';
 
     aanvullenPersoon(
-        getPersoon(this.context, undefined),
+        getPersoon(this.context, aanduiding),
         arrayOfArraysToDataTable([
             ['geboortedatum (03.10)', datumGeboorte]
         ])
