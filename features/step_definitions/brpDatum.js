@@ -135,8 +135,8 @@ function createJaarDatum(result, dateAsDate) {
  * @returns een datum string in BRP (YYYYMMDD) of ISO (YYYY-MM-DD) formaat
  */
 function toDateOrString(value, dateAsDate) {
-    if (/(\d+) jaar geleden/.test(value)) {
-        const years = value.match(/(\d+)/)[0];
+    if (/^\d+ jaar geleden$/.test(value)) {
+        const years = value.split(' ')[0];
         value = `vandaag - ${years} jaar`;
     }
     let result = parseDagNotatie(value);
