@@ -12,7 +12,7 @@ async function executeAndLogStatement(client, statement) {
         const result = await client.query(statement.text, statement.values);
 
         if(mustLog(result)) {
-            global.logger.warn(`${global.scenario.name}. 0 rows affected`, sqlStatement);
+            global.logger.warn(`${global.scenario.name}. 0 rows affected`, statement);
         }
 
         return result;
@@ -33,13 +33,25 @@ async function executeStatements(client, statements) {
     let pkId;
 
     for(const statement of statements) {
-        if(statement.categorie === 'inschrijving') {
-            pkId = await executeInsertInschrijving(client, statement);
+        switch(statement.categorie) {
+            case 'inschrijving':
+                pkId = await executeInsertInschrijving(client, statement);
+                break;
+            default:
+                statement.values[0] = pkId;
+                await executeAndLogStatement(client, statement);
         }
-        else {
-            statement.values[0] = pkId;
-            await executeAndLogStatement(client, statement);
-        }
+    }
+
+    return pkId;
+}
+
+async function executeAdresStatements(client, statements) {
+    let pkId;
+
+    for(const statement of statements) {
+        const result = await executeAndLogStatement(client, statement);
+        pkId = result.rows[0]['adres_id'];
     }
 
     return pkId;
@@ -132,6 +144,14 @@ async function selectFirstOrDefault(tabelNaam, columnNames, whereColumnName, whe
     return result.rows ? result.rows[0][columnNames[0]] + '' : defaultValue;
 }
 
+function setAdresIdForVerblijfplaatsen(persoon, adressen) {
+    for(let statement of persoon.statements) {
+        if(statement.categorie === 'verblijfplaats') {
+            statement.values[2] = adressen[statement.values[2]].adresId;
+        }
+    }
+}
+
 async function execute(sqlStatements) {
     if(!global.pool) {
         global.logger.info('geen pool');
@@ -142,7 +162,11 @@ async function execute(sqlStatements) {
     try {
         await client.query('BEGIN');
 
+        for(let adres of sqlStatements.adressen) {
+            adres.adresId = await executeAdresStatements(client, adres.statements);
+        }
         for(let persoon of sqlStatements.personen) {
+            setAdresIdForVerblijfplaatsen(persoon, sqlStatements.adressen);
             persoon.plId = await executeStatements(client, persoon.statements);
         }
 

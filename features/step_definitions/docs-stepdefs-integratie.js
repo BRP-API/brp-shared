@@ -14,16 +14,9 @@ When(/^de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd$/, a
     }
 });
 
-Then(/heeft de persoon '(.*)' de volgende rij in tabel '(.*)'/, async function(_, tabelNaam, dataTable) {    
+Then(/heeft de (?:[a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function(_, tabelNaam, dataTable) {    
     let results = await select(tabelNaam, dataTable);
 
-    validateResult(results);
-});
-
-
-Then(/heeft de persoon '(.*)' de volgende rijen in tabel '(.*)'/, async function(_, tabelNaam, dataTable) {
-    let results = await select(tabelNaam, dataTable);
-    
     validateResult(results);
 });
 
@@ -31,7 +24,7 @@ function validateResult(results){
     results.forEach(item => {
         if(item.result.rows.length > 0) {
             assert.containsAllKeys(item.result.rows[0], Object.keys(item.row));
-        }else{
+        } else {
             throw {'Error': 'No matching records found!', 'Row': item.row}
         }
     })
