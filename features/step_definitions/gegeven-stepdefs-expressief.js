@@ -3,6 +3,7 @@ const { objectToDataTable, arrayOfArraysToDataTable } = require('./dataTableFact
 const { createPersoon,
         aanvullenPersoon,
         wijzigPersoon,
+        wijzigGeadopteerdPersoon,
         createKind,
         createOuder,
         wijzigOuder,
@@ -121,7 +122,7 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
     );
 }
 
-Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'$/, function (aanduiding, dataTable) {
+Given(/^(?:de )?persoon '([a-zA-Z0-9]*)' heeft de volgende gegevens$/, function (aanduiding, dataTable) {
     gegevenDePersoonMetBsn(this.context, aanduiding, undefined, dataTable);
 
     global.logger.info(`gegeven persoon '${aanduiding}'`, getPersoon(this.context, aanduiding));
@@ -129,6 +130,22 @@ Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'$/, function (aanduiding, dataTable) {
 
 Given(/^(?:de persoon(?: '(.*)')? )?met burgerservicenummer '(\d*)'$/, function (aanduiding, burgerservicenummer) {
     gegevenDePersoonMetBsn(this.context, aanduiding, burgerservicenummer, undefined);
+});
+
+function wijzigPersoonContext(context, aanduiding) {
+    const persoonId = `persoon-${aanduiding}`;
+    const index = context.data.personen.findIndex(element => element.id === persoonId);
+
+    if (index !== -1) {
+        const [element] = context.data.personen.splice(index, 1);
+        context.data.personen.push(element);
+    }
+}
+
+Given(/^persoon '([a-zA-Z0-9]*)'$/, function (aanduiding) {
+    wijzigPersoonContext(this.context, aanduiding);
+
+    global.logger.info(`gegeven persoon '${aanduiding}'`, getPersoon(this.context, aanduiding));
 });
 
 Given(/^adres '([a-zA-Z0-9]*)'$/, function (aanduiding, dataTable) {
@@ -375,6 +392,18 @@ Given(/^bijhouding van de persoonsgegevens van '(.*)' is opgeschort met de volge
     );
 });
 
+Given(/^de persoonslijst van '(.*)' is opgeschort met reden '(.)'$/, function (aanduiding, redenOpschortingBijhouding) {
+    const datumOpschortingBijhouden = 'gisteren - 2 jaar';
+    
+    aanvullenInschrijving(
+        getPersoon(this.context, aanduiding),
+        arrayOfArraysToDataTable([
+            ['datum opschorting bijhouding (67.10)', datumOpschortingBijhouden],
+            ['reden opschorting bijhouding (67.20)', redenOpschortingBijhouding]
+        ])
+    );
+});
+
 Given(/^heeft de volgende gegevens$/, function (dataTable) {
     aanvullenPersoon(
         getPersoon(this.context, undefined),
@@ -435,6 +464,7 @@ function gegevenDePersonenZijnGehuwdGecorrigeerd(context, aanduiding1, aanduidin
             ['geslachtsnaam (02.40)', aanduiding2]
         ], dataTable),
         true,
+        true,
         true
     );
 
@@ -444,6 +474,7 @@ function gegevenDePersonenZijnGehuwdGecorrigeerd(context, aanduiding1, aanduidin
             ['burgerservicenummer (01.20)', getBsn(getPersoon(context, aanduiding1))],
             ['geslachtsnaam (02.40)', aanduiding1]
         ], dataTable),
+        true,
         true,
         true
     );
@@ -567,8 +598,7 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
 
     wijzigPersoon(
         kind,
-        objectToDataTable(kindData),
-        true
+        objectToDataTable(kindData)
     );
 
     createOuder(
@@ -607,8 +637,40 @@ Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduid
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 
+function gegevenAdoptieVanKindIsHerroepenVoorOuder(context, kind, aanduidingOuder, ouderType, dataTable) {
+    const ouder = getPersoon(context, aanduidingOuder);
+
+    const kindData = { ...kind.persoon.at(-1) };
+    kindData[toDbColumnName('aktenummer (81.20)')] = '1AR0200'
+
+    wijzigGeadopteerdPersoon(
+        kind,
+        objectToDataTable(kindData),
+        true
+    );
+
+    wijzigOuder(
+        kind,
+        ouderType,
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(ouder)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)]
+        ], dataTable),
+        true
+    );
+}
+
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, dataTable);
+});
+
+Given(/^de adoptie van '(.*)' is herroepen voor '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
+    const kind = getPersoon(this.context, aanduidingKind);
+    const adoptieOuderData = arrayOfArraysToDataTable([
+        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 2 jaar']
+    ]);
+
+    gegevenAdoptieVanKindIsHerroepenVoorOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 
 Given(/^is niet in Nederland geadopteerd$/, function () {
