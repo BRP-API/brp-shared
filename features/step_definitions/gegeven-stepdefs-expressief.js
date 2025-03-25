@@ -91,6 +91,8 @@ function createOntbindingPartnerschap(context, aanduiding, dataTable) {
 function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTable) {
     const data = [
         ['burgerservicenummer (01.20)', burgerservicenummer],
+        ['geboorteland (03.30)', '6030'],
+        ['aktenummer (81.20)', '1AA0100']
     ];
     if (aanduiding) {
         data.push(['geslachtsnaam (02.40)', aanduiding]);
