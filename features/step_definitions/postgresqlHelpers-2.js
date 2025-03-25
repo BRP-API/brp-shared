@@ -158,14 +158,17 @@ async function execute(sqlStatements) {
 }
 
 function selectStatement(tabelNaam, columns, values) {
-    values = values.filter((v) => v.length > 0).map((v) => toDateOrString(v));
+    values = values.map((v) => toDateOrString(v));
 
+    let counter = 0;
     const whereColumns = columns.map((column, index) => {
-        return values[index] === undefined ?
+        return values[index].length == 0 ?
             column + ` IS NULL` :
-            column + `=$${index + 1}`
+            column + `=$${++counter}`;
     });
-
+    
+    values = values.filter(v => v.length > 0);
+    
     return {
         text: `SELECT ${columns.join()} FROM public.${tabelNaam} WHERE ${whereColumns.join(` AND `)}`,
         categorie: tabelNaam,
