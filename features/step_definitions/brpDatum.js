@@ -151,4 +151,19 @@ function toDateOrString(value, dateAsDate) {
     return String(value);
 }
 
-module.exports = { toDateOrString }
+/**
+ * Functie voor het genereren van een datum zoals verwacht wordt in de BRP (integer)
+ * 
+ * @param {number} dag de dag of undefined, de waarde wordt aangepast naar twee nummers e.g.: undefined == 00, 1 == 01 
+ * @param {number} maand de maand of undefined, de waarde wordt aangepast naar twee nummers e.g.: undefined == 00, 1 == 01 
+ * @param {number} jaar het jaar
+ * @returns een datum string in BRP (YYYYMMDD)
+ */
+function toBRPDate(dag, maand, jaar) {
+    dag = (`00` + dag).slice(-2);
+    maand = (`00` + maand).slice(-2);
+
+    return `${jaar}${maand}${dag}`;
+}
+
+module.exports = { toDateOrString, toBRPDate };
