@@ -170,5 +170,4 @@ function toBRPDate(dag, maand, jaar) {
     return `${jaar}${maand}${dag}`;
 }
 
-
-module.exports = { toDateOrString , toBRPDate }
+module.exports = { toDateOrString, toBRPDate };
