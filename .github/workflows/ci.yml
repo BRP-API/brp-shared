@@ -28,12 +28,25 @@ jobs:
         with:
           path-bash-file-or-folder: ./scripts/*
 
+      - name: Start containers
+        run: |
+          ./scripts/containers-start.sh ci
+      - name: Wait for DB restart
+        run: sleep 5s
+        shell: bash
+
       - name: Run jest unit tests
         run: |
           echo "### Jest Test Reports" >> $GITHUB_STEP_SUMMARY
           ./scripts/unit-tests-verify.sh | sed '1d;$d' >> $GITHUB_STEP_SUMMARY
       - name: Valideer functionele specs
         uses: ./.github/actions/valideer-functionele-specs
+
+      - name: Stop containers
+        if: always()
+        run: |
+          ./scripts/containers-stop.sh ci
+
       - name: Genereer test rapportage
         if: always()
         run: |
