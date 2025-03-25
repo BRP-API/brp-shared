@@ -348,6 +348,38 @@ Given(/^'(.*)' en '(.*)' zijn met elkaar gehuwd$/, function (aanduiding1, aandui
     gegevenDePersonenZijnGehuwd(this.context, aanduiding1, aanduiding2, huwelijkData);
 });
 
+Given(/^'(.*)' en '(.*)' zijn een geregistreerd partnerschap aangegaan op (\d*)-(\d*)-(\d*)$/, function (aanduiding1, aanduiding2, dag, maand, jaar) {
+    const datumHuwelijk = toBRPDate(dag, maand, jaar);
+    const plaatsHuwelijk = '0518';
+    const landHuwelijk = '6030';
+    const verbintenisSoort = 'P';
+
+    const huwelijkData = arrayOfArraysToDataTable([
+        ['datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)', datumHuwelijk],
+        ['plaats huwelijkssluiting/aangaan geregistreerd partnerschap (06.20)', plaatsHuwelijk],
+        ['land huwelijkssluiting/aangaan geregistreerd partnerschap (06.30)', landHuwelijk],
+        ['soort verbintenis (15.10)', verbintenisSoort]
+    ]);
+
+    gegevenDePersonenZijnGehuwd(this.context, aanduiding1, aanduiding2, huwelijkData);
+});
+
+Given(/^'(.*)' en '(.*)' zijn een geregistreerd partnerschap aangegaan$/, function (aanduiding1, aanduiding2, dag, maand, jaar) {
+    const datumHuwelijk = toBRPDate(dag, maand, jaar);
+    const plaatsHuwelijk = '0518';
+    const landHuwelijk = '6030';
+    const verbintenisSoort = 'P';
+
+    const huwelijkData = arrayOfArraysToDataTable([
+        ['datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)', datumHuwelijk],
+        ['plaats huwelijkssluiting/aangaan geregistreerd partnerschap (06.20)', plaatsHuwelijk],
+        ['land huwelijkssluiting/aangaan geregistreerd partnerschap (06.30)', landHuwelijk],
+        ['soort verbintenis (15.10)', verbintenisSoort]
+    ]);
+
+    gegevenDePersonenZijnGehuwd(this.context, aanduiding1, aanduiding2, huwelijkData);
+});
+
 Given(/^'(.*)' en '(.*)' zijn met elkaar gehuwd met de volgende gegevens$/, function (aanduiding1, aanduiding2, dataTable) {
     gegevenDePersonenZijnGehuwd(this.context, aanduiding1, aanduiding2, dataTable);
 });
