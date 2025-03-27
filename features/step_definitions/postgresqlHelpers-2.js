@@ -146,8 +146,16 @@ async function selectFirstOrDefault(tabelNaam, columnNames, whereColumnName, whe
 
 function setAdresIdForVerblijfplaatsen(persoon, adressen) {
     for(let statement of persoon.statements) {
-        if(statement.categorie === 'verblijfplaats') {
-            statement.values[2] = adressen[statement.values[2]].adresId;
+        if(statement.categorie === 'verblijfplaats' && statement.text.includes('adres_id')) {
+            const match = statement.text.match(/^INSERT INTO [a-z0-9._]*\(([a-z_,]*)\) VALUES\([\d$,]*\)$/);
+            const columns = match
+                ? match[1].split(',').map(c => c.trim())
+                : [];
+            const adresIdIndex = columns.indexOf('adres_id');
+            global.logger.info(`adresIdIndex: ${adresIdIndex}`, columns);
+            if(adresIdIndex >= 0) {
+                statement.values[adresIdIndex] = adressen[statement.values[adresIdIndex]].adresId;
+            }
         }
     }
 }

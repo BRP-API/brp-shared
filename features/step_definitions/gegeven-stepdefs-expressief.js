@@ -757,6 +757,7 @@ Given(/^is ingeschreven in de BRP$/, function () {
             ['gemeente van inschrijving (09.10)', '0518']
         ])
     );
+    global.logger.info(`gegeven persoon is ingeschreven in de BRP`, getPersoon(this.context, undefined));
 });
 
 Given(/^is niet ingeschreven in de BRP$/, function () {
@@ -767,6 +768,7 @@ Given(/^is niet ingeschreven in de BRP$/, function () {
             ['gemeente van inschrijving (09.10)', '1999']
         ])
     );
+    global.logger.info(`gegeven persoon niet is ingeschreven in de BRP`, getPersoon(this.context, undefined));
 });
 
 Given(/^is ingeschreven in de BRP met de volgende gegevens$/, function (dataTable) {
