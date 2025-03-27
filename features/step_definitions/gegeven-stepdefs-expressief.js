@@ -132,6 +132,10 @@ Given(/^(?:de persoon(?: '(.*)')? )?met burgerservicenummer '(\d*)'$/, function 
     gegevenDePersoonMetBsn(this.context, aanduiding, burgerservicenummer, undefined);
 });
 
+Given(/^(?:de persoon(?: '(.*)')? )?zonder burgerservicenummer$/, function (aanduiding) {
+    gegevenDePersoonMetBsn(this.context, aanduiding, undefined, undefined);
+});
+
 function wijzigPersoonContext(context, aanduiding) {
     const persoonId = `persoon-${aanduiding}`;
     const index = context.data.personen.findIndex(element => element.id === persoonId);
