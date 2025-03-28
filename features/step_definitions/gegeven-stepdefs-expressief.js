@@ -510,14 +510,13 @@ Given(/^'(.*)' en '(.*)' zijn een geregistreerd partnerschap aangegaan op (\d*)-
     gegevenDePersonenZijnGehuwd(this.context, aanduiding1, aanduiding2, huwelijkData);
 });
 
-Given(/^'(.*)' en '(.*)' zijn een geregistreerd partnerschap aangegaan$/, function (aanduiding1, aanduiding2, dag, maand, jaar) {
-    const datumHuwelijk = toBRPDate(dag, maand, jaar);
+Given(/^'(.*)' en '(.*)' zijn (?!met elkaar)(.*) een geregistreerd partnerschap aangegaan$/, function (aanduiding1, aanduiding2, relatieveDatum) {
     const plaatsHuwelijk = '0518';
     const landHuwelijk = '6030';
     const verbintenisSoort = 'P';
 
     const huwelijkData = arrayOfArraysToDataTable([
-        ['datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)', datumHuwelijk],
+        ['datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)', relatieveDatum],
         ['plaats huwelijkssluiting/aangaan geregistreerd partnerschap (06.20)', plaatsHuwelijk],
         ['land huwelijkssluiting/aangaan geregistreerd partnerschap (06.30)', landHuwelijk],
         ['soort verbintenis (15.10)', verbintenisSoort]
