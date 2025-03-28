@@ -1,10 +1,11 @@
 # language: nl
+
 @integratie @stap-documentatie
 Functionaliteit: Partner gegeven stap definities
 
   Achtergrond:
     Gegeven de 1e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '9999'
-    Gegeven de tabel 'lo3_pl_persoon' bevat geen rijen
+    En de tabel 'lo3_pl_persoon' bevat geen rijen
 
   Scenario: de persoon met burgerservicenummer '[bsn]' heeft een 'partner' met de volgende gegevens
     Gegeven de persoon met burgerservicenummer '000000012' heeft een 'partner' met de volgende gegevens
