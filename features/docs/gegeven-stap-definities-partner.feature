@@ -1,5 +1,5 @@
 # language: nl
-@stap-documentatie
+@integratie @stap-documentatie
 Functionaliteit: Partner gegeven stap definities
 
   Achtergrond:
