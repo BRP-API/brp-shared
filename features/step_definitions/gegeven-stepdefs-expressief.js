@@ -122,7 +122,7 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
     );
 }
 
-Given(/^(?:de )?persoon '([a-zA-Z0-9]*)' heeft de volgende gegevens$/, function (aanduiding, dataTable) {
+Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'(?: zonder burgerservicenummer)? heeft de volgende gegevens$/, function (aanduiding, dataTable) {
     gegevenDePersoonMetBsn(this.context, aanduiding, undefined, dataTable);
 
     global.logger.info(`gegeven persoon '${aanduiding}'`, getPersoon(this.context, aanduiding));
@@ -130,6 +130,10 @@ Given(/^(?:de )?persoon '([a-zA-Z0-9]*)' heeft de volgende gegevens$/, function 
 
 Given(/^(?:de persoon(?: '(.*)')? )?met burgerservicenummer '(\d*)'$/, function (aanduiding, burgerservicenummer) {
     gegevenDePersoonMetBsn(this.context, aanduiding, burgerservicenummer, undefined);
+});
+
+Given(/^(?:de persoon(?: '(.*)')? )?zonder burgerservicenummer$/, function (aanduiding) {
+    gegevenDePersoonMetBsn(this.context, aanduiding, undefined, undefined);
 });
 
 function wijzigPersoonContext(context, aanduiding) {
