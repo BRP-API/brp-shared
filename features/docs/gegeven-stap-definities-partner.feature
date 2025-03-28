@@ -4,6 +4,7 @@ Functionaliteit: Partner gegeven stap definities
 
   Achtergrond:
     Gegeven de 1e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '9999'
+    Gegeven de tabel 'lo3_pl_persoon' bevat geen rijen
 
   Scenario: de persoon met burgerservicenummer '[bsn]' heeft een 'partner' met de volgende gegevens
     Gegeven de persoon met burgerservicenummer '000000012' heeft een 'partner' met de volgende gegevens
@@ -58,18 +59,122 @@ Functionaliteit: Partner gegeven stap definities
       |      |              | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,geslachts_naam) VALUES($1,$2,$3,$4,$5)                                         |     9999,0,0,R,Aedel |
 
   @integratie
-  Scenario: '{naam1}' en '{naam2}' zijn {relatieve datum} een geregistreerd partnerschap aangegaan
-    Gegeven de persoon 'Arjan' heeft de volgende gegevens
+  Scenario: personen zijn met elkaar gehuwd
+    Gegeven de persoon 'P1' heeft de volgende gegevens
       | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
-      |                   000000012 | Arjan                 |
-    En de persoon 'Tosca' heeft de volgende gegevens
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
       | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
-      |                   000000024 | Tosca                 |
-    En 'Arjan' en 'Tosca' zijn 7 jaar geleden een geregistreerd partnerschap aangegaan
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'Arjan' de volgende rij in tabel 'lo3_pl_persoon'
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum | relatie_start_plaats | relatie_start_land_code |
+      |     1 | R            |         0 |       0 |         000000024 | P2             | gisteren - 20 jaar  |                 0518 |                    6030 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum | relatie_start_plaats | relatie_start_land_code |
+      |     2 | R            |         0 |       0 |         000000012 | P1             | gisteren - 20 jaar  |                 0518 |                    6030 |
+
+  @integratie
+  Scenario: personen zijn met elkaar gehuwd met de volgende gegevens
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd met de volgende gegevens
+      | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |
+      |                                                           20100401 |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum |
+      |     1 | R            |         0 |       0 |         000000024 | P2             |            20100401 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum |
+      |     2 | R            |         0 |       0 |         000000012 | P1             |            20100401 |
+
+  @integratie
+  Scenario: personen zijn gescheiden
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd
+    En 'P1' en 'P2' zijn gescheiden
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code |
+      |     1 | R            |         0 |       0 |         000000024 | P2             | gisteren - 1 jaar  |                0518 |                   6030 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code |
+      |     2 | R            |         0 |       0 |         000000012 | P1             | gisteren - 1 jaar  |                0518 |                   6030 |
+
+  @integratie
+  Scenario: personen zijn gescheiden met de volgende gegevens
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd
+    En 'P1' en 'P2' zijn gescheiden met de volgende gegevens
+      | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |
+      |                                                     20101231 |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum |
+      |     1 | R            |         0 |       0 |         000000024 | P2             |           20101231 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum |
+      |     2 | R            |         0 |       0 |         000000012 | P1             |           20101231 |
+
+  @integratie
+  Scenario: persoon heeft partner en ex-partner
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd
+    En 'P1' en 'P2' zijn gescheiden met de volgende gegevens
+      | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |
+      |                                                     20101231 |
+    En de persoon 'P3' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000036 | P3                    |
+    En 'P1' en 'P3' zijn met elkaar gehuwd met de volgende gegevens
+      | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |
+      |                                                           20240101 |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum | relatie_start_datum |
+      |     1 | R            |         0 |       0 |         000000024 | P2             |           20101231 |                     |
+      |     1 | R            |         1 |       0 |         000000036 | P3             |                    |            20240101 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum |
+      |     2 | R            |         0 |       0 |         000000012 | P1             |           20101231 |
+    En heeft de persoon 'P3' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum |
+      |     3 | R            |         0 |       0 |         000000012 | P1             |            20240101 |
+
+  @integratie
+  Scenario: personen zijn op een relatieve datum een geregistreerd partnerschap aangegaan
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn 7 jaar geleden een geregistreerd partnerschap aangegaan
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | verbintenis_soort |
-      |     1 | R            |         0 |       0 |         000000024 | Tosca          |                    |         |      7 jaar geleden |                 0518 |                    6030 | P                 |
-    En heeft de persoon 'Tosca' de volgende rij in tabel 'lo3_pl_persoon'
+      |     1 | R            |         0 |       0 |         000000024 | P2             |                    |         |      7 jaar geleden |                 0518 |                    6030 | P                 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | verbintenis_soort |
-      |     2 | R            |         0 |       0 |         000000012 | Arjan          |                    |         |      7 jaar geleden |                 0518 |                    6030 | P                 |
+      |     2 | R            |         0 |       0 |         000000012 | P1             |                    |         |      7 jaar geleden |                 0518 |                    6030 | P                 |
