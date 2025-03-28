@@ -107,8 +107,14 @@ Functionaliteit: Partner gegeven stap definities
     En 'P1' en 'P2' zijn gescheiden
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum | relatie_start_plaats | relatie_start_land_code |
+      |     1 | R            |         0 |       1 |         000000024 | P2             | gisteren - 20 jaar  |                 0518 |                    6030 |
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code |
       |     1 | R            |         0 |       0 |         000000024 | P2             | gisteren - 1 jaar  |                0518 |                   6030 |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_start_datum | relatie_start_plaats | relatie_start_land_code |
+      |     2 | R            |         0 |       1 |         000000012 | P1             | gisteren - 20 jaar  |                 0518 |                    6030 |
     En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code |
       |     2 | R            |         0 |       0 |         000000012 | P1             | gisteren - 1 jaar  |                0518 |                   6030 |
