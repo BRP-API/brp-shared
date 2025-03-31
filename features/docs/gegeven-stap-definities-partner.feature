@@ -185,3 +185,33 @@ Functionaliteit: Partner gegeven stap definities
     En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | verbintenis_soort |
       |     2 | R            |         0 |       0 |         000000012 | P1             |                    |         |      7 jaar geleden |                 0518 |                    6030 | P                 |
+
+  @integratie
+  Scenario: huwelijk gecorrigeerd als nietig
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' en 'P2' zijn met elkaar gehuwd
+    En is het huwelijk van 'P1' en 'P2' gecorrigeerd met de volgende gegevens
+      | naam                                                                | waarde         |
+      | burgerservicenummer (01.20)                                         |                |
+      | geslachtsnaam (02.40)                                               |                |
+      | geboortedatum (03.10)                                               |                |
+      | geslachtsaanduiding (04.10)                                         |                |
+      | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)  |                |
+      | plaats huwelijkssluiting/aangaan geregistreerd partnerschap (06.20) |                |
+      | land huwelijkssluiting/aangaan geregistreerd partnerschap (06.30)   |                |
+      | datum ingang geldigheid (85.10)                                     | 2 jaar geleden |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | onjuist_ind | geldigheid_start_datum |
+      |     1 | R            |         0 |       1 |         000000024 | P2             |                    |         | gisteren - 20 jaar  |                 0518 |                    6030 | O           |                        |
+      |     1 | R            |         0 |       0 |                   |                |                    |         |                     |                      |                         |             |         2 jaar geleden |
+    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | onjuist_ind | geldigheid_start_datum |
+      |     2 | R            |         0 |       1 |         000000012 | P1             |                    |         | gisteren - 20 jaar  |                 0518 |                    6030 | O           |                        |
+      |     2 | R            |         0 |       0 |                   |                |                    |         |                     |                      |                         |             |         2 jaar geleden |
+       
