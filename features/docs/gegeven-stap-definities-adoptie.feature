@@ -1,11 +1,130 @@
 # language: nl
-@stap-documentatie
+@integratie @stap-documentatie
 Functionaliteit: Persoon is geadopteerd
 
   Achtergrond:
     Gegeven de 1e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '9999'
     En de 2e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '10000'
     En de 3e 'SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl' statement heeft als resultaat '10001'
+    En de tabel 'lo3_pl_persoon' bevat geen rijen
+
+  @integratie
+  Abstract Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2]
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' is geadopteerd door 'P2' als ouder <ouder type>
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | akte_nr | familie_betrek_start_datum |
+      |         0 |       0 | P            |         000000012 | P1             | 1AQ0100 |                            |
+      |         0 |       1 | P            |         000000012 | P1             |         |                            |
+      |         0 |       0 | <ouder type> |         000000024 | P2             |         | morgen - 4 jaar            |
+    En heeft de persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000024 | P2             |
+      |         0 |       0 | K            |         000000012 | P1             |
+
+    Voorbeelden:
+      | ouder type |
+      |          1 |
+      |          2 |
+
+  @integratie
+  Abstract Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2] met de volgende gegevens
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En 'P1' is geadopteerd door 'P2' als ouder <ouder type> met de volgende gegevens
+      | datum ingang familierechtelijke betrekking (62.10) | aktenummer (81.20) |
+      | gisteren - 5 jaar                                  |            2BR1211 |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | akte_nr | familie_betrek_start_datum |
+      |         0 |       0 | P            |         000000012 | P1             | 1AQ0100 |                            |
+      |         0 |       1 | P            |         000000012 | P1             |         |                            |
+      |         0 |       0 | <ouder type> |         000000024 | P2             | 2BR1211 | gisteren - 5 jaar          |
+    En heeft de persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000024 | P2             |
+      |         0 |       0 | K            |         000000012 | P1             |
+
+    Voorbeelden:
+      | ouder type |
+      |          1 |
+      |          2 |
+
+  @integratie
+  Scenario: is geadopteerd door personen als ouder 1 en ouder 2
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En de persoon 'P3' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000036 | P3                    |
+    En persoon 'P1'
+    * is geadopteerd door 'P2' als ouder 1
+    * is geadopteerd door 'P3' als ouder 2
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | akte_nr | familie_betrek_start_datum |
+      |         0 |       0 | P            |         000000012 | P1             | 1AQ0100 |                            |
+      |         0 |       1 | P            |         000000012 | P1             | 1AQ0100 |                            |
+      |         0 |       2 | P            |         000000012 | P1             |         |                            |
+      |         0 |       0 |            1 |         000000024 | P2             |         | morgen - 4 jaar            |
+      |         0 |       0 |            2 |         000000036 | P3             |         | morgen - 4 jaar            |
+    En heeft de persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000024 | P2             |
+      |         0 |       0 | K            |         000000012 | P1             |
+    En heeft de persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000036 | P3             |
+      |         0 |       0 | K            |         000000012 | P1             |
+
+  @integratie
+  Scenario: de adoptie van '[kind aanduiding]' is herroepen voor '[ouder aanduiding]' als ouder [1 of 2]
+    Gegeven de persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | P1                    |
+    En de persoon 'P2' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000024 | P2                    |
+    En de persoon 'P3' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000036 | P3                    |
+    En persoon 'P1'
+    * is geadopteerd door 'P2' als ouder 1
+    * is geadopteerd door 'P3' als ouder 2
+    En de adoptie van 'P1' is herroepen voor beide ouders
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | akte_nr | familie_betrek_start_datum | onjuist_ind |
+      |         0 |       0 | P            |         000000012 | P1             | 1AR0200 |                            |             |
+      |         0 |       1 | P            |         000000012 | P1             | 1AQ0100 |                            | O           |
+      |         0 |       2 | P            |         000000012 | P1             | 1AQ0100 |                            | O           |
+      |         0 |       3 | P            |         000000012 | P1             |         |                            | O           |
+      |         0 |       0 |            1 |         000000024 | P2             |         | morgen - 2 jaar            |             |
+      |         0 |       1 |            1 |         000000024 | P2             |         | morgen - 4 jaar            | O           |
+      |         0 |       0 |            2 |         000000036 | P3             |         | morgen - 2 jaar            |             |
+      |         0 |       1 |            2 |         000000036 | P3             |         | morgen - 4 jaar            | O           |
+    En heeft de persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000024 | P2             |
+      |         0 |       0 | K            |         000000012 | P1             |
+    En heeft de persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+      | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
+      |         0 |       0 | P            |         000000036 | P3             |
+      |         0 |       0 | K            |         000000012 | P1             |
 
   Abstract Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2]
     Gegeven de persoon 'P2' met burgerservicenummer '000000012'
@@ -93,7 +212,7 @@ Functionaliteit: Persoon is geadopteerd
       |            | ouder-2      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam,familie_betrek_start_datum) VALUES($1,$2,$3,$4,$5,$6,$7)                |   10001,0,0,2,000000024,P2,morgen - 2 jaar |
       |            | ouder-2      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam,familie_betrek_start_datum,onjuist_ind) VALUES($1,$2,$3,$4,$5,$6,$7,$8) | 10001,0,1,2,000000024,P2,morgen - 4 jaar,O |
 
-Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2] met de volgende gegevens
+  Scenario: is geadopteerd door '[aanduiding]' als ouder [1 of 2] met de volgende gegevens
     Gegeven de persoon 'P1' met burgerservicenummer '000000012'
     En de persoon 'P2' met burgerservicenummer '000000024'
     * 'P2' is geadopteerd door 'P1' als ouder 1 met de volgende gegevens
