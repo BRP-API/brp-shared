@@ -1,0 +1,102 @@
+  #language: nl
+
+@integratie @stap-documentatie
+Functionaliteit: Persoon stap definities
+
+  Achtergrond:
+    Gegeven de tabellen 'lo3_pl' bevat geen rijen
+
+  Scenario: minderjarige is geadopteerd door één meerderjarige
+    Gegeven de persoon 'Gerda' met burgerservicenummer '000000012'
+    * is meerderjarig
+    En de persoon 'Bert' met burgerservicenummer '000000036'
+    * is minderjarig
+    En 'Bert' is geadopteerd door 'Gerda' als ouder 1 op datum 'vandaag'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 1     | 0          |
+    En heeft de persoon 'Gerda' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     |
+    | 1     | P            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar |
+    | 1     | K            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar |
+    En heeft de persoon 'Bert' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 2     | 0          |
+    En heeft de persoon 'Bert' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | akte_nr | familie_betrek_start_datum |
+    | 2     | P            | 0         | 1       | 000000036         | Bert           | gisteren - 17 jaar |         |                            |
+    | 2     | P            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar | 1AQ0100 |                            |
+    | 2     | 1            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar | 1AQ0100 | vandaag                    |
+
+  Scenario: minderjarige met één ouder is geadopteerd door één meerderjarige
+    Gegeven de persoon 'Gerda' met burgerservicenummer '000000012'
+    * is meerderjarig
+    En de persoon 'Aart' met burgerservicenummer '000000024'
+    * is meerderjarig
+    En de persoon 'Bert' met burgerservicenummer '000000036'
+    * is minderjarig
+    En 'Gerda' is ouder 1 van 'Bert'
+    En 'Bert' is geadopteerd door 'Aart' als ouder 2 op datum 'vandaag'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 1     | 0          |
+    En heeft de persoon 'Gerda' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     |
+    | 1     | P            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar |
+    | 1     | K            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar |
+    En heeft de persoon 'Aart' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 2     | 0          |
+    En heeft de persoon 'Aart' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     |
+    | 2     | P            | 0         | 0       | 000000024         | Aart           | gisteren - 45 jaar |
+    | 2     | K            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar |
+    En heeft de persoon 'Bert' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 3     | 0          |
+    En heeft de persoon 'Bert' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | akte_nr | familie_betrek_start_datum |
+    | 3     | P            | 0         | 1       | 000000036         | Bert           | gisteren - 17 jaar |         |                            |
+    | 3     | P            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar | 1AQ0100 |                            |
+    | 3     | 1            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar |         | gisteren                   |
+    | 3     | 2            | 0         | 0       | 000000024         | Aart           | gisteren - 45 jaar | 1AQ0100 | vandaag                    |
+
+  Scenario: minderjarige met één ouder is geadopteerd door één meerderjarige en de adoptie is ten onrechte geregistreerd
+    Gegeven de persoon 'Gerda' met burgerservicenummer '000000012'
+    * is meerderjarig
+    En de persoon 'Aart' met burgerservicenummer '000000024'
+    * is meerderjarig
+    En de persoon 'Bert' met burgerservicenummer '000000036'
+    * is minderjarig
+    En 'Gerda' is ouder 1 van 'Bert'
+    En 'Bert' is geadopteerd door 'Aart' als ouder 2 op datum 'vandaag'
+    En de adoptie is ten onrechte geregistreerd
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft de persoon 'Gerda' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 1     | 0          |
+    En heeft de persoon 'Gerda' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     |
+    | 1     | P            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar |
+    | 1     | K            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar |
+    En heeft de persoon 'Aart' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 2     | 0          |
+    En heeft de persoon 'Aart' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | onjuist_ind |
+    | 2     | P            | 0         | 0       | 000000024         | Aart           | gisteren - 45 jaar |             |
+    | 2     | K            | 0         | 1       | 000000036         | Bert           | gisteren - 17 jaar | O           |
+    | 2     | K            | 0         | 0       |                   |                |                    |             |
+    En heeft de persoon 'Bert' de volgende rij in tabel 'lo3_pl'
+    | pl_id | geheim_ind |
+    | 3     | 0          |
+    En heeft de persoon 'Bert' de volgende rijen in tabel 'lo3_pl_persoon'
+    | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | akte_nr | familie_betrek_start_datum | onjuist_ind |
+    | 3     | P            | 0         | 2       | 000000036         | Bert           | gisteren - 17 jaar |         |                            |             |
+    | 3     | P            | 0         | 1       | 000000036         | Bert           | gisteren - 17 jaar | 1AQ0100 |                            | O           |
+    | 3     | P            | 0         | 0       | 000000036         | Bert           | gisteren - 17 jaar | 1AR0200 |                            |             |
+    | 3     | 1            | 0         | 0       | 000000012         | Gerda          | gisteren - 45 jaar |         | gisteren                   |             |
+    | 3     | 2            | 0         | 1       | 000000024         | Aart           | gisteren - 45 jaar | 1AQ0100 | vandaag                    | O           |
+    | 3     | 2            | 0         | 0       |                   |                |                    | 1AR0200 |                            |             |
