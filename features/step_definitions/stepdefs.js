@@ -3,6 +3,7 @@ const { Pool } = require('pg');
 const { setWorldConstructor, setDefaultTimeout, Before, After, AfterAll } = require('@cucumber/cucumber');
 const { valideer200Response, valideerProblemDetailsResponse } = require('./responseHelpers');
 const { rollbackSqlStatements } = require('./postgresqlHelpers');
+const { rollback } = require('./postgresqlHelpers-2');
 const fs = require('fs');
 
 setWorldConstructor(World);
@@ -50,13 +51,25 @@ Before(function({ pickle }) {
     }
 
     this.context.baseUrl = this.context.apiUrl;
+
+    const tags = pickle.tags.map((t) => t.name);
+    this.context.isStapDocumentatieScenario = tags.includes('@stap-documentatie');
+    this.context.isIntegratieScenario = tags.includes('@integratie');
+    this.context.isDeprecatedScenario = tags.includes('@deprecated');
+    this.context.isDataApiScenario = tags.includes('@data-api');
 });
 
-After(async function({ pickle }) {
-    if(pickle.tags.map((t) => t.name).includes('@stap-documentatie')) {
+After(async function() {
+    if (this.context.isStapDocumentatieScenario &&
+        !this.context.isIntegratieScenario) {
         return;
     }
-    await rollbackSqlStatements(this.context.sql, this.context.sqlData, global.pool);
+    if(this.context.data) {
+        await rollback(this.context.sql, this.context.sqlData);
+    }
+    else {
+        await rollbackSqlStatements(this.context.sql, this.context.sqlData, global.pool);
+    }
 
     if(this.context.gezag !== undefined) {
         fs.writeFileSync(this.context.gezagDataPath, JSON.stringify([], null, '\t'));
