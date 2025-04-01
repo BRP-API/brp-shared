@@ -14,7 +14,7 @@ De repository [BRP Shared](https://github.com/BRP-API/brp-shared) wordt aangewez
 ## Consequenties
 ### Voordelen
 - Aanpassingen kunnen niet meer door synchronisatie verloren gaan.
-- Aanpassingen hoeven niet meer in een stricte volgorde gemerged te worden.
+- Aanpassingen hoeven niet meer in een strikte volgorde gemerged te worden.
 
 ### Nadelen
 - Pipeline wordt complexer, omdat het voortaan per microservice repository de juiste folders moet selecteren voor synchronisatie.
