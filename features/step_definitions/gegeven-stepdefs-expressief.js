@@ -469,7 +469,8 @@ function gegevenDePersonenZijnGehuwdGecorrigeerd(context, aanduiding1, aanduidin
         ], dataTable),
         true,
         true,
-        true
+        true,
+        getBsn(getPersoon(context, aanduiding2))
     );
 
     wijzigPartner(
@@ -480,7 +481,8 @@ function gegevenDePersonenZijnGehuwdGecorrigeerd(context, aanduiding1, aanduidin
         ], dataTable),
         true,
         true,
-        true
+        true,
+        getBsn(getPersoon(context, aanduiding1))
     );
 }
 
