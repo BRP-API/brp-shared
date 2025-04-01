@@ -19,7 +19,7 @@ function createInschrijving() {
     }
 }
 
-function createPersoonType(persoonType, dataTable, stapelNr) {
+function createPersoonType(persoonType, dataTable, stapelNr, retainEmptyValues) {
     let persoon = {
         pl_id: 'null',
         stapel_nr: stapelNr + '',
@@ -27,8 +27,16 @@ function createPersoonType(persoonType, dataTable, stapelNr) {
         persoon_type: toDbPersoonType(persoonType)
     };
 
-    mapDataTableToEntiteit(persoon, dataTable);
+    mapDataTableToEntiteit(persoon, dataTable, retainEmptyValues);
 
+    if(!retainEmptyValues) {
+        Object.keys(persoon).forEach(property => {
+            if(!persoon[property]) {
+                delete persoon[property];
+            }
+        });
+    }
+    
     return persoon;
 }
 
@@ -136,18 +144,30 @@ function createPartner(persoon, dataTable) {
     ];
 }
 
-function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties = false) {
-    let partnerData = createPersoonType('partner', dataTable, 0);
+/**
+ * Wijzigt de partnergegevens van een persoon.
+ * 
+ * @param {object} persoon - Het persoon-object dat wordt aangepast.
+ * @param {} dataTable - De partner-gegevens.
+ * @param {boolean} [isCorrectie=false] - Geeft aan of de wijziging een correctie is. Standaardwaarde is `false`.
+ * @param {boolean} [mergeProperties=false] - Voeg gegevens samen met bestaande waarden. Standaardwaarde is `false`.
+ * @param {boolean} [retainEmptyValues=false] - Lege waarden behouden. Standaardwaarde is `false`.
+ * @param {string} [partnerBsn=null] - Het burgerservicenummer (BSN) van de partner, te gebruiken bij correcties waarbij burgerservicenummer (01.20) niet voorkomt in de partner-gegevens. Standaardwaarde is `null`.
+ * @returns {void}
+ */
+function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties = false, retainEmptyValues = false, partnerBsn = null) {
+    let partnerData = createPersoonType('partner', dataTable, 0, retainEmptyValues);
 
     let partner;
     Object.keys(persoon).forEach(property => {
-        if (property.startsWith('partner') &&
-            persoon[property].at(-1).burger_service_nr === partnerData.burger_service_nr) {
+        if (property.startsWith('partner')) {
+            if (persoon[property].at(-1).burger_service_nr === partnerBsn || persoon[property].at(-1).burger_service_nr === partnerData.burger_service_nr) {
                 partner = persoon[property];
+            }
         }
     });
-    
-    if(!partner) {
+
+    if (!partner) {
         global.logger.warn(`geen partner met bsn ${partnerData.burger_service_nr} gevonden`, persoon);
         return;
     }
@@ -164,6 +184,12 @@ function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties 
         p.volg_nr = Number(p.volg_nr) + 1 + '';
         if(isCorrectie && p.volg_nr === '1') {
             p.onjuist_ind = 'O';
+        }
+    });
+
+    Object.keys(partnerData).forEach(property => {
+        if(!partnerData[property]) {
+            delete partnerData[property];
         }
     });
 
