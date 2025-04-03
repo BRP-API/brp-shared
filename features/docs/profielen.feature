@@ -1,7 +1,7 @@
 #language: nl
 Functionaliteit: profielen
 
-  Regel: scenarios die gelden voor alle apis
+  Regel: bestaande scenarios die niet zijn gewijzigd
 
     Scenario: scenario die voor alle profielen moet worden uitgevoerd
 
@@ -41,6 +41,6 @@ Functionaliteit: profielen
 
     @data-api
     Scenario: deprecated scenario die voor DataApiDeprecated profiel moet worden uitgevoerd
-    
+
     @gezag-api
     Scenario: deprecated scenario die voor GezagApiDeprecated profiel moet worden uitgevoerd
