@@ -70,7 +70,7 @@ defineDateParameterType(
 
 defineParameterType({
     name: 'vandaag, gisteren of morgen x jaar geleden',
-    regexp: /(?:(gisteren|vandaag|morgen) )?(\d*) jaar geleden/,
+    regexp: /(?:(gisteren|vandaag|morgen) )?(\d{1,2}) jaar geleden/,
     transformer(dag, aantalJaren) {
         return !dag
             ? toDateOrString(`vandaag - ${aantalJaren} jaar`, false)
@@ -80,7 +80,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'vandaag, gisteren of morgen - x jaar',
-    regexp: /(gisteren|vandaag|morgen) - (\d*) jaar/,
+    regexp: /(gisteren|vandaag|morgen) - (\d{1,2}) jaar/,
     transformer(dag, aantalJaren) {
         return toDateOrString(`${dag} - ${aantalJaren} jaar`, false);
     }
@@ -88,7 +88,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'deze-, vorige- of volgende maand - x jaar',
-    regexp: /(deze|vorige|volgende) maand - (\d*) jaar/,
+    regexp: /(deze|vorige|volgende) maand - (\d{1,2}) jaar/,
     transformer(maand, aantalJaren) {
         return toDateOrString(`${maand} maand - ${aantalJaren} jaar`, false);
     }
@@ -96,7 +96,7 @@ defineParameterType({
 
 defineParameterType({
     name: 'dit-, vorig- of volgend jaar - x jaar',
-    regexp: /(dit|vorig|volgend) jaar - (\d*) jaar/,
+    regexp: /(dit|vorig|volgend) jaar - (\d{1,2}) jaar/,
     transformer(jaar, aantalJaren) {
         return toDateOrString(`${jaar} jaar - ${aantalJaren} jaar`, false);
     }
