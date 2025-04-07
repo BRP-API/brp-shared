@@ -107,11 +107,11 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
         if (aanduiding && !dataTableHasColumn(dataTable, 'geslachtsnaam (02.40)')) {
             data.push(['geslachtsnaam (02.40)', aanduiding]);
         }
-        if (aanduiding && !dataTableHasColumn(dataTable, 'geboorteland (03.30)')) {
+        if (aanduiding && burgerservicenummer && !dataTableHasColumn(dataTable, 'geboorteland (03.30)')) {
             const geboorteLandCode = '6030'; // Nederland
             data.push(['geboorteland (03.30)', geboorteLandCode]);
         }
-        if (aanduiding && !dataTableHasColumn(dataTable, 'aktenummer (81.20)')) {
+        if (aanduiding && burgerservicenummer && !dataTableHasColumn(dataTable, 'aktenummer (81.20)')) {
             const akteNummer = '1AA0100'; // Geboorteakte
             data.push(['aktenummer (81.20)', akteNummer]);
         }
