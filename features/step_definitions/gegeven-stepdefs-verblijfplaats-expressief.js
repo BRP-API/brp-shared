@@ -26,8 +26,8 @@ function gegevenPersonenZijnOpDatumIngeschrevenOpAdres(persoonAanduidingen, datu
 
 Given('persoon/personen {aanduidingen} is/zijn op/in {dd maand yyyy datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
 Given('{aanduidingen} is/zijn op/in {dd maand yyyy datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
-Given('persoon/personen {aanduidingen} is/zijn op {onbekendedatum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
-Given('{aanduidingen} is/zijn op {onbekendedatum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
+Given('persoon/personen {aanduidingen} is/zijn op {onbekende datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
+Given('{aanduidingen} is/zijn op {onbekende datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
 Given('persoon/personen {aanduidingen} is/zijn op {dd-mm-yyyy datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
 Given('{aanduidingen} is/zijn op {dd-mm-yyyy datum} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);
 Given('persoon/personen {aanduidingen} is/zijn {vandaag, gisteren of morgen x jaar geleden} ingeschreven op adres {string}', gegevenPersonenZijnOpDatumIngeschrevenOpAdres);

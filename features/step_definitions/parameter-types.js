@@ -49,7 +49,7 @@ defineParameterType({
 });
 
 defineParameterType({
-    name: 'onbekendedatum',
+    name: 'onbekende datum',
     regexp: /(?:op )?(?:een )?onbekende datum/,
     transformer() {
         return ONBEKENDE_DATUM;

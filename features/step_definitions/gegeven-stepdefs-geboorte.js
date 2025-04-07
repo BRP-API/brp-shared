@@ -15,7 +15,7 @@ function gegevenPersoonIsOpDatumGeboren(datum) {
 }
 
 Given('is {dd-mm-yyyy datum} geboren', gegevenPersoonIsOpDatumGeboren);
-Given('is {onbekendedatum} geboren', gegevenPersoonIsOpDatumGeboren);
+Given('is {onbekende datum} geboren', gegevenPersoonIsOpDatumGeboren);
 Given('is {vandaag, gisteren of morgen x jaar geleden} geboren', gegevenPersoonIsOpDatumGeboren);
 Given('is {vandaag, gisteren of morgen - x jaar} geboren', gegevenPersoonIsOpDatumGeboren);
 Given('is {deze-, vorige- of volgende maand - x jaar} geboren', gegevenPersoonIsOpDatumGeboren);
