@@ -21,12 +21,12 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 -p InfoApi \
                 > /dev/null
 
-# npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-data-api.json \
-#                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-data-api-summary.txt \
-#                 -f summary \
-#                 features/docs \
-#                 -p DataApi \
-#                 > /dev/null
+npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-data-api.json \
+                -f summary:./test-reports/cucumber-js/step-definitions/test-result-data-api-summary.txt \
+                -f summary \
+                features/docs \
+                -p DataApi \
+                > /dev/null
 
 # npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api.json \
 #                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-summary.txt \
