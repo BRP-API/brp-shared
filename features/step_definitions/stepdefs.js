@@ -76,7 +76,7 @@ AfterStep(function({ pickleStep }) {
             global.logger.info(`Als ${pickleStep.text}`);
             break;
         case 'Outcome':
-            global.logger.info(`Dan ${pickleStep.text}`, this.context.response.data);
+            global.logger.info(`Dan ${pickleStep.text}`, this.context.response?.data);
             break;
     }
 });
