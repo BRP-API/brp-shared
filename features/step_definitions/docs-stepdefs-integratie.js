@@ -12,23 +12,23 @@ Given(/de tabel '(.*)' bevat geen rijen/, async function (tabelNaam) {
 
 
 When(/^de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd$/, async function () {
-    if(this.context.data) {
+    if (this.context.data) {
         await execute(generateSqlStatementsFrom(this.context.data));
     }
 });
 
-Then(/heeft de (?:[a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function(_, tabelNaam, dataTable) {    
+Then(/heeft de (?:[a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function (_, tabelNaam, dataTable) {
     let results = await select(tabelNaam, dataTable);
 
     validateResult(results);
 });
 
-function validateResult(results){
+function validateResult(results) {
     results.forEach(item => {
-        if(item.result.rows.length > 0) {
+        if (item.result.rows.length > 0) {
             assert.containsAllKeys(item.result.rows[0], Object.keys(item.row));
         } else {
-            throw {'Error': 'No matching records found!', 'Row': item.row}
+            assert.fail(undefined, undefined, 'No matching records found!', item.row);
         }
     })
 }

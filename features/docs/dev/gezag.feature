@@ -1,5 +1,5 @@
 # language: nl
-@integratie @stap-documentatie
+@integratie @stap-documentatie @skip-verify
 Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
 
   Achtergrond:
