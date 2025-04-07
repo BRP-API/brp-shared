@@ -14,12 +14,12 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 -p Integratie \
                 > /dev/null
 
-# npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-informatie-api.json \
-#                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-informatie-api-summary.txt \
-#                 -f summary \
-#                 features/docs \
-#                 -p InfoApi \
-#                 > /dev/null
+npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-informatie-api.json \
+                -f summary:./test-reports/cucumber-js/step-definitions/test-result-informatie-api-summary.txt \
+                -f summary \
+                features/docs \
+                -p InfoApi \
+                > /dev/null
 
 # npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-data-api.json \
 #                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-data-api-summary.txt \
