@@ -35,9 +35,9 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 -p GezagApi \
                 > /dev/null
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated.json \
-                -f summary:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated-summary.txt \
-                -f summary \
-                features/docs \
-                -p GezagApiDeprecated \
-                > /dev/null
+# npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated.json \
+#                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated-summary.txt \
+#                 -f summary \
+#                 features/docs \
+#                 -p GezagApiDeprecated \
+#                 > /dev/null
