@@ -164,7 +164,7 @@ components:
         De achternaam van een persoon.
       example: Vries
     Naam:
-      description: Benodigde properties om een volledige naam te construeren.
+      description: Benodigde properties om een volledige naam te construeren. Het construeren wordt gedaan door een andere service.
       type: object
       properties:
         voornamen:
@@ -229,8 +229,12 @@ components:
           properties:
             burgerservicenummer:
               $ref: '#/components/schemas/Burgerservicenummer'
-      required:
-        - burgerservicenummer
+            naam:
+              $ref: '#/components/schemas/Naam'
+            geslacht:
+              $ref: '#/components/schemas/Geslachtsaanduiding'
+          required:
+            - naam
     OnbekendeDerde:
       allOf:
         - $ref: '#/components/schemas/Derde'
@@ -271,11 +275,28 @@ components:
           properties:
             toelichting:
               $ref: '#/components/schemas/Toelichting'
+    GbaDatum:
+      type: string
+      pattern: ^[0-9]{8}$
+      example: '20180700'
+    GeboorteBasis:
+      type: object
+      properties:
+        datum:
+          $ref: '#/components/schemas/GbaDatum'
+          description: |
+            Datum waarop de persoon is geboren.
     Minderjarige:
       type: object
       properties:
         burgerservicenummer:
           $ref: '#/components/schemas/Burgerservicenummer'
+        naam:
+          $ref: '#/components/schemas/Naam'
+        geslacht:
+          $ref: '#/components/schemas/Geslachtsaanduiding'
+        geboorte:
+          $ref: '#/components/schemas/GeboorteBasis'
       required:
         - burgerservicenummer
     Gezag:

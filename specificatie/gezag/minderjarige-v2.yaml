@@ -1,11 +1,11 @@
 openapi: 3.1.0
 info:
-  title: gezagouder type definitie
+  title: minderjarige type definitie
   version: 2.0.0
 paths: {}
 components:
   schemas:
-    GezagOuder:
+    Minderjarige:
       type: object
       properties:
         burgerservicenummer:
@@ -14,5 +14,7 @@ components:
           $ref: './naam-v1.yaml#/components/schemas/Naam'
         geslacht:
           $ref: '../brp/geslacht/geslachtsaanduiding-v1.yaml#/components/schemas/Geslachtsaanduiding'
-      required:
+        geboorte:
+          $ref: '../brp/geboorte/geboorte-basis-v1.yaml#/components/schemas/GeboorteBasis'
+      required: 
         - naam
