@@ -1084,9 +1084,9 @@ Given(/^(?:(?:de persoon )?'(.*)' )?is (.*) geïmmigreerd naar Nederland$/, func
         ['gemeente van inschrijving (09.10)', gemeenteVanInschrijving]
     ];
 
-    let vestigingLandCode = undefined;
+    let vestigingLandCode;
     const huidigeVerblijfplaats = getPersoon(this.context, aanduiding).verblijfplaats;
-    if (huidigeVerblijfplaats && huidigeVerblijfplaats[0].vertrek_land_code) {
+    if (huidigeVerblijfplaats?.[0]?.vertrek_land_code) {
         vestigingLandCode = huidigeVerblijfplaats[0].vertrek_land_code;
         data.push(['land vanwaar ingeschreven (14.10)', vestigingLandCode]);
     }
