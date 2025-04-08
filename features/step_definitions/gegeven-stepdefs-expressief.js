@@ -111,8 +111,6 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
             arrayOfArraysToDataTable(data, dataTable)
         );
     }
-
-    global.logger.info(`gegeven (de) persoon '${aanduiding}' (met/zonder burgerservicenummer) (heeft de volgende gegevens)`, getPersoon(context, aanduiding));
 }
 
 Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'(?: zonder burgerservicenummer)? heeft de volgende gegevens$/, function (aanduiding, dataTable) {
