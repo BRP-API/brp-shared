@@ -750,30 +750,30 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         |     3 |            1 |         0 |       0 |         000000012 | Arjan          | gisteren - 45 jaar |                    | M              | 1AA0100 |             2 jaar geleden |
         |     3 |            2 |         0 |       0 |         000000024 | Tosca          |           19880805 |                    | V              | 1AA0100 |             2 jaar geleden |
 
-    # Scenario: heeft '{naam}' als ouder die niet met burgerservicenummer is ingeschreven in de BRP
-    #   # geboortedatum van de niet-ingezeten ouder wordt standaard gevuld als meerderjarig (gisteren - 45 jaar)
-    #   # mogelijk gaan we later andere varianten toevoegen (minderjarige ouder) of extra gegevens toevoegen (voornamen, geboorteplaats, geboorteland, ...?)
-    #   # als er nog geen geboortedatum van de persoon bekend is, wordt 'gisteren - 17 jaar' opgenomen bij familie_betrek_start_datum in de ouder-relatie
-    #   Gegeven de persoon 'Arjan' met burgerservicenummer '000000012'
-    #   En de persoon 'Theo' met burgerservicenummer '000000036'
-    #   * heeft 'Arjan' als ouder
-    #   * heeft 'Tosca' als ouder die niet met burgerservicenummer is ingeschreven in de BRP
-    #   Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    #   Dan heeft de persoon 'Arjan' de volgende rij in tabel 'lo3_pl'
-    #     | pl_id | geheim_ind |
-    #     |     1 |          0 |
-    #   En heeft de persoon 'Arjan' de volgende rijen in tabel 'lo3_pl_persoon'
-    #     | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-    #     |     1 | P            |         0 |       0 |         000000012 | Arjan          |               6030 | 1AA0100 |
-    #     |     1 | K            |         0 |       0 |         000000036 | Theo           |                    | 1AA0100 |
-    #   En heeft de persoon 'Theo' de volgende rij in tabel 'lo3_pl'
-    #     | pl_id | geheim_ind |
-    #     |     2 |          0 |
-    #   En heeft de persoon 'Theo' de volgende rijen in tabel 'lo3_pl_persoon'
-    #     | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-    #     |     2 | P            |         0 |       0 |         000000036 | Theo           |                    |               6030 | 1AA0100 |                            |
-    #     |     2 |            1 |         0 |       0 |         000000012 | Arjan          |                    |                    | 1AA0100 | gisteren - 17 jaar         |
-    #     |     2 |            2 |         0 |       0 |                   | Tosca          | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
+    Scenario: heeft '{naam}' als ouder die niet met burgerservicenummer is ingeschreven in de BRP
+      # geboortedatum van de niet-ingezeten ouder wordt standaard gevuld als meerderjarig (gisteren - 45 jaar)
+      # mogelijk gaan we later andere varianten toevoegen (minderjarige ouder) of extra gegevens toevoegen (voornamen, geboorteplaats, geboorteland, ...?)
+      # als er nog geen geboortedatum van de persoon bekend is, wordt 'gisteren - 17 jaar' opgenomen bij familie_betrek_start_datum in de ouder-relatie
+      Gegeven de persoon 'Arjan' met burgerservicenummer '000000012'
+      En de persoon 'Theo' met burgerservicenummer '000000036'
+      * heeft 'Arjan' als ouder
+      * heeft 'Tosca' als ouder die niet met burgerservicenummer is ingeschreven in de BRP
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft de persoon 'Arjan' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        |     1 |          0 |
+      En heeft de persoon 'Arjan' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
+        |     1 | P            |         0 |       0 |         000000012 | Arjan          |               6030 | 1AA0100 |
+        |     1 | K            |         0 |       0 |         000000036 | Theo           |                    | 1AA0100 |
+      En heeft de persoon 'Theo' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        |     2 |          0 |
+      En heeft de persoon 'Theo' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
+        |     2 | P            |         0 |       0 |         000000036 | Theo           |                    |               6030 | 1AA0100 |                            |
+        |     2 |            1 |         0 |       0 |         000000012 | Arjan          | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
+        |     2 |            2 |         0 |       0 |                   | Tosca          | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
     
     # Scenario: overnemen van gegevens van ouder en kind: '{naam}' is op {datum} geadopteerd door '{naam}' en '{naam}'
     #   Gegeven de persoon 'Arjan' met burgerservicenummer '000000012'
@@ -809,7 +809,6 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
     #     |     3 | P            |         0 |       0 |         000000036 | Theo           | gisteren - 17 jaar |                |               6029 | 1AQ0100 |                            |
     #     |     3 |            1 |         0 |       0 |         000000024 | Tosca          |    18 jaar geleden | V              |                    | 1AQ0100 |                   20191130 |
     #     |     3 |            2 |         0 |       0 |         000000012 | Arjan          | gisteren - 45 jaar | M              |                    | 1AQ0100 |                   20191130 |
-
     # Scenario: '{naam}' is geadopteerd door '{naam}'
     #   # logica is gelijk aan stap '{naam}' is {relatieve datum} geadopteerd door '{naam}' (voor bepalen ouder 1 of 2 en voor overnemen van gegevens)
     #   # default datum adoptie is '10 jaar geleden'
@@ -841,7 +840,6 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
     #     |     3 | P            |         0 |       0 |         000000036 | Theo           |               6029 | 1AQ0100 |                            |
     #     |     3 |            1 |         0 |       0 |         000000024 | Tosca          |                    | 1AA0100 |            17 jaar geleden |
     #     |     3 |            2 |         0 |       0 |         000000012 | Arjan          |                    | 1AQ0100 |            10 jaar geleden |
-
     # Scenario: '{naam}' is geadopteerd door '{naam}' en '{naam}'
     #   # logica is gelijk aan stap '{naam}' is {relatieve datum} geadopteerd door '{naam}' en '{naam}' (voor overnemen van gegevens)
     #   # default datum adoptie is '10 jaar geleden'
@@ -872,7 +870,6 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
     #     |     3 | P            |         0 |       0 |         000000036 | Theo           |               6029 | 1AQ0100 |                            |
     #     |     3 |            1 |         0 |       0 |         000000024 | Tosca          |                    | 1AQ0100 |            10 jaar geleden |
     #     |     3 |            2 |         0 |       0 |         000000012 | Arjan          |                    | 1AQ0100 |            10 jaar geleden |
-
     # Scenario: '{naam}' is erkend door '{naam}' op {datum}
     #   Gegeven de tabel 'lo3_pl_persoon' bevat geen rijen
     #   Gegeven de persoon 'Arjan' met burgerservicenummer '000000012'

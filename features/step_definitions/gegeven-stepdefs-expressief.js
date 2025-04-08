@@ -753,17 +753,24 @@ function getOuderData(context, aanduiding) {
 Given(/^heeft '(.*)' als ouder$/, function (aanduiding) {
     const ouderData = getOuderData(this.context, aanduiding);
 
-    gegevenHeeftPersoonAlsOuder(this.context, aanduiding, '1', arrayOfArraysToDataTable(ouderData));
+    const huidigePersoon = getPersoon(this.context, undefined);
+    const ouderType = huidigePersoon['ouder-1'] ? '2' : '1';
+
+    gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, arrayOfArraysToDataTable(ouderData));
 });
 
 Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven in de BRP$/, function (aanduiding) {
     const ouderData = arrayOfArraysToDataTable([
         ['geslachtsnaam (02.40)', aanduiding],
         ['datum ingang familierechtelijke betrekking (62.10)', 'gisteren - 17 jaar'],
-        ['geboortedatum (03.10)', 'gisteren - 45 jaar']
+        ['geboortedatum (03.10)', 'gisteren - 45 jaar'],
+        ['aktenummer (81.20)', '1AA0100']	
     ]);
 
-    gegevenHeeftNietIngeschrevenPersoonAlsOuder(this.context, aanduiding, '2', ouderData);
+    const huidigePersoon = getPersoon(this.context, undefined);
+    const ouderType = huidigePersoon['ouder-1'] ? '2' : '1';
+
+    gegevenHeeftNietIngeschrevenPersoonAlsOuder(this.context, aanduiding, ouderType, ouderData);
 });
 
 Given(/^heeft '(.*)' en '(.*)' als ouders$/, function (aanduiding1, aanduiding2) {
