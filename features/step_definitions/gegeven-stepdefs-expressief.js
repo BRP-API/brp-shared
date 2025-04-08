@@ -1,4 +1,4 @@
-const { Given, DataTable } = require('@cucumber/cucumber');
+const { Given } = require('@cucumber/cucumber');
 const { objectToDataTable, arrayOfArraysToDataTable } = require('./dataTableFactory');
 const { createPersoon,
     aanvullenPersoon,
@@ -349,23 +349,6 @@ Given(/^is in het buitenland geboren$/, function () {
 
     global.logger.info(`gegeven persoon is in het buitenland geboren`, getPersoon(this.context, undefined));
 });
-
-/**
- * Geboorteland standaardwaarden zonder aktenummer
- * 
- * Op dit moment wordt standaard landcode 6003 gebruikt.
- * Deze gegeven stap is voor testen waar het niet relevant is uit welk land de persoon geadopteerd is,
- * alleen dat de persoon in het buitenland is geboren.
- */
-// Given(/^is geboren in het buitenland/, function () {
-//     const codeVanLand = '6003';
-//     aanvullenPersoon(
-//         getPersoon(this.context, undefined),
-//         arrayOfArraysToDataTable([
-//             ['geboorteland (03.30)', codeVanLand]
-//         ])
-//     );
-// });
 
 Given(/^is geboren in (.*)/, async function (landNaam) {
     const codeVanLand = await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', landNaam, '6030');
@@ -808,7 +791,9 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
         ouderType,
         arrayOfArraysToDataTable([
             ['burgerservicenummer (01.20)', getBsn(ouder)],
-            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)]
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
+            ['geboortedatum (03.10)', getGeboortedatum(ouder)],
+            ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder)],
         ], dataTable)
     );
 
@@ -817,6 +802,8 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
         arrayOfArraysToDataTable([
             ['burgerservicenummer (01.20)', getBsn(kind)],
             ['geslachtsnaam (02.40)', getGeslachtsnaam(kind)],
+            ['geboortedatum (03.10)', getGeboortedatum(kind)],
+            ['aktenummer (81.20)', '1AQ0100'],	
         ])
     )
 }
@@ -824,8 +811,11 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
 Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduidingOuder1) {
     const kind = getPersoon(this.context, aanduidingKind);
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar']
+        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
+        ['aktenummer (81.20)', '1AQ0100']
     ]);
+
+    const ouderType = kind['ouder-1'] ? '2' : '1';
 
     gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, ouderType, adoptieOuderData);
 
@@ -835,30 +825,30 @@ Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduid
 Given('{string} is geadopteerd door {string} en {string}', function (aanduidingKind, aanduidingOuder1, aanduidingOuder2) {
     const kind = getPersoon(this.context, aanduidingKind);
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar']
+        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
+        ['aktenummer (81.20)', '1AQ0100']
     ]);
 
-    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, ouderType, adoptieOuderData);
-    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder2, ouderType, adoptieOuderData);
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, '1', adoptieOuderData);
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder2, '2', adoptieOuderData);
 
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
 });
 
-
-
 Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOuder, ouderType) {
     const kind = getPersoon(this.context, undefined);
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar']
+        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar'],
+        ['aktenummer (81.20)', '1AQ0100']
     ]);
 
     gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 
-
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar']
+        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar'],
+        ['aktenummer (81.20)', '1AQ0100']
     ]);
 
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, adoptieOuderData);
@@ -867,7 +857,8 @@ Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduid
 Given(/^'(.*)' is op (\d*)-(\d*)-(\d*) geadopteerd door '(.*)' en '(.*)'$/, function (aanduidingKind, dag, maand, jaar, aanduidingOuder1, aanduidingOuder2) {
     const adoptieDatum = toBRPDate(dag, maand, jaar);
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', adoptieDatum]
+        ['datum ingang familierechtelijke betrekking (62.10)', adoptieDatum],
+        ['aktenummer (81.20)', '1AQ0100']
     ]);
 
     gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder1, '1', adoptieOuderData);
@@ -1225,7 +1216,7 @@ const ErkenningsType = {
     GerechtelijkeVaststellingOuderschap: 'V'
 }
 
-Given('{string} is erkend door {string} op {int}-{int}-{int}', function (_, aanduidingOuder, dag, maand, jaar) {
+Given('{string} is erkend door {string} op {int}-{int}-{int}', function (aanduiding, aanduidingOuder, dag, maand, jaar) {
     const datumIngang = toBRPDate(dag, maand, jaar);
 
     const ouderData = [
@@ -1242,7 +1233,9 @@ Given('{string} is erkend door {string} op {int}-{int}-{int}', function (_, aand
         ouderData.push(['geboortedatum (03.10)', geboorteDatum]);
     }
 
-    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.ErkenningNaGeboorteaangifte, '2', arrayOfArraysToDataTable(ouderData));
+    const aanduidingOuderType = getPersoon(this.context, aanduiding)[`ouder-1`] ? '2' : '1';
+
+    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.ErkenningNaGeboorteaangifte, aanduidingOuderType, arrayOfArraysToDataTable(ouderData));
 
     global.logger.info(`gegeven persoon is erkend door '${aanduidingOuder}'`, getPersoon(this.context, undefined));
 });
