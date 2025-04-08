@@ -5,6 +5,7 @@ const { createPersoon,
     wijzigPersoon,
     wijzigGeadopteerdPersoon,
     createKind,
+    wijzigKind,
     createOuder,
     wijzigOuder,
     createPartner,
@@ -747,7 +748,7 @@ Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven 
         ['geslachtsnaam (02.40)', aanduiding],
         ['datum ingang familierechtelijke betrekking (62.10)', 'gisteren - 17 jaar'],
         ['geboortedatum (03.10)', 'gisteren - 45 jaar'],
-        ['aktenummer (81.20)', '1AA0100']	
+        ['aktenummer (81.20)', '1AA0100']
     ]);
 
     const huidigePersoon = getPersoon(this.context, undefined);
@@ -779,7 +780,7 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
     const ouder = getPersoon(context, aanduidingOuder);
 
     const kindData = { ...kind.persoon.at(-1) };
-    
+
     kindData[toDbColumnName('aktenummer (81.20)')] = '1AQ0100'
 
     wijzigPersoon(
@@ -804,7 +805,7 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
             ['burgerservicenummer (01.20)', getBsn(kind)],
             ['geslachtsnaam (02.40)', getGeslachtsnaam(kind)],
             ['geboortedatum (03.10)', getGeboortedatum(kind)],
-            ['aktenummer (81.20)', '1AQ0100'],	
+            ['aktenummer (81.20)', '1AQ0100'],
         ])
     )
 }
@@ -1230,7 +1231,7 @@ Given('{string} is erkend door {string} op {int}-{int}-{int}', function (aanduid
     }
 
     const geboorteDatum = getGeboortedatum(getPersoon(this.context, aanduidingOuder));
-    if(geboorteDatum) {
+    if (geboorteDatum) {
         ouderData.push(['geboortedatum (03.10)', geboorteDatum]);
     }
 
@@ -1474,3 +1475,42 @@ function getIndicatieGezag(context, aanduiding) {
         }
     }
 }
+
+
+/**
+ * Hier volgt de gegevenstappen voor ontkenning ouderlijk gezag
+ */
+
+Given(/^(.*) heeft '(.*)' het ouderschap ontkend$/, function (relatieveDatum, aanduidingOuder) {
+    let plKind = getPersoon(this.context, undefined);
+    let plOuder = getPersoon(this.context, aanduidingOuder);
+
+    wijzigKind(
+        plOuder,
+        arrayOfArraysToDataTable([
+            ['aktenummer (81.20)', '1AE0100'],
+        ]),
+        true,
+        getBsn(plKind),
+    );
+
+    let ouderType = 1; 
+    if(plKind['ouder-2']) {
+        let tmp = plKind['ouder-2'][0];
+        if(tmp.burger_service_nr === getBsn(plOuder)) {
+            ouderType = 2;
+        }
+    }
+
+    wijzigOuder(
+        plKind,
+        ouderType,
+        arrayOfArraysToDataTable([
+            ['aktenummer (81.20)', '1AE0100'],
+            ['ingangsdatum geldigheid (85.10)', relatieveDatum],
+        ]),
+        true
+    );
+
+    global.logger.info(`gegeven persoon heeft '${aanduidingOuder}' het ouderschap ontkend`, getPersoon(this.context, undefined));
+});
