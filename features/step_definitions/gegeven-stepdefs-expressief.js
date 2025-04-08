@@ -1512,5 +1512,39 @@ Given(/^(.*) heeft '(.*)' het ouderschap ontkend$/, function (relatieveDatum, aa
         true
     );
 
-    global.logger.info(`gegeven persoon heeft '${aanduidingOuder}' het ouderschap ontkend`, getPersoon(this.context, undefined));
+    global.logger.info(`Gegeven ${relatieveDatum} heeft '${aanduidingOuder}' het ouderschap ontkend`, getPersoon(this.context, undefined));
 });
+
+Given('{string} heeft ontkend vader te zijn van {string}', function (aanduidingOuder, aanduidingKind) {
+    let plKind = getPersoon(this.context, aanduidingKind);
+    let plOuder = getPersoon(this.context, aanduidingOuder);
+
+    wijzigKind(
+        plOuder,
+        arrayOfArraysToDataTable([
+            ['aktenummer (81.20)', '1AE0100'],
+        ]),
+        true,
+        getBsn(plKind),
+    );
+
+    let ouderType = 1; 
+    if(plKind['ouder-2']) {
+        let tmp = plKind['ouder-2'][0];
+        if(tmp.burger_service_nr === getBsn(plOuder)) {
+            ouderType = 2;
+        }
+    }
+
+    wijzigOuder(
+        plKind,
+        ouderType,
+        arrayOfArraysToDataTable([
+            ['aktenummer (81.20)', '1AE0100'],
+            ['ingangsdatum geldigheid (85.10)', getGeboortedatum(plKind)],
+        ]),
+        true
+    );
+
+    global.logger.info(`gegeven '${aanduidingOuder}' heeft ontkend vader te zijn`, getPersoon(this.context, undefined));
+  });
