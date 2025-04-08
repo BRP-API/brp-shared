@@ -779,6 +779,7 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
     const ouder = getPersoon(context, aanduidingOuder);
 
     const kindData = { ...kind.persoon.at(-1) };
+    
     kindData[toDbColumnName('aktenummer (81.20)')] = '1AQ0100'
 
     wijzigPersoon(
@@ -838,7 +839,7 @@ Given('{string} is geadopteerd door {string} en {string}', function (aanduidingK
 Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOuder, ouderType) {
     const kind = getPersoon(this.context, undefined);
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar'],
+        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
@@ -847,7 +848,7 @@ Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOude
 
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 4 jaar'],
+        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
