@@ -238,19 +238,6 @@ Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) ingeschreven op ad
     global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ingeschreven op adres '${adresAanduiding}' op een onbekende datum`, getPersoon(this.context, aanduidingen[0]));
 });
 
-// Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) (?:(gisteren|vandaag|morgen) )?(\d*) jaar geleden ingeschreven op adres '([a-zA-Z0-9]*)'$/, function (persoonAanduidingen, dag, aantalJaren, adresAanduiding) {
-//     const date = !dag
-//         ? toDateOrString(`vandaag - ${aantalJaren} jaar`, false)
-//         : toDateOrString(`${dag} - ${aantalJaren} jaar`, false);
-
-//     const aanduidingen = persoonAanduidingen.replace(' en ', ',').split(',').map(aanduiding => aanduiding.trim());
-//     for (const persoonAanduiding of aanduidingen) {
-//         gegevenPersonenZijnIngeschrevenOpAdres(this.context, adresAanduiding, persoonAanduiding, date);
-//     }
-
-//     global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ${dag} ${aantalJaren} jaar geleden ingeschreven op adres '${adresAanduiding}'`, getPersoon(this.context, aanduidingen[0]));
-// });
-
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
     createOuder(
         getPersoon(this.context, undefined),
