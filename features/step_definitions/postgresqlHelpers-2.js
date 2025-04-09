@@ -75,13 +75,13 @@ async function select(tableName, objecten) {
     try {
         await client.query('BEGIN');
 
-        objecten.forEach(async (obj) => {
+        for(const obj of objecten) {
             let result = await executeAndLogStatement(client, selectStatement(tableName, Object.keys(obj), Object.values(obj)));
             results.push( {
                 result: result,
                 row: obj
             });
-        });
+        }
 
         await client.query('COMMIT');
     }
