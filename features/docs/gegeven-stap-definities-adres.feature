@@ -8,7 +8,7 @@ Functionaliteit: Adres gegeven stap definities
     Gegeven de 3e 'SELECT COALESCE(MAX(adres_id), 0)+1 FROM public.lo3_adres' statement heeft als resultaat '5001'
 
   @integratie
-  Abstract Scenario: adres '[adres aanduiding]'
+  Scenario: adres '[adres aanduiding]'
     Gegeven adres 'A1'
       | gemeentecode (92.10) |
       |                 0518 |
