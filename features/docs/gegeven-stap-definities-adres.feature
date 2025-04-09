@@ -9,7 +9,8 @@ Functionaliteit: Adres gegeven stap definities
 
   @integratie
   Scenario: adres '[adres aanduiding]'
-    Gegeven adres 'A1'
+    Gegeven de tabel 'lo3_adres' bevat geen rijen
+    En adres 'A1'
       | gemeentecode (92.10) |
       |                 0518 |
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
@@ -19,7 +20,8 @@ Functionaliteit: Adres gegeven stap definities
 
   @integratie
   Scenario: adres '[adres aanduiding]' (meerdere adressen)
-    Gegeven adres 'A1'
+    Gegeven de tabel 'lo3_adres' bevat geen rijen
+    En adres 'A1'
       | gemeentecode (92.10) |
       |                 0518 |
     Gegeven adres 'A2'
