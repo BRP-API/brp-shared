@@ -186,17 +186,6 @@ function selectStatement(tabelNaam, columns, values) {
     };
 }
 
-function truncateStatement(tabelNaam, id = undefined) {
-    return {
-        text: `DELETE FROM public.${tabelNaam}`,
-        values: []
-    }
-}
-
-async function executeAndLogTruncateStatement(client, tabelNaam, id = undefined) {
-    return await executeAndLogStatement(client, truncateStatement(tabelNaam, id));
-}
-
 async function executeAndLogDeleteStatement(client, tabelNaam, id = undefined) {
     return await executeAndLogStatement(client, deleteStatement(tabelNaam, id));
 }
@@ -209,31 +198,43 @@ async function deleteAllRowsInAllTables(client) {
     }
 }
 
-async function deleteInsertedRows(client, sqlData) {
-    global.logger.debug('delete inserted rows');
-
-    if(sqlData === undefined) {
+async function deleteInsertedPersoonRows(client, personen) {
+    if(!personen) {
         return;
     }
 
-    if(sqlData.personen) {
-        for(const persoon of sqlData.personen) {
-            if(persoon.plId) {
-                for(const key of Object.keys(persoon)) {
-                    if(tableNameMap.has(key)) {
-                        await executeAndLogDeleteStatement(client, key, persoon.plId);
-                    }
+    for(const persoon of personen) {
+        if(persoon.plId) {
+            for(const key of Object.keys(persoon)) {
+                if(tableNameMap.has(key)) {
+                    await executeAndLogDeleteStatement(client, key, persoon.plId);
                 }
             }
         }
     }
-    if(sqlData.adressen) {
-        for(const adres of sqlData.adressen) {
-            if(adres.adresId) {
-                await executeAndLogDeleteStatement(client, 'adres', adres.adresId);
-            }
+}
+
+async function deleteInsertedAdresRows(client, adressen) {
+    if(!adressen) {
+        return;
+    }
+
+    for(const adres of adressen) {
+        if(adres.adresId) {
+            await executeAndLogDeleteStatement(client, 'adres', adres.adresId);
         }
     }
+}
+
+async function deleteInsertedRows(client, sqlData) {
+    global.logger.debug('delete inserted rows');
+
+    if(!sqlData) {
+        return;
+    }
+
+    await deleteInsertedPersoonRows(client, sqlData.personen);
+    await deleteInsertedAdresRows(client, sqlData.adressen);
 }
 
 async function rollback(sqlContext, sqlData) {
