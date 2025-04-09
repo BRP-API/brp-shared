@@ -1,5 +1,6 @@
 const { tableNameMap } = require('./brp');
 const { toDateOrString } = require('./brpDatum');
+const { deleteStatement } = require('./parameterizedSqlStatementFactory');
 
 function mustLog(result) {
     return (result.rowCount === null || result.rowCount === 0) && global.scenario.tags.some(t => ['@protocollering'].includes(t));
@@ -57,32 +58,9 @@ async function executeAdresStatements(client, statements) {
     return pkId;
 }
 
-async function truncate(tableName) {
-    if (!global.pool) {
-        global.logger.info('geen pool');
-        return;
-    }
-
-    const client = await global.pool.connect();
-    try {
-        await client.query('BEGIN');
-
-        await executeAndLogTruncateStatement(client, tableName);
-
-        await client.query('COMMIT');
-    }
-    catch (ex) {
-        global.logger.error(ex.message);
-        await client.query('ROLLBACK');
-    }
-    finally {
-        client?.release();
-    }
-}
-
-async function select(tableName, dataTable) {
-    if(!dataTable) {
-        global.logger.info('geen datatabel');
+async function select(tableName, objecten) {
+    if(!objecten) {
+        global.logger.info('geen objecten');
         return;
     }
 
@@ -97,11 +75,11 @@ async function select(tableName, dataTable) {
     try {
         await client.query('BEGIN');
 
-        dataTable.hashes().forEach(async (row) => {
-            let result = await executeAndLogStatement(client, selectStatement(tableName, Object.keys(row), Object.values(row)));
+        objecten.forEach(async (obj) => {
+            let result = await executeAndLogStatement(client, selectStatement(tableName, Object.keys(obj), Object.values(obj)));
             results.push( {
                 result: result,
-                row: row
+                row: obj
             });
         });
 
@@ -208,13 +186,6 @@ function selectStatement(tabelNaam, columns, values) {
     };
 }
 
-function deleteStatement(tabelNaam, id = undefined) {
-    return {
-        text: `DELETE FROM public.${tableNameMap.get(tabelNaam)}`,
-        values: []
-    }
-}
-
 function truncateStatement(tabelNaam, id = undefined) {
     return {
         text: `DELETE FROM public.${tabelNaam}`,
@@ -245,107 +216,22 @@ async function deleteInsertedRows(client, sqlData) {
         return;
     }
 
-    let adresData = [];
-
-    for(const sqlDataElement of sqlData) {
-        if (sqlDataElement['adres'] !== undefined) {
-            adresData.push(sqlDataElement);
+    if(sqlData.personen) {
+        for(const persoon of sqlData.personen) {
+            if(persoon.plId) {
+                for(const key of Object.keys(persoon)) {
+                    if(tableNameMap.has(key)) {
+                        await executeAndLogDeleteStatement(client, key, persoon.plId);
+                    }
+                }
+            }
         }
-        else {
-            await deleteRecords(client, sqlDataElement, true);
-        }
     }
-
-    for(const adrData of adresData) {
-        await deleteAdresRij(client, adrData);
-    }
-    await deleteGemeenteRijen(client, sqlData.find(el => el['gemeente'] !== undefined));
-    await deleteAutorisatieRecords(client, sqlData.find(el => el['autorisatie'] !== undefined));
-    await deleteProtocolleringRecords(client);
-}
-
-function getElementValue(data, elementName) {
-    const elem = data.find(e => e[0] === elementName);
-
-    return elem !== undefined
-        ? Number(elem[1])
-        : undefined;
-}
-
-async function deleteAdresRij(client, sqlData) {
-    const adresData = sqlData?.adres;
-    if(adresData === undefined) {
-        return;
-    }
-
-    for(const key of Object.keys(adresData)) {
-        const id = getElementValue(adresData[key].data, 'adres_id');
-        if(id === undefined) {
-            continue;
-        }
-
-        await executeAndLogDeleteStatement(client, 'adres', id);
-    }
-}
-
-async function deleteAutorisatieRecords(client, sqlData) {
-    if(sqlData === undefined || sqlData['autorisatie'] === undefined) {
-        return;
-    }
-    const autorisatieData = sqlData['autorisatie']; 
-
-    for(const rowData of autorisatieData) {
-        const id = getElementValue(rowData, 'afnemer_code');
-        if(id === undefined) {
-            continue;
-        }
-
-        await executeAndLogDeleteStatement(client, 'autorisatie', id);
-    }
-}
-
-async function deleteGemeenteRijen(client, sqlData) {
-    if(sqlData === undefined || sqlData['gemeente'] === undefined) {
-        return;
-    }
-    const gemeenteData = sqlData['gemeente'];
-
-    for(const key of Object.keys(gemeenteData)) {
-        const id = getElementValue(gemeenteData[key].data, 'gemeente_code');
-        if(id === undefined) {
-            continue;
-        }
-
-        await executeAndLogDeleteStatement(client, 'gemeente', id);
-    }
-}
-
-async function deleteProtocolleringRecords(client) {
-    await executeAndLogDeleteStatement(client, 'protocollering', undefined);
-}
-
-async function deleteRecords(client, sqlData, deleteIndividualRecords = true) {
-    const inschrijvingData = sqlData?.inschrijving;
-    if(inschrijvingData === undefined) {
-        return;
-    }
-
-    const id = deleteIndividualRecords
-        ? getElementValue(inschrijvingData[0], 'pl_id')
-        : undefined;
-
-    // bijhouden van reeds opgeschoonde tabellen, zodat deze niet opnieuw wordt opgeschoond met als gevolg rowCount == 0
-    let opgeschoondeTabellen = [];
-    for(const key of Object.keys(sqlData)) {
-        const tabelNaam = key.replace(/-\w*/g, '');
-
-        if(['autorisatie', 'ouder', 'kind', 'partner'].includes(tabelNaam)) {
-            continue;
-        }
-
-        if(tableNameMap.has(tabelNaam) && !opgeschoondeTabellen.includes(tabelNaam)) {
-            opgeschoondeTabellen.push(tabelNaam);
-            await executeAndLogDeleteStatement(client, tabelNaam, id);
+    if(sqlData.adressen) {
+        for(const adres of sqlData.adressen) {
+            if(adres.adresId) {
+                await executeAndLogDeleteStatement(client, 'adres', adres.adresId);
+            }
         }
     }
 }
@@ -369,7 +255,9 @@ async function rollback(sqlContext, sqlData) {
         if(deleteIndividualRecords) {
             await deleteInsertedRows(client, sqlData);
         }
-        await deleteAllRowsInAllTables(client);
+        else {
+            await deleteAllRowsInAllTables(client);
+        }
     }
     catch(ex) {
         global.logger.error(ex.stack);
@@ -382,7 +270,6 @@ async function rollback(sqlContext, sqlData) {
 module.exports = {
     execute,
     rollback,
-    truncate,
     select,
     selectFirstOrDefault
 }

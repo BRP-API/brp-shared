@@ -15,13 +15,13 @@ Functionaliteit: Ouder gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl'
       | pl_id | geheim_ind |
-      |     1 |          0 |
+      |    P1 |          0 |
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
-      |     1 |         0 |       0 |            P |         000000036 |             P1 |
+      |    P1 |         0 |       0 |            P |         000000036 |             P1 |
     En heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | geslachts_naam |
-      |     1 |         0 |       0 | <ouder type> |             P2 |
+      |    P1 |         0 |       0 | <ouder type> |             P2 |
 
     Voorbeelden:
       | ouder type |

@@ -25,7 +25,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
-      |     1 |       0 |                       0518 |
+      |    P1 |       0 |                       0518 |
 
   @integratie
   Scenario: is niet ingeschreven in de BRP
@@ -36,7 +36,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
-      |     1 |       0 |                       1999 |
+      |    P1 |       0 |                       1999 |
 
   @integratie
   Abstract Scenario: persoon '[persoon aanduiding]' is ingeschreven op adres '[adres aanduiding]' op [<datum type>]
@@ -50,7 +50,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     1 |        1 |       0 | W             | <datum>                  |
+      |    P1 |       A1 |       0 | W             | <datum>                  |
 
     Voorbeelden:
       | stap                                                              | datum    | datum type                 |
@@ -80,10 +80,10 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     1 |        1 |       0 | W             | <datum>                  |
+      |    P1 |       A1 |       0 | W             | <datum>                  |
     En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     2 |        1 |       0 | W             | <datum>                  |
+      |    P2 |       A1 |       0 | W             | <datum>                  |
 
     Voorbeelden:
       | stap                                                               | datum    | datum type                 |
@@ -109,7 +109,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     1 |        1 |       0 | W             | <datum>                  |
+      |    P1 |       A1 |       0 | W             | <datum>                  |
 
     Voorbeelden:
       | stap                                                       | datum             |
@@ -134,10 +134,10 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     1 |        1 |       0 | W             | <datum>                  |
+      |    P1 |       A1 |       0 | W             | <datum>                  |
     En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |     2 |        1 |       0 | W             | <datum>                  |
+      |    P2 |       A1 |       0 | W             | <datum>                  |
 
     Voorbeelden:
       | stap                                                                       | datum             |
