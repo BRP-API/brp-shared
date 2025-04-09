@@ -27,7 +27,7 @@ const { getAdres,
     getGeslachtsaanduiding,
     getPersoon } = require('./contextHelpers');
 
-const { toDateOrString, toBRPDate } = require('./brpDatum');
+const { toBRPDate, toDateOrString } = require('./brpDatum');
 
 const { selectFirstOrDefault } = require('./postgresqlHelpers-2');
 
@@ -123,8 +123,6 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
             arrayOfArraysToDataTable(data, dataTable)
         );
     }
-
-    global.logger.info(`gegeven (de) persoon '${aanduiding}' (met/zonder burgerservicenummer) (heeft de volgende gegevens)`, getPersoon(context, aanduiding));
 }
 
 Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'(?: zonder burgerservicenummer)? heeft de volgende gegevens$/, function (aanduiding, dataTable) {
@@ -240,18 +238,18 @@ Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) ingeschreven op ad
     global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ingeschreven op adres '${adresAanduiding}' op een onbekende datum`, getPersoon(this.context, aanduidingen[0]));
 });
 
-Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) (?:(gisteren|vandaag|morgen) )?(\d*) jaar geleden ingeschreven op adres '([a-zA-Z0-9]*)'$/, function (persoonAanduidingen, dag, aantalJaren, adresAanduiding) {
-    const date = !dag
-        ? toDateOrString(`vandaag - ${aantalJaren} jaar`, false)
-        : toDateOrString(`${dag} - ${aantalJaren} jaar`, false);
+// Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) (?:(gisteren|vandaag|morgen) )?(\d*) jaar geleden ingeschreven op adres '([a-zA-Z0-9]*)'$/, function (persoonAanduidingen, dag, aantalJaren, adresAanduiding) {
+//     const date = !dag
+//         ? toDateOrString(`vandaag - ${aantalJaren} jaar`, false)
+//         : toDateOrString(`${dag} - ${aantalJaren} jaar`, false);
 
-    const aanduidingen = persoonAanduidingen.replace(' en ', ',').split(',').map(aanduiding => aanduiding.trim());
-    for (const persoonAanduiding of aanduidingen) {
-        gegevenPersonenZijnIngeschrevenOpAdres(this.context, adresAanduiding, persoonAanduiding, date);
-    }
+//     const aanduidingen = persoonAanduidingen.replace(' en ', ',').split(',').map(aanduiding => aanduiding.trim());
+//     for (const persoonAanduiding of aanduidingen) {
+//         gegevenPersonenZijnIngeschrevenOpAdres(this.context, adresAanduiding, persoonAanduiding, date);
+//     }
 
-    global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ${dag} ${aantalJaren} jaar geleden ingeschreven op adres '${adresAanduiding}'`, getPersoon(this.context, aanduidingen[0]));
-});
+//     global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ${dag} ${aantalJaren} jaar geleden ingeschreven op adres '${adresAanduiding}'`, getPersoon(this.context, aanduidingen[0]));
+// });
 
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
     createOuder(
@@ -1287,7 +1285,7 @@ Given(/^(?:'(.*)' )?is geboren op (\d*)-(\d*)-(\d*)$/, function (aanduiding, dag
     );
 });
 
-Given(/^(?:'(.*)' )?is (?!in\b)(.*) geboren$/, function (aanduiding, relatieveDatum) {
+Given(/^'(.*)' is (?!in\b)(.*) geboren$/, function (aanduiding, relatieveDatum) {
     let brpDatum = toDateOrString(relatieveDatum);
 
     aanvullenPersoon(
@@ -1494,10 +1492,10 @@ Given(/^(.*) heeft '(.*)' het ouderschap ontkend$/, function (relatieveDatum, aa
         getBsn(plKind),
     );
 
-    let ouderType = 1; 
-    if(plKind['ouder-2']) {
+    let ouderType = 1;
+    if (plKind['ouder-2']) {
         let tmp = plKind['ouder-2'][0];
-        if(tmp.burger_service_nr === getBsn(plOuder)) {
+        if (tmp.burger_service_nr === getBsn(plOuder)) {
             ouderType = 2;
         }
     }
@@ -1528,10 +1526,10 @@ Given('{string} heeft ontkend vader te zijn van {string}', function (aanduidingO
         getBsn(plKind),
     );
 
-    let ouderType = 1; 
-    if(plKind['ouder-2']) {
+    let ouderType = 1;
+    if (plKind['ouder-2']) {
         let tmp = plKind['ouder-2'][0];
-        if(tmp.burger_service_nr === getBsn(plOuder)) {
+        if (tmp.burger_service_nr === getBsn(plOuder)) {
             ouderType = 2;
         }
     }
@@ -1547,4 +1545,4 @@ Given('{string} heeft ontkend vader te zijn van {string}', function (aanduidingO
     );
 
     global.logger.info(`gegeven '${aanduidingOuder}' heeft ontkend vader te zijn`, getPersoon(this.context, undefined));
-  });
+});
