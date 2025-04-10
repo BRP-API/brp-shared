@@ -40,6 +40,21 @@ function mapEndpointToRelativeUrl(context, endpoint) {
         : '';
 }
 
+function copyPrimaryKeyValues(context, sqlStatements) {
+    for(const adres of sqlStatements.adressen) {
+        let input = context.data.adressen.find(a => a.id === adres.stap);
+        if(input) {
+            input.adresId = adres.adresId;
+        }
+    }
+    for(const persoon of sqlStatements.personen) {
+        let input = context.data.personen.find(p => p.id === persoon.stap);
+        if(input) {
+            input.plId = persoon.plId;
+        }
+    }
+}
+
 async function execSqlStatements(context) {
     if(context.sqlData === undefined) {
         context.sqlData = [{}];
@@ -52,18 +67,7 @@ async function execSqlStatements(context) {
         if(!context.isStapDocumentatieScenario) {
             await execute(sqlStatements);
 
-            for(const adres of sqlStatements.adressen) {
-                let input = context.data.adressen.find(a => a.id === adres.stap);
-                if(input) {
-                    input.adresId = adres.adresId;
-                }
-            }
-            for(const persoon of sqlStatements.personen) {
-                let input = context.data.personen.find(p => p.id === persoon.stap);
-                if(input) {
-                    input.plId = persoon.plId;
-                }
-            }
+            copyPrimaryKeyValues(context, sqlStatements);
         }
     }
     else {
