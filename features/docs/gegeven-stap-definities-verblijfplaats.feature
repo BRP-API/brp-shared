@@ -25,7 +25,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
-      |    P1 |       0 |                       0518 |
+      | P1    |       0 |                       0518 |
 
   @integratie
   Scenario: is niet ingeschreven in de BRP
@@ -36,7 +36,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
-      |    P1 |       0 |                       1999 |
+      | P1    |       0 |                       1999 |
 
   @integratie
   Abstract Scenario: persoon '[persoon aanduiding]' is ingeschreven op adres '[adres aanduiding]' op [<datum type>]
@@ -49,8 +49,8 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P1 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P1    | A1       |       0 | W             |                       0518 | <datum>                  |
 
     Voorbeelden:
       | stap                                                              | datum    | datum type                 |
@@ -79,11 +79,11 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P1 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P1    | A1       |       0 | W             |                       0518 | <datum>                  |
     En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P2 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P2    | A1       |       0 | W             |                       0518 | <datum>                  |
 
     Voorbeelden:
       | stap                                                               | datum    | datum type                 |
@@ -108,8 +108,32 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P1 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P1    | A1       |       0 | W             |                       0518 | <datum>                  |
+
+    Voorbeelden:
+      | stap                                                       | datum             |
+      | persoon 'P1' is 2 jaar geleden ingeschreven op adres 'A1'  | vandaag - 2 jaar  |
+      | 'P1' is 2 jaar geleden ingeschreven op adres 'A1'          | vandaag - 2 jaar  |
+      | 'P1' is vandaag 2 jaar geleden ingeschreven op adres 'A1'  | vandaag - 2 jaar  |
+      | 'P1' is gisteren 1 jaar geleden ingeschreven op adres 'A1' | gisteren - 1 jaar |
+      | 'P1' is morgen 3 jaar geleden ingeschreven op adres 'A1'   | morgen - 3 jaar   |
+
+  @integratie
+  Abstract Scenario: persoon '[persoon aanduiding]' is [gisteren, vandaag of morgen] [aantal] jaar geleden ingeschreven op adres '[adres aanduiding]' met de volgende gegevens
+    Gegeven adres 'A1'
+      | gemeentecode (92.10) |
+      |                 0518 |
+    En persoon 'P1' heeft de volgende gegevens
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
+      |                   000000012 | Jansen                |
+    En <stap> met de volgende gegevens
+      | gemeente van inschrijving (09.10) |
+      |                              0344 |
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P1    | A1       |       0 | W             |                       0344 | <datum>                  |
 
     Voorbeelden:
       | stap                                                       | datum             |
@@ -133,11 +157,11 @@ Functionaliteit: Verblijfplaats gegeven stap definities
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
     Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P1 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P1    | A1       |       0 | W             |                       0518 | <datum>                  |
     En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
-      | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
-      |    P2 |       A1 |       0 | W             | <datum>                  |
+      | pl_id | adres_id | volg_nr | adres_functie | inschrijving_gemeente_code | adreshouding_start_datum |
+      | P2    | A1       |       0 | W             |                       0518 | <datum>                  |
 
     Voorbeelden:
       | stap                                                                       | datum             |
