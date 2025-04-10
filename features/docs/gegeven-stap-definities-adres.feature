@@ -13,7 +13,7 @@ Functionaliteit: Adres gegeven stap definities
       | gemeentecode (92.10) |
       |                 0518 |
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de adres 'A1' de volgende rij in tabel 'lo3_adres'
+    Dan heeft adres 'A1' de volgende rij in tabel 'lo3_adres'
       | adres_id | gemeente_code |
       |       A1 |          0518 |
 
@@ -26,10 +26,10 @@ Functionaliteit: Adres gegeven stap definities
       | gemeentecode (92.10) | identificatiecode verblijfplaats (11.80) |
       |                 0800 |                         0800010011067001 |
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de adres 'A1' de volgende rij in tabel 'lo3_adres'
+    Dan heeft adres 'A1' de volgende rij in tabel 'lo3_adres'
       | adres_id | gemeente_code |
       |       A1 |          0518 |
-    En heeft de adres 'A2' de volgende rij in tabel 'lo3_adres'
+    En heeft adres 'A2' de volgende rij in tabel 'lo3_adres'
       | adres_id | gemeente_code | verblijf_plaats_ident_code |
       |       A2 |          0800 |           0800010011067001 |
 

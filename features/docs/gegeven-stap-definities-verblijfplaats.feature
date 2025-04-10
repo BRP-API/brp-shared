@@ -23,7 +23,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000012 | Jansen                |
     * is ingeschreven in de BRP
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
       |    P1 |       0 |                       0518 |
 
@@ -34,7 +34,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000012 | Jansen                |
     * is niet ingeschreven in de BRP
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
       |    P1 |       0 |                       1999 |
 
@@ -48,7 +48,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000012 | Jansen                |
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P1 |       A1 |       0 | W             | <datum>                  |
 
@@ -78,10 +78,10 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000024 | Albers                |
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P1 |       A1 |       0 | W             | <datum>                  |
-    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P2 |       A1 |       0 | W             | <datum>                  |
 
@@ -107,7 +107,7 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000012 | Jansen                |
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P1 |       A1 |       0 | W             | <datum>                  |
 
@@ -132,10 +132,10 @@ Functionaliteit: Verblijfplaats gegeven stap definities
       |                   000000024 | Albers                |
     En <stap>
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P1 |       A1 |       0 | W             | <datum>                  |
-    En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+    En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
       |    P2 |       A1 |       0 | W             | <datum>                  |
 

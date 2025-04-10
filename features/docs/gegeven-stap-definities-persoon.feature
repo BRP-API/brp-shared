@@ -12,10 +12,10 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | burgerservicenummer (01.20) | geslachtsnaam (02.40) |
       |                   000000012 | Jansen                |
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl'
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
       | pl_id | geheim_ind |
       |    P1 |          0 |
-    Dan heeft de persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+    En heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
       |    P1 |         0 |       0 |            P |         000000012 |         Jansen |
 

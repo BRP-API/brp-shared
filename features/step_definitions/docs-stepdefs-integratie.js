@@ -34,7 +34,7 @@ When(/^de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd$/, a
     }
 });
 
-Then(/heeft de ([a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function(type, aanduiding, tabelNaam, dataTable) {
+Then(/heeft ([a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function(type, aanduiding, tabelNaam, dataTable) {
     const objecten = createObjectArrayFrom(dataTable);
 
     objecten.forEach(item => {
