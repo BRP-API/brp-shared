@@ -51,6 +51,19 @@ async function execSqlStatements(context) {
 
         if(!context.isStapDocumentatieScenario) {
             await execute(sqlStatements);
+
+            for(const adres of sqlStatements.adressen) {
+                let input = context.data.adressen.find(a => a.id === adres.stap);
+                if(input) {
+                    input.adresId = adres.adresId;
+                }
+            }
+            for(const persoon of sqlStatements.personen) {
+                let input = context.data.personen.find(p => p.id === persoon.stap);
+                if(input) {
+                    input.plId = persoon.plId;
+                }
+            }
         }
     }
     else {
@@ -258,20 +271,20 @@ When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenu
         createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, undefined));
 });
 
-When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)' en parameters$/, async function (fields, burgerserservicenummers, dataTable) {
-    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}' en parameters`);
+When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen} en parameters', async function (fields, persoonAanduidingen, dataTable) {
+    const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
 
     await handleRequestWithParameters(this.context,
-                                      'personen',
-                                      createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, dataTable));
+                                     'personen',
+                                     createDataTableForRaadpleegMetBurgerservicenummer(burgerservicenummers, fields, dataTable));
 });
 
-When(/^'([a-zA-Z0-9.]*)' wordt gevraagd (?:van personen gezocht met burgerservicenummer )?van '([a-zA-Z0-9]*)'$/, async function (fields, persoonAanduiding) {
-    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer van '${persoonAanduiding}'`);
+When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen}', async function (fields, persoonAanduidingen) {
+    const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
 
     if(this.context.isGezagApiAanroep) {
         let requestBody = {
-            burgerservicenummer: getPersoonBsn(this.context, persoonAanduiding),
+            burgerservicenummer: burgerservicenummers,
         };
     
         await handleRequestWithParameters(this.context,
@@ -281,14 +294,18 @@ When(/^'([a-zA-Z0-9.]*)' wordt gevraagd (?:van personen gezocht met burgerservic
     else {
         await handleRequestWithParameters(this.context,
             'personen',
-            createDataTableForRaadpleegMetBurgerservicenummer(getPersoonBsn(this.context, persoonAanduiding), fields, undefined));
+            createDataTableForRaadpleegMetBurgerservicenummer(burgerservicenummers, fields, undefined));
     }
 });
 
 When('{string} wordt gevraagd van personen gezocht met adresseerbaar object identificatie van {string}', async function (fields, adresAanduiding) {
-    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met adresseerbaar object identificatie van '${adresAanduiding}'`);
-
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetAdresseerbaarObjectIdentificatie(getAdresseerbaarObjectIdentificatie(this.context, adresAanduiding), fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met adresseerbaar object identificatie van {string} en parameters', async function (fields, adresAanduiding, dataTable) {
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetAdresseerbaarObjectIdentificatie(getAdresseerbaarObjectIdentificatie(this.context, adresAanduiding), fields, dataTable));
 });
