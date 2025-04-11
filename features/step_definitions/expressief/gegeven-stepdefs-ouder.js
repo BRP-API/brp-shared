@@ -73,14 +73,23 @@ function getOuderData(context, aanduiding) {
     return ouderData;
 }
 
-Given(/^heeft '(.*)' als ouder$/, function (aanduiding) {
-    const ouderData = getOuderData(this.context, aanduiding);
-
+function gegevenHeeftOuderMetAanduiding(aanduiding) {
     const huidigePersoon = getPersoon(this.context, undefined);
     const ouderType = huidigePersoon['ouder-1'] ? '2' : '1';
 
-    gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, arrayOfArraysToDataTable(ouderData));
-});
+    gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, arrayOfArraysToDataTable(getOuderData(this.context, aanduiding)));
+}
+
+function gegevenHeeftOudersMetAanduiding(aanduiding1, aanduiding2) {
+    gegevenHeeftOuderMetAanduiding.call(this, aanduiding1);
+    gegevenHeeftOuderMetAanduiding.call(this, aanduiding2);
+}
+
+Given('heeft {string} als ouder', gegevenHeeftOuderMetAanduiding);
+Given('heeft {string} als ouder vanaf de geboortedatum', gegevenHeeftOuderMetAanduiding);
+
+Given('heeft {string} en {string} als ouders', gegevenHeeftOudersMetAanduiding);
+Given('heeft {string} en {string} als ouders vanaf de geboortedatum', gegevenHeeftOudersMetAanduiding);
 
 Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven in de BRP$/, function (aanduiding) {
     const ouderData = arrayOfArraysToDataTable([
@@ -95,15 +104,6 @@ Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven 
 
     gegevenHeeftNietIngeschrevenPersoonAlsOuder(this.context, aanduiding, ouderType, ouderData);
 });
-
-Given(/^heeft '(.*)' en '(.*)' als ouders$/, function (aanduiding1, aanduiding2) {
-    const ouderData1 = getOuderData(this.context, aanduiding1);
-    const ouderData2 = getOuderData(this.context, aanduiding2);
-
-    gegevenHeeftPersoonAlsOuder(this.context, aanduiding1, '1', arrayOfArraysToDataTable(ouderData1));
-    gegevenHeeftPersoonAlsOuder(this.context, aanduiding2, '2', arrayOfArraysToDataTable(ouderData2));
-});
-
 
 Given(/^heeft '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduiding, ouderType, dataTable) {
     gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, dataTable);
