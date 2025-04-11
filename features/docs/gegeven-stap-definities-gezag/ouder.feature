@@ -309,7 +309,6 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
 
     @integratie
     Scenario: '{naam}' is erkend door '{naam}' op {datum}
-      Gegeven de tabel 'lo3_pl_persoon' bevat geen rijen
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       * is meerderjarig
       En de persoon 'P2' met burgerservicenummer '000000024'

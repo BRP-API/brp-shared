@@ -145,7 +145,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_verblijfplaats'
         | pl_id | volg_nr | inschrijving_gemeente_code | vertrek_datum  | vertrek_land_code | vestiging_datum | vestiging_land_code |
         | P1    |       0 |                       0518 |                |                   |  1 jaar geleden | <land code>         |
-        | P1    | P1      |                       1999 | 2 jaar geleden | <land code>       |                 |                     |
+        | P1    |       1 |                       1999 | 2 jaar geleden | <land code>       |                 |                     |
 
       Voorbeelden:
         | land naam   | land code |

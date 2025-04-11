@@ -107,13 +107,13 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P1    |          0 |
-      En heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | akte_nr |
         | P1    | P            |         0 |       0 |         000000012 | P1             | <geboortedatum> |               6030 | 1AA0100 |
-      En heeft de persoon 'P2' de volgende rij in tabel 'lo3_pl'
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
-      En heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
         | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |
 
@@ -131,7 +131,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P1    |          0 |
-      En heeft de persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | akte_nr |
         | P1    | P            |         0 |       0 |         000000012 | P1             | <geboortedatum> |               6030 | 1AA0100 |
 

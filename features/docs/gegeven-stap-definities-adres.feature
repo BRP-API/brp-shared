@@ -9,7 +9,6 @@ Functionaliteit: Adres gegeven stap definities
 
   @integratie
   Scenario: adres '[adres aanduiding]'
-    Gegeven de tabel 'lo3_adres' bevat geen rijen
     En adres 'A1'
       | gemeentecode (92.10) |
       |                 0518 |
@@ -20,7 +19,6 @@ Functionaliteit: Adres gegeven stap definities
 
   @integratie
   Scenario: adres '[adres aanduiding]' (meerdere adressen)
-    Gegeven de tabel 'lo3_adres' bevat geen rijen
     En adres 'A1'
       | gemeentecode (92.10) |
       |                 0518 |
