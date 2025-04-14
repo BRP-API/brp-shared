@@ -313,3 +313,15 @@ When('{string} wordt gevraagd van personen gezocht met adresseerbaar object iden
         'personen',
         createDataTableForZoekMetAdresseerbaarObjectIdentificatie(getAdresseerbaarObjectIdentificatie(this.context, adresAanduiding), fields, dataTable));
 });
+
+When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string} en geboortedatum {string}', async function (fields, geslachtsnaam, geboortedatum) {
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string} en geboortedatum {string} en parameters', async function (fields, geslachtsnaam, geboortedatum, dataTable) {
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, dataTable));
+});

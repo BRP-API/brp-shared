@@ -4,6 +4,7 @@ const { createCollectieObject,
         createObjectVeldInLastCollectieObject } = require('./dataTable2ObjectFactory')
 const { getBsn,
         getPersoon } = require('./contextHelpers');
+const { createObjectFrom } = require('./dataTable2Object');
     
 Then(/^heeft de response ?(?:nog)? een persoon met ?(?:alleen)? de volgende gegevens$/, function (dataTable) {
     this.context.verifyResponse = true;
@@ -54,7 +55,9 @@ Then('wordt/worden (alleen ){aanduidingen} gevonden', function(persoonAanduiding
     for(const persoonAanduiding of persoonAanduidingen) {
         const persoon = getPersoon(this.context, persoonAanduiding);
 
-        let target = {};
+        let target = {
+            id: persoonAanduiding // tijdelijk persoonAanduiding toevoegen om in volgende dan stap definities de correcte expected persoon te kunnen vinden
+        };
 
         setProperty(target, 'burgerservicenummer', getBsn(persoon));
 
@@ -62,4 +65,11 @@ Then('wordt/worden (alleen ){aanduidingen} gevonden', function(persoonAanduiding
     }
 
     this.context.expected = expected;
+});
+
+Then('heeft {string} de volgende {string} gegevens', function (persoonAanduiding, naamObjectProperty, dataTable) {
+    let persoon = this.context.expected.personen.find(p => p.id === persoonAanduiding);
+    if(persoon) {
+        persoon[naamObjectProperty] = createObjectFrom(dataTable, true);
+    }
 });

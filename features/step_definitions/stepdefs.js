@@ -11,7 +11,18 @@ setWorldConstructor(World);
 // https://github.com/cucumber/cucumber-js/blob/main/docs/support_files/timeouts.md
 setDefaultTimeout(30000);
 
+function persoonAanduidingenVerwijderen(personen) {
+    if(personen) {
+        personen.forEach((persoon) => {
+            delete persoon.id;
+        });
+    }
+}
+
 After({tags: 'not @fout-case'}, function({ pickle }) {
+    // tijdelijk in dan stap toegevoegde persoon aanduiding verwijderen
+    persoonAanduidingenVerwijderen(this.context.expected?.personen);
+
     valideer200Response(this.context, !pickle.tags.map((t) => t.name).includes('@valideer-volgorde'));
 });
 
