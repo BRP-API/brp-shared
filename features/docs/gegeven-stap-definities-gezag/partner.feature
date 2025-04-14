@@ -224,3 +224,36 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
         | P4    | P            |         0 |       0 |         000000048 | P4             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
         | P4    | R            |         0 |       0 |         000000012 | P1             |                    |         |      5 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
+
+    Abstract Scenario: het geregistreerd partnerschap van '{naam1} en {naam2}' is {relatieve datum} ontbonden
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En 'P1' en 'P2' zijn 7 jaar geleden een geregistreerd partnerschap aangegaan
+      En het geregistreerd partnerschap van 'P1 en P2' is <datum> ontbonden
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P1    | R            |         0 |       1 |         000000024 | P2             |                    |         |      7 jaar geleden |                 0518 |                    6030 |                    |                     |                        | P                 |
+        | P1    | R            |         0 |       0 |         000000024 | P2             |                    |         |                     |                      |                         | <yyyymmdd formaat> |                0518 |                   6030 | P                 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P2    | R            |         0 |       1 |         000000012 | P1             |                    |         |      7 jaar geleden |                 0518 |                    6030 |                    |                     |                        | P                 |
+        | P2    | R            |         0 |       0 |         000000012 | P1             |                    |         |                     |                      |                         | <yyyymmdd formaat> |                0518 |                   6030 | P                 |
+
+      Voorbeelden:
+        | datum                  | yyyymmdd formaat       |
+        | gisteren - 7 jaar      | gisteren - 7 jaar      |
+        | vorige maand - 16 jaar | vorige maand - 16 jaar |
+        | dit jaar - 5 jaar      | dit jaar - 5 jaar      |
+        |         5 jaar geleden |         5 jaar geleden |
+        | in 2021                |               20210000 |
+        |              28-3-2021 |               20210328 |
+        | op 28-3-2021           |               20210328 |
