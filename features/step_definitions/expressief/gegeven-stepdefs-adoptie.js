@@ -45,29 +45,40 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
     )
 }
 
-Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduidingOuder1) {
-    const kind = getPersoon(this.context, aanduidingKind);
+function gegevenIsGeadopteerd(aanduidingKind, datum, aanduidingOuder) {
+    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder, datum);
+}
+
+function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOuder, datum) {
+    const kind = getPersoon(context, aanduidingKind);
+
+    if(datum === undefined) {
+        datum = '10 jaar geleden';
+    }
+
     const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
+        ['datum ingang familierechtelijke betrekking (62.10)', datum],
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
     const ouderType = kind['ouder-1'] ? '2' : '1';
+    
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOuder, ouderType, adoptieOuderData);
+    
+    global.logger.info(`persoon '${aanduidingKind}' is '${datum}' geadopteerd door '${aanduidingOuder}'`, getPersoon(context, aanduidingKind));
+}
 
-    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, ouderType, adoptieOuderData);
-
-    global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}'`, getPersoon(this.context, aanduidingKind));
+Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduidingOuder) {
+    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder);
+    
+    global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder}'`, getPersoon(this.context, aanduidingKind));
 });
 
-Given('{string} is geadopteerd door {string} en {string}', function (aanduidingKind, aanduidingOuder1, aanduidingOuder2) {
-    const kind = getPersoon(this.context, aanduidingKind);
-    const adoptieOuderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
-        ['aktenummer (81.20)', '1AQ0100']
-    ]);
+Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string}', gegevenIsGeadopteerd);
 
-    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, '1', adoptieOuderData);
-    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder2, '2', adoptieOuderData);
+Given('{string} is geadopteerd door {string} en {string}', function (aanduidingKind, aanduidingOuder1, aanduidingOuder2) {
+    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder1);
+    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder2);
 
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
 });
@@ -83,23 +94,25 @@ Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOude
 });
 
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingKind, aanduidingOuder, ouderType) {
+    const kind = getPersoon(this.context, aanduidingKind);
     const adoptieOuderData = arrayOfArraysToDataTable([
         ['datum ingang familierechtelijke betrekking (62.10)', '10 jaar geleden'],
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
-    gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder, ouderType, adoptieOuderData);
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 
 Given(/^'(.*)' is op (\d*)-(\d*)-(\d*) geadopteerd door '(.*)' en '(.*)'$/, function (aanduidingKind, dag, maand, jaar, aanduidingOuder1, aanduidingOuder2) {
+    const kind = getPersoon(this.context, aanduidingKind);
     const adoptieDatum = toBRPDate(dag, maand, jaar);
     const adoptieOuderData = arrayOfArraysToDataTable([
         ['datum ingang familierechtelijke betrekking (62.10)', adoptieDatum],
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
-    gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder1, '1', adoptieOuderData);
-    gegevenIsGeadopteerdDoorPersoonAlsOuder(this.context, aanduidingKind, aanduidingOuder2, '2', adoptieOuderData);
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder1, '1', adoptieOuderData);
+    gegevenKindIsGeadopteerdDoorPersoonAlsOuder(this.context, kind, aanduidingOuder2, '2', adoptieOuderData);
 });
 
 Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduidingKind, aanduidingOuder, ouderType, dataTable) {

@@ -309,6 +309,62 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P3    |            2 |         0 |       0 |         000000012 | P1             |                    | 1AQ0100 |            10 jaar geleden |
 
     @integratie
+    Scenario: '{naam}' is {relatieve datum} geadopteerd door '{naam}'
+      # het soort ouder (persoon_type '1' of '2') is de eerste plek die beschikbaar is
+      # als er nog geen ouder 1 is dan wordt de adoptieouder ouder 1
+      Gegeven de persoon 'P1' met burgerservicenummer '000000024'
+      En de persoon 'P2' met burgerservicenummer '000000036'
+      En 'P2' is 3 jaar geleden geadopteerd door 'P1'
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
+        | P1    | P            |         0 |       0 |         000000024 | P1             |               6030 | 1AA0100 |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AQ0100 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AQ0100 |                            |
+        | P2    |            1 |         0 |       0 |         000000024 | P1             |                    | 1AQ0100 |             3 jaar geleden |
+
+    @integratie
+    Scenario: adoptie naast andere ouder: '{naam}' is {relatieve datum} geadopteerd door '{naam}'
+      # het soort ouder (persoon_type '1' of '2') is de eerste plek die beschikbaar is
+      # als ouder 1 al bestaat en ouder 1 heeft geslachts_naam met een waarde ongelijk aan '.', dan wordt de adoptieouder ouder 2
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En de persoon 'P3' met burgerservicenummer '000000036'
+      * heeft 'P2' als ouder
+      En 'P3' is 3 jaar geleden geadopteerd door 'P1'
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
+        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1AQ0100 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |
+        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+      En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P3    |          0 |
+      En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1AQ0100 |                            |
+        | P3    |            1 |         0 |       0 |         000000024 | P2             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000012 | P1             |                    | 1AQ0100 |             3 jaar geleden |
+
+    @integratie
     Scenario: '{naam}' is erkend door '{naam}' op {datum}
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       * is meerderjarig
@@ -530,11 +586,11 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
-        |     2 |          0 |
+        | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        |     2 | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |
-        |     2 |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
 
     @integratie
     Scenario: heeft '{naam1}' en '{naam2}' als ouders vanaf de geboortedatum
