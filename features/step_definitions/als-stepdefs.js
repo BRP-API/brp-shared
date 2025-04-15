@@ -325,3 +325,15 @@ When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string} en
         'personen',
         createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, dataTable));
 });
+
+When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string}, voornamen {string} en gemeente van inschrijving {string}', async function (fields, geslachtsnaam, voornamen, gemeenteVanInschrijving) {
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(geslachtsnaam, voornamen, gemeenteVanInschrijving, fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string}, voornamen {string} en gemeente van inschrijving {string} en parameters', async function (fields, geslachtsnaam, voornamen, gemeenteVanInschrijving, dataTable) {
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(geslachtsnaam, voornamen, gemeenteVanInschrijving, fields, dataTable));
+});

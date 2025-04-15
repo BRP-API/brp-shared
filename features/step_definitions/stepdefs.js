@@ -84,10 +84,10 @@ AfterStep(function({ pickleStep }) {
             global.logger.info(`Gegeven ${pickleStep.text}`, this.context.data);
             break;
         case 'Action':
-            global.logger.info(`Als ${pickleStep.text}`);
+            global.logger.info(`Als ${pickleStep.text}`, this.context.response?.data);
             break;
         case 'Outcome':
-            global.logger.info(`Dan ${pickleStep.text}`, this.context.response?.data);
+            global.logger.info(`Dan ${pickleStep.text}`, this.context.expected);
             break;
     }
 });
