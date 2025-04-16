@@ -536,6 +536,60 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |                        |             |
 
     @integratie
+    Scenario: adoptie vervangt puntouder: '{naam}' is {relatieve datum} geadopteerd door '{naam}'
+      # het soort ouder (persoon_type '1' of '2') is de eerste plek die beschikbaar is
+      # als ouder 1 heeft geslachts_naam leeg, of als ouder 1 heeft geslachts_naam '.' dan wordt de adoptieouder ouder 1
+      Gegeven de persoon 'P1' met burgerservicenummer '000000024'
+      * is een vrouw
+      En de persoon 'P2' met burgerservicenummer '000000036'
+      * is 4 jaar geleden als vondeling geboren
+      En 'P2' is 3 jaar geleden geadopteerd door 'P1'
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | geslachts_aand | akte_nr |
+        | P1    | P            |         0 |       0 |         000000024 | P1             |               6030 | V              | 1AA0100 |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    |                | 1AQ0100 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geslachts_aand | geboorte_land_code | akte_nr | familie_betrek_start_datum |
+        | P2    | P            |         0 |       0 |         000000036 | P2             | 4 jaar geleden |                |               6030 | 1AQ0100 |                            |
+        | P2    |            1 |         0 |       0 |         000000024 | P1             |                | V              |                    | 1AQ0100 |             3 jaar geleden |
+        | P2    |            1 |         0 |       1 |                   | .              |                | V              |                    | 1AA0100 |             4 jaar geleden |
+        | P2    |            2 |         0 |       0 |                   |                |                |                |                    | 1AA0100 |                            |
+
+    @integratie
+    Scenario: adoptie vervangt puntouder: '{naam}' is {relatieve datum} geadopteerd door '{naam}'
+      # het soort ouder (persoon_type '1' of '2') is de eerste plek die beschikbaar is
+      # als ouder 1 heeft geslachts_naam leeg, of als ouder 1 heeft geslachts_naam '.' dan wordt de adoptieouder ouder 1
+      Gegeven de persoon 'P1' met burgerservicenummer '000000024'
+      * is een vrouw
+      En de persoon 'P2' met burgerservicenummer '000000036'
+      * is 4 jaar geleden als vondeling geboren
+      En 'P2' is 3 jaar geleden geadopteerd door 'P1'
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | geslachts_aand | akte_nr |
+        | P1    | P            |         0 |       0 |         000000024 | P1             |               6030 | V              | 1AA0100 |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    |                | 1AQ0100 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geslachts_aand | geboorte_land_code | akte_nr | familie_betrek_start_datum |
+        | P2    | P            |         0 |       0 |         000000036 | P2             | 4 jaar geleden |                |               6030 | 1AQ0100 |                            |
+        | P2    |            1 |         0 |       0 |         000000024 | P1             |                | V              |                    | 1AQ0100 |             3 jaar geleden |
+        | P2    |            1 |         0 |       1 |                   | .              |                | V              |                    | 1AA0100 |             4 jaar geleden |
+        | P2    |            2 |         0 |       0 |                   |                |                |                |                    | 1AA0100 |                            |
+
+    @integratie
     Scenario: '{naam}' heeft ontkend vader te zijn van '{naam}'
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       En de persoon 'P2' met burgerservicenummer '000000024'

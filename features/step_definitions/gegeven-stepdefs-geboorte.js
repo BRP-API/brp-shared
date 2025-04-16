@@ -42,6 +42,26 @@ function gegevenPersoonIsOpDatumGeboren(datum) {
     global.logger.info(`is ${datum} geboren`, getPersoon(this.context, undefined));
 }
 
+function gegevenPersoonMetAanduidingIsOpDatumGeboren(aanduiding,datum) {
+    aanvullenPersoon(
+        getPersoon(this.context, aanduiding),
+        arrayOfArraysToDataTable([
+            ['geboortedatum (03.10)', datum]
+        ])
+    );
+
+    global.logger.info(`${aanduiding} is ${datum} geboren`, getPersoon(this.context, aanduiding));
+}
+
+Given('{string} is {relatieve datum} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {dd-mm-yyyy datum} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {onbekende datum} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {vandaag, gisteren of morgen - x jaar} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {deze-, vorige- of volgende maand - x jaar} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {dit-, vorig- of volgend jaar - x jaar} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+Given('{string} is {dd maand yyyy datum} geboren', gegevenPersoonMetAanduidingIsOpDatumGeboren);
+
 Given('is {dd-mm-yyyy datum} geboren', gegevenPersoonIsOpDatumGeboren);
 Given('is {onbekende datum} geboren', gegevenPersoonIsOpDatumGeboren);
 Given('is {vandaag, gisteren of morgen x jaar geleden} geboren', gegevenPersoonIsOpDatumGeboren);

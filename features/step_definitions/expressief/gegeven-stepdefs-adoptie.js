@@ -4,7 +4,7 @@ const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzig
 const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
-
+ 
 function gegevenIsGeadopteerdDoorPersoonAlsOuder(context, aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     const kind = getPersoon(context, aanduidingKind);
 
@@ -23,16 +23,33 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
         objectToDataTable(kindData)
     );
 
-    createOuder(
-        kind,
-        ouderType,
-        arrayOfArraysToDataTable([
-            ['burgerservicenummer (01.20)', getBsn(ouder)],
-            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
-            ['geboortedatum (03.10)', getGeboortedatum(ouder)],
-            ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder)],
-        ], dataTable)
-    );
+    // Bij adoptie van een vondeling wordt de puntouder gewijzigd naar de adoptieouder
+    const ouderData = kind[`ouder-${ouderType}`];
+
+    if (ouderType === '1' && ouderData && ouderData[0]?.geslachts_naam === '.') {
+        wijzigOuder(
+            kind,
+            ouderType,
+            arrayOfArraysToDataTable([
+                ['burgerservicenummer (01.20)', getBsn(ouder)],
+                ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
+                ['geboortedatum (03.10)', getGeboortedatum(ouder)],
+                ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder)],
+            ], dataTable),
+            false
+        );
+    } else {
+        createOuder(
+            kind,
+            ouderType,
+            arrayOfArraysToDataTable([
+                ['burgerservicenummer (01.20)', getBsn(ouder)],
+                ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
+                ['geboortedatum (03.10)', getGeboortedatum(ouder)],
+                ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder)]
+            ], dataTable)
+        );
+    }
 
     createKind(
         ouder,
@@ -52,7 +69,7 @@ function gegevenIsGeadopteerd(aanduidingKind, datum, aanduidingOuder) {
 function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOuder, datum) {
     const kind = getPersoon(context, aanduidingKind);
 
-    if(datum === undefined) {
+    if (datum === undefined) {
         datum = '10 jaar geleden';
     }
 
@@ -61,16 +78,26 @@ function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOude
         ['aktenummer (81.20)', '1AQ0100']
     ]);
 
-    const ouderType = kind['ouder-1'] ? '2' : '1';
-    
+    let ouderType = '1';
+
+    const ouder = kind['ouder-1'];
+
+    if (ouder) {
+        if (ouder[0].geslachts_naam === '.') {
+            ouderType = '1';
+        } else {
+            ouderType = '2';
+        }
+    }
+
     gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOuder, ouderType, adoptieOuderData);
-    
+
     global.logger.info(`persoon '${aanduidingKind}' is '${datum}' geadopteerd door '${aanduidingOuder}'`, getPersoon(context, aanduidingKind));
 }
 
 Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduidingOuder) {
     gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder);
-    
+
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder}'`, getPersoon(this.context, aanduidingKind));
 });
 
@@ -121,16 +148,16 @@ Given(/^'(.*)' is geadopteerd door '(.*)' als ouder ([1-2]) met de volgende gege
 
 function gegevenAdoptieVanKindIsHerroepenVoorOuder(context, kind, aanduidingOuder, ouderType, dataTable) {
     const ouder = getPersoon(context, aanduidingOuder);
-    
+
     const kindData = { ...kind.persoon.at(-1) };
     kindData[toDbColumnName('aktenummer (81.20)')] = '1AR0200'
-    
+
     wijzigGeadopteerdPersoon(
         kind,
         objectToDataTable(kindData),
         true
     );
-    
+
     wijzigOuder(
         kind,
         ouderType,
@@ -147,7 +174,7 @@ Given(/^de adoptie van '(.*)' is herroepen voor '(.*)' als ouder ([1-2])$/, func
     const adoptieOuderData = arrayOfArraysToDataTable([
         ['datum ingang familierechtelijke betrekking (62.10)', 'morgen - 2 jaar']
     ]);
-    
+
     gegevenAdoptieVanKindIsHerroepenVoorOuder(this.context, kind, aanduidingOuder, ouderType, adoptieOuderData);
 });
 

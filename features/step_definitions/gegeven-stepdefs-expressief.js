@@ -235,17 +235,6 @@ Given(/^(?:'(.*)' )?is geboren op (\d*)-(\d*)-(\d*)$/, function (aanduiding, dag
     );
 });
 
-Given(/^'(.*)' is (?!in\b)(.*) geboren$/, function (aanduiding, relatieveDatum) {
-    let brpDatum = toDateOrString(relatieveDatum);
-
-    aanvullenPersoon(
-        getPersoon(this.context, aanduiding),
-        arrayOfArraysToDataTable([
-            ['geboortedatum (03.10)', brpDatum]
-        ])
-    );
-});
-
 // ontkenning
 
 Given(/^(.*) heeft '(.*)' het ouderschap ontkend$/, function (relatieveDatum, aanduidingOuder) {
