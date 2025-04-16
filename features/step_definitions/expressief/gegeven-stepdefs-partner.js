@@ -205,14 +205,14 @@ Given(/^is het huwelijk van '(.*)' en '(.*)' gecorrigeerd met de volgende gegeve
     gegevenDePersonenZijnGehuwdGecorrigeerd(this.context, aanduiding1, aanduiding2, dataTable);
 });
 
-Given('het geregistreerd partnerschap van {aanduidingen} is {dd-mm-yyyy datum} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
-Given('het geregistreerd partnerschap van {aanduidingen} is {dd maand yyyy datum} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
-Given('het geregistreerd partnerschap van {aanduidingen} is {vandaag, gisteren of morgen x jaar geleden} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
-Given('het geregistreerd partnerschap van {aanduidingen} is {vandaag, gisteren of morgen - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
-Given('het geregistreerd partnerschap van {aanduidingen} is {deze-, vorige- of volgende maand - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
-Given('het geregistreerd partnerschap van {aanduidingen} is {dit-, vorig- of volgend jaar - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {dd-mm-yyyy datum} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {dd maand yyyy datum} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {vandaag, gisteren of morgen x jaar geleden} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {vandaag, gisteren of morgen - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {deze-, vorige- of volgende maand - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
+Given('het geregistreerd partnerschap van {string} en {string} is {dit-, vorig- of volgend jaar - x jaar} ontbonden', gegevenGeregistreerdPartnerschapIsOntbonden);
 
-function gegevenGeregistreerdPartnerschapIsOntbonden(aanduidingen, datum) {
+function gegevenGeregistreerdPartnerschapIsOntbonden(aanduidingPartner1, aanduidingPartner2, datum) {
     const plaatsScheiding = '0518';
     const landScheiding = '6030';
 
@@ -223,5 +223,5 @@ function gegevenGeregistreerdPartnerschapIsOntbonden(aanduidingen, datum) {
         ['soort verbintenis (15.10)', VerbintenisSoort.GeregistreerdPartnerschap]
     ]);
 
-    gegevenDePersonenZijnGescheiden(this.context, aanduidingen[0], aanduidingen[1], scheidingData);
+    gegevenDePersonenZijnGescheiden(this.context, aanduidingPartner1, aanduidingPartner2, scheidingData);
 }

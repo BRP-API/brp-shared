@@ -229,7 +229,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       En de persoon 'P2' met burgerservicenummer '000000024'
       En 'P1' en 'P2' zijn 7 jaar geleden een geregistreerd partnerschap aangegaan
-      En het geregistreerd partnerschap van 'P1 en P2' is <datum> ontbonden
+      En het geregistreerd partnerschap van 'P1' en 'P2' is <datum> ontbonden
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
       Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
