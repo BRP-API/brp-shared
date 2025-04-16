@@ -206,7 +206,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P2    |            2 |         0 |       0 |                   | P3             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
 
     @integratie
-    Scenario: overnemen van gegevens van ouder en kind: '{naam}' is op {datum} geadopteerd door '{naam}' en '{naam}'
+    Abstract Scenario: overnemen van gegevens van ouder en kind: '{naam}' is op {datum} geadopteerd door '{naam}' en '{naam}'
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       * is meerderjarig
       * is een man
@@ -216,7 +216,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       En de persoon 'P3' met burgerservicenummer '000000036'
       * is minderjarig
       * is geboren in Duitsland
-      En 'P3' is op 30-11-2019 geadopteerd door 'P2' en 'P1'
+      En 'P3' is <datum> geadopteerd door 'P2' en 'P1'
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
       Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
@@ -236,10 +236,16 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
-        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geslachts_aand | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                |               6029 | 1AQ0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000024 | P2             |    18 jaar geleden | V              |                    | 1AQ0100 |                   20191130 |
-        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar | M              |                    | 1AQ0100 |                   20191130 |
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geslachts_aand | geboorte_land_code | akte_nr | familie_betrek_start_datum            |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                |               6029 | 1AQ0100 |                                       |
+        | P3    |            1 |         0 |       0 |         000000024 | P2             |    18 jaar geleden | V              |                    | 1AQ0100 | <datum familierechtelijke betrekking> |
+        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar | M              |                    | 1AQ0100 | <datum familierechtelijke betrekking> |
+
+      Voorbeelden:
+        | datum stapdefinitie | datum              | datum familierechtelijke betrekking |
+        | op {datum}          | op 30-11-2019      |                            20191130 |
+        | {relatieve datum}   |     2 jaar geleden |                      2 jaar geleden |
+        | {relatieve datum}   | gisteren - 10 jaar | gisteren - 10 jaar                  |
 
     @integratie
     Scenario: '{naam}' is geadopteerd door '{naam}'

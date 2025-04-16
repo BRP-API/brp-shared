@@ -4,7 +4,7 @@ const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzig
 const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
- 
+
 function gegevenIsGeadopteerdDoorPersoonAlsOuder(context, aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     const kind = getPersoon(context, aanduidingKind);
 
@@ -62,8 +62,12 @@ function gegevenKindIsGeadopteerdDoorPersoonAlsOuder(context, kind, aanduidingOu
     )
 }
 
-function gegevenIsGeadopteerd(aanduidingKind, datum, aanduidingOuder) {
+function gegevenIsGeadopteerdOpDatum(aanduidingKind, datum, aanduidingOuder) {
     gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder, datum);
+}
+
+function gegevenIsGeadopteerd(aanduidingKind, aanduidingOuder) {
+    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder);
 }
 
 function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOuder, datum) {
@@ -95,20 +99,27 @@ function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOude
     global.logger.info(`persoon '${aanduidingKind}' is '${datum}' geadopteerd door '${aanduidingOuder}'`, getPersoon(context, aanduidingKind));
 }
 
-Given('{string} is geadopteerd door {string}', function (aanduidingKind, aanduidingOuder) {
-    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder);
-
-    global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder}'`, getPersoon(this.context, aanduidingKind));
-});
-
-Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string}', gegevenIsGeadopteerd);
-
-Given('{string} is geadopteerd door {string} en {string}', function (aanduidingKind, aanduidingOuder1, aanduidingOuder2) {
-    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder1);
-    gegevenIsGeadopteerdDoorPersoon(this.context, aanduidingKind, aanduidingOuder2);
+function gegevenIsGeadopteerdMetBeideOuders(aanduidingKind, aanduidingOuder1, aanduidingOuder2) {
+    gegevenIsGeadopteerd.call(this, aanduidingKind, aanduidingOuder1);
+    gegevenIsGeadopteerd.call(this, aanduidingKind, aanduidingOuder2);
 
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
-});
+}
+function gegevenIsGeadopteerdOpDatumMetBeideOuders(aanduidingKind, datum, aanduidingOuder1, aanduidingOuder2) {
+    gegevenIsGeadopteerdOpDatum.call(this, aanduidingKind, datum, aanduidingOuder1);
+    gegevenIsGeadopteerdOpDatum.call(this, aanduidingKind, datum, aanduidingOuder2);
+
+    global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
+}
+
+Given('{string} is geadopteerd door {string}',              gegevenIsGeadopteerd);
+Given('{string} is geadopteerd door {string} en {string}',  gegevenIsGeadopteerdMetBeideOuders);
+
+Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string}',             gegevenIsGeadopteerdOpDatum);
+Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string} en {string}', gegevenIsGeadopteerdOpDatumMetBeideOuders);
+
+Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string}',               gegevenIsGeadopteerdOpDatum);
+Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string} en {string}',   gegevenIsGeadopteerdOpDatumMetBeideOuders);
 
 Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOuder, ouderType) {
     const kind = getPersoon(this.context, undefined);
