@@ -81,6 +81,7 @@ Before(function({ pickle }) {
 AfterStep(function({ pickleStep }) {
     switch(pickleStep.type) {
         case 'Context':
+        case 'Unknown':
             global.logger.info(`Gegeven ${pickleStep.text}`, this.context.data);
             break;
         case 'Action':
@@ -88,6 +89,9 @@ AfterStep(function({ pickleStep }) {
             break;
         case 'Outcome':
             global.logger.info(`Dan ${pickleStep.text}`, this.context.expected);
+            break;
+        default:
+            global.logger.info(`Unsupported type ${pickleStep.type}`);
             break;
     }
 });

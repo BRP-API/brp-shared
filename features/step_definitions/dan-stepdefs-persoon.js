@@ -59,7 +59,9 @@ Then('wordt/worden (alleen ){aanduidingen} gevonden', function(persoonAanduiding
             id: persoonAanduiding // tijdelijk persoonAanduiding toevoegen om in volgende dan stap definities de correcte expected persoon te kunnen vinden
         };
 
-        setProperty(target, 'burgerservicenummer', getBsn(persoon));
+        if(this.context.fieldsHasBurgerservicenummer) {
+            setProperty(target, 'burgerservicenummer', getBsn(persoon));
+        }
 
         expected.personen.push(target);
     }

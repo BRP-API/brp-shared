@@ -24,6 +24,11 @@ function getAdres(context, aanduiding) {
 function getAdresseerbaarObjectIdentificatie(context, aanduiding) {
     return getAdres(context, aanduiding).adres.verblijf_plaats_ident_code;
 }
+
+function getNummeraanduidingIdentificatie(context, aanduiding) {
+    return getAdres(context, aanduiding).adres.nummer_aand_ident_code;
+}
+
 const { addDefaultAutorisatieSettings,
         handleRequest } = require('./requestHelpers');
 
@@ -259,8 +264,12 @@ When(/^([a-zA-Z-]*) wordt gezocht met een '(\w*)' aanroep$/, async function (end
     await handleRequest(this.context, relativeUrl, undefined, httpMethod);
 });
 
+function setFieldsHasBurgerservicenummer(context, fields) {
+    context.fieldsHasBurgerservicenummer = fields.split(',').includes('burgerservicenummer');
+}
+
 When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/, async function (fields, parameterNames) {
-    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met ${parameterNames}'`);
+    setFieldsHasBurgerservicenummer(this.context, fields);
 
     await handleRequestWithParameters(this.context,
                                       'personen',
@@ -268,7 +277,7 @@ When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met ([a-zA-Z, ]*)$/
 });
 
 When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenummer(?:s)? '([0-9, ]*)'$/, async function (fields, burgerserservicenummers) {
-    global.logger.info(`als '${fields} wordt gevraagd van personen gezocht met burgerserservicenummer(s) '${burgerserservicenummers}'`);
+    setFieldsHasBurgerservicenummer(this.context, fields);
 
     await handleRequestWithParameters(this.context,
         'personen',
@@ -276,6 +285,8 @@ When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenu
 });
 
 When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen} en parameters', async function (fields, persoonAanduidingen, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
 
     await handleRequestWithParameters(this.context,
@@ -284,6 +295,8 @@ When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {
 });
 
 When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen}', async function (fields, persoonAanduidingen) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
 
     if(this.context.isGezagApiAanroep) {
@@ -303,37 +316,97 @@ When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {
 });
 
 When('{string} wordt gevraagd van personen gezocht met adresseerbaar object identificatie van {string}', async function (fields, adresAanduiding) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetAdresseerbaarObjectIdentificatie(getAdresseerbaarObjectIdentificatie(this.context, adresAanduiding), fields, undefined));
 });
 
 When('{string} wordt gevraagd van personen gezocht met adresseerbaar object identificatie van {string} en parameters', async function (fields, adresAanduiding, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetAdresseerbaarObjectIdentificatie(getAdresseerbaarObjectIdentificatie(this.context, adresAanduiding), fields, dataTable));
 });
 
 When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string} en geboortedatum {string}', async function (fields, geslachtsnaam, geboortedatum) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, undefined));
 });
 
 When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string} en geboortedatum {string} en parameters', async function (fields, geslachtsnaam, geboortedatum, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetGeslachtsnaamEnGeboortedatum(geslachtsnaam, geboortedatum, fields, dataTable));
 });
 
 When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string}, voornamen {string} en gemeente van inschrijving {string}', async function (fields, geslachtsnaam, voornamen, gemeenteVanInschrijving) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(geslachtsnaam, voornamen, gemeenteVanInschrijving, fields, undefined));
 });
 
 When('{string} wordt gevraagd van personen gezocht met geslachtsnaam {string}, voornamen {string} en gemeente van inschrijving {string} en parameters', async function (fields, geslachtsnaam, voornamen, gemeenteVanInschrijving, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
     await handleRequestWithParameters(this.context,
         'personen',
         createDataTableForZoekMetGeslachtsnaamVoornamenEnGemeenteVanInschrijving(geslachtsnaam, voornamen, gemeenteVanInschrijving, fields, dataTable));
+});
+
+When('{string} wordt gevraagd van personen gezocht met nummeraanduiding identificatie van {string}', async function (fields, adresAanduiding) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetNummeraanduidingIdentificatie(getNummeraanduidingIdentificatie(this.context, adresAanduiding), fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met nummeraanduiding identificatie van {string} en parameters', async function (fields, adresAanduiding, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetNummeraanduidingIdentificatie(getNummeraanduidingIdentificatie(this.context, adresAanduiding), fields, dataTable));
+});
+
+When('{string} wordt gevraagd van personen gezocht met postcode {string} en huisnummer {string}', async function (fields, postcode, huisnummer) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetPostcodeEnHuisnummer(postcode, huisnummer, fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met postcode {string} en huisnummer {string} en parameters', async function (fields, postcode, huisnummer, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetPostcodeEnHuisnummer(postcode, huisnummer, fields, dataTable));
+});
+
+When('{string} wordt gevraagd van personen gezocht met straatnaam {string}, huisnummer {string} en gemeentecode {string}', async function (fields, straatnaam, huisnummer, gemeenteCode) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetStraatnaamHuisnummerEnGemeenteVanInschrijving(straatnaam, huisnummer, gemeenteCode, fields, undefined));
+});
+
+When('{string} wordt gevraagd van personen gezocht met straatnaam {string}, huisnummer {string} en gemeentecode {string} en parameters', async function (fields, straatnaam, huisnummer, gemeenteCode, dataTable) {
+    setFieldsHasBurgerservicenummer(this.context, fields);
+
+    await handleRequestWithParameters(this.context,
+        'personen',
+        createDataTableForZoekMetStraatnaamHuisnummerEnGemeenteVanInschrijving(straatnaam, huisnummer, gemeenteCode, fields, dataTable));
 });
