@@ -59,7 +59,8 @@ Then('wordt/worden (alleen ){aanduidingen} gevonden', function(persoonAanduiding
             id: persoonAanduiding // tijdelijk persoonAanduiding toevoegen om in volgende dan stap definities de correcte expected persoon te kunnen vinden
         };
 
-        if(this.context.fieldsHasBurgerservicenummer) {
+        if (this.context.isStapDocumentatieScenario ||
+            this.context.fieldsHasBurgerservicenummer) {
             setProperty(target, 'burgerservicenummer', getBsn(persoon));
         }
 

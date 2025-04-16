@@ -284,17 +284,17 @@ When(/^'([a-zA-Z0-9.]*)' wordt gevraagd van personen gezocht met burgerservicenu
         createDataTableForRaadpleegMetBurgerservicenummer(burgerserservicenummers, fields, undefined));
 });
 
-When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen} en parameters', async function (fields, persoonAanduidingen, dataTable) {
+When('{string} wordt gevraagd van personen gezocht met burgerservicenummer (van ){aanduidingen} en parameters', async function (fields, persoonAanduidingen, dataTable) {
     setFieldsHasBurgerservicenummer(this.context, fields);
 
-    const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
+    const burgerservicenummers = persoonAanduidingen.map(aanduiding => /^\d{9}$/.test(aanduiding) ? aanduiding : getPersoonBsn(this.context, aanduiding)).join(',');
 
     await handleRequestWithParameters(this.context,
                                      'personen',
                                      createDataTableForRaadpleegMetBurgerservicenummer(burgerservicenummers, fields, dataTable));
 });
 
-When('{string} wordt gevraagd van personen gezocht met burgerservicenummer van {aanduidingen}', async function (fields, persoonAanduidingen) {
+When('{string} wordt gevraagd (van personen gezocht met burgerservicenummer )van {aanduidingen}', async function (fields, persoonAanduidingen) {
     setFieldsHasBurgerservicenummer(this.context, fields);
 
     const burgerservicenummers = persoonAanduidingen.map(aanduiding => getPersoonBsn(this.context, aanduiding)).join(',');
