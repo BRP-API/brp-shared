@@ -1,6 +1,6 @@
 const { Given } = require('@cucumber/cucumber');
 const { objectToDataTable, arrayOfArraysToDataTable } = require('../dataTableFactory');
-const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzigOuder } = require('../persoon-2');
+const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzigOuder, aanvullenPersoon } = require('../persoon-2');
 const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
@@ -105,6 +105,7 @@ function gegevenIsGeadopteerdMetBeideOuders(aanduidingKind, aanduidingOuder1, aa
 
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
 }
+
 function gegevenIsGeadopteerdOpDatumMetBeideOuders(aanduidingKind, datum, aanduidingOuder1, aanduidingOuder2) {
     gegevenIsGeadopteerdOpDatum.call(this, aanduidingKind, datum, aanduidingOuder1);
     gegevenIsGeadopteerdOpDatum.call(this, aanduidingKind, datum, aanduidingOuder2);
@@ -112,14 +113,73 @@ function gegevenIsGeadopteerdOpDatumMetBeideOuders(aanduidingKind, datum, aandui
     global.logger.info(`persoon '${aanduidingKind}' is geadopteerd door '${aanduidingOuder1}' en '${aanduidingOuder2}'`, getPersoon(this.context, aanduidingKind));
 }
 
-Given('{string} is geadopteerd door {string}',              gegevenIsGeadopteerd);
-Given('{string} is geadopteerd door {string} en {string}',  gegevenIsGeadopteerdMetBeideOuders);
+function gegevenIsGeadopteerdOpDatumMetBeideOudersInBuitenland(aanduidingKind, aanduidingOuder1, aanduidingOuder2, datum, documentBeschrijving) {
+    // bij adoptie in het buitenland wordt in plaats van het akte-nr, beschrijving document gebruikt
+    const kind = getPersoon(this.context, aanduidingKind);
+    const ouder1 = getPersoon(this.context, aanduidingOuder1);
+    const ouder2 = getPersoon(this.context, aanduidingOuder2);
 
-Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string}',             gegevenIsGeadopteerdOpDatum);
+    const adoptieData = arrayOfArraysToDataTable([
+        ['beschrijving document (82.30)', documentBeschrijving]
+    ]);
+
+    aanvullenPersoon(kind, adoptieData);
+
+    createOuder(
+        kind,
+        '1',
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(ouder1)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder1)],
+            ['geboortedatum (03.10)', getGeboortedatum(ouder1)],
+            ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder1)],
+            ['datum ingang familierechtelijke betrekking (62.10)', datum],
+            ['beschrijving document (82.30)', documentBeschrijving]
+        ])
+    );
+
+    createOuder(
+        kind,
+        '2',
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(ouder2)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder2)],
+            ['geboortedatum (03.10)', getGeboortedatum(ouder2)],
+            ['geslachtsaanduiding (04.10)', getGeslachtsaanduiding(ouder2)],
+            ['datum ingang familierechtelijke betrekking (62.10)', datum],
+            ['beschrijving document (82.30)', documentBeschrijving]
+        ])
+    );
+
+    createKind(getPersoon(this.context, aanduidingOuder1),
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(kind)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(kind)],
+            ['geboortedatum (03.10)', getGeboortedatum(kind)],
+            ['beschrijving document (82.30)', documentBeschrijving]
+        ])
+    );
+
+    createKind(getPersoon(this.context, aanduidingOuder2),
+        arrayOfArraysToDataTable([
+            ['burgerservicenummer (01.20)', getBsn(kind)],
+            ['geslachtsnaam (02.40)', getGeslachtsnaam(kind)],
+            ['geboortedatum (03.10)', getGeboortedatum(kind)],
+            ['beschrijving document (82.30)', documentBeschrijving]
+        ])
+    );
+}
+
+Given('{string} is geadopteerd door {string}', gegevenIsGeadopteerd);
+Given('{string} is geadopteerd door {string} en {string}', gegevenIsGeadopteerdMetBeideOuders);
+
+Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string}', gegevenIsGeadopteerdOpDatum);
 Given('{string} is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door {string} en {string}', gegevenIsGeadopteerdOpDatumMetBeideOuders);
 
-Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string}',               gegevenIsGeadopteerdOpDatum);
-Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string} en {string}',   gegevenIsGeadopteerdOpDatumMetBeideOuders);
+Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string}', gegevenIsGeadopteerdOpDatum);
+Given('{string} is {vandaag, gisteren of morgen - x jaar} geadopteerd door {string} en {string}', gegevenIsGeadopteerdOpDatumMetBeideOuders);
+
+Given('{string} is in het buitenland geadopteerd door {string} en {string} op {dd-mm-yyyy datum} met document {string}', gegevenIsGeadopteerdOpDatumMetBeideOudersInBuitenland);
 
 Given(/^is geadopteerd door '(.*)' als ouder ([1-2])$/, function (aanduidingOuder, ouderType) {
     const kind = getPersoon(this.context, undefined);

@@ -222,3 +222,38 @@ Functionaliteit: Stap definities ten behoeve van specificeren adoptie
         | P2    |            1 |         0 |       0 |         000000024 | P1             |                | V              |                    | 1AQ0100 |             3 jaar geleden |
         | P2    |            1 |         0 |       1 |                   | .              |                | V              |                    | 1AA0100 |             4 jaar geleden |
         | P2    |            2 |         0 |       0 |                   |                |                |                |                    | 1AA0100 |                            |
+
+    Scenario: '{naam}' is in het buitenland geadopteerd door '{naam}' en '{naam}' op {datum} met document '{document beschrijving}'
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * is meerderjarig
+      * is een man
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      * is meerderjarig
+      * is een vrouw
+      En de persoon 'P3' met burgerservicenummer '000000036'
+      * is minderjarig
+      * is geboren in Duitsland
+      En 'P3' is in het buitenland geadopteerd door 'P1' en 'P2' op 30-11-2019 met document 'ad akte 6029'
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | geslachts_aand | akte_nr | doc_beschrijving |
+        | P1    | P            |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |               6030 | M              | 1AA0100 |                  |
+        | P1    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    |                |         | ad akte 6029     |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | geslachts_aand | akte_nr | doc_beschrijving |
+        | P2    | P            |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |               6030 | V              | 1AA0100 |                  |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    |                |         | ad akte 6029     |
+      En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P3    |          0 |
+      En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geslachts_aand | geboorte_land_code | doc_beschrijving | familie_betrek_start_datum |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                |               6029 | ad akte 6029     |                            |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar | M              |                    | ad akte 6029     |                   20191130 |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar | V              |                    | ad akte 6029     |                   20191130 |
