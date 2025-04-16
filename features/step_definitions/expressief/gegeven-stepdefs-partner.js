@@ -28,21 +28,30 @@ const VerbintenisSoort = {
     GeregistreerdPartnerschap: 'P'
 }
 
+function persoonPropertiesToArrayofArrays(persoon) {
+    const retval = [];
+
+    Object.keys(persoon.persoon.at(-1)).forEach(key => {
+        if(!['pl_id', 'stapel_nr', 'volg_nr', 'persoon_type'].includes(key)) {
+            retval.push([key, persoon.persoon.at(-1)[key]]);
+        }
+    });
+
+    return retval;
+}
+
 function gegevenDePersonenZijnGehuwd(context, aanduiding1, aanduiding2, dataTable) {
+    const persoon1 = getPersoon(context, aanduiding1);
+    const persoon2 = getPersoon(context, aanduiding2);
+
     createPartner(
         getPersoon(context, aanduiding1),
-        arrayOfArraysToDataTable([
-            ['burgerservicenummer (01.20)', getBsn(getPersoon(context, aanduiding2))],
-            ['geslachtsnaam (02.40)', aanduiding2]
-        ], dataTable)
+        arrayOfArraysToDataTable(persoonPropertiesToArrayofArrays(persoon2), dataTable)
     );
 
     createPartner(
         getPersoon(context, aanduiding2),
-        arrayOfArraysToDataTable([
-            ['burgerservicenummer (01.20)', getBsn(getPersoon(context, aanduiding1))],
-            ['geslachtsnaam (02.40)', aanduiding1]
-        ], dataTable)
+        arrayOfArraysToDataTable(persoonPropertiesToArrayofArrays(persoon1), dataTable)
     );
 }
 
