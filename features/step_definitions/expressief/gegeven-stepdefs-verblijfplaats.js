@@ -1,88 +1,9 @@
 const { Given } = require('@cucumber/cucumber');
 const { createVerblijfplaats, wijzigVerblijfplaats } = require('../persoon-2');
-const { getAdres, getAdresIndex, getPersoon } = require('../contextHelpers');
+const { getPersoon } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { toDateOrString, toBRPDate } = require('../brpDatum');
 const { selectFirstOrDefault } = require('../postgresqlHelpers-2');
-
-function getJaar(jaar) {
-    if (!jaar) {
-        return '0000';
-    }
-    return jaar;
-}
-
-function getMaand(maand) {
-    switch (maand) {
-        case 'januari':
-            return '01';
-        case 'februari':
-            return '02';
-        case 'maart':
-            return '03';
-        case 'april':
-            return '04';
-        case 'mei':
-            return '05';
-        case 'juni':
-            return '06';
-        case 'juli':
-            return '07';
-        case 'augustus':
-            return '08';
-        case 'september':
-            return '09';
-        case 'oktober':
-            return '10';
-        case 'november':
-            return '11';
-        case 'december':
-            return '12';
-        default:
-            return '00';
-    }
-}
-
-function getDag(dag) {
-    if (!dag) {
-        return '00';
-    }
-    else if (dag.length === 1) {
-        return '0' + dag;
-    }
-
-    return dag;
-}
-
-function gegevenPersonenZijnIngeschrevenOpAdres(context, aanduidingAdres, aanduidingPersoon, datumAanvangAdreshouding) {
-    const data = [
-        ['adres_id', getAdresIndex(context, aanduidingAdres) + ''],
-        ['gemeente van inschrijving (09.10)', getAdres(context, aanduidingAdres).adres.gemeente_code],
-        ['functie adres (10.10)', 'W'],
-        ['datum aanvang adreshouding (10.30)', datumAanvangAdreshouding]
-    ];
-
-    createVerblijfplaats(getPersoon(context, aanduidingPersoon),
-        arrayOfArraysToDataTable(data));
-}
-
-Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) ingeschreven op adres '([a-zA-Z0-9]*)' op '(?:(\d{1,2}) )?(?:(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december) )?(\d{4})'$/, function (persoonAanduidingen, adresAanduiding, dag, maand, jaar) {
-    const aanduidingen = persoonAanduidingen.replace(' en ', ',').split(',').map(aanduiding => aanduiding.trim());
-    for (const persoonAanduiding of aanduidingen) {
-        gegevenPersonenZijnIngeschrevenOpAdres(this.context, adresAanduiding, persoonAanduiding, getJaar(jaar) + getMaand(maand) + getDag(dag));
-    }
-
-    global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ingeschreven op adres '${adresAanduiding}' op '${dag} ${maand} ${jaar}'`, getPersoon(this.context, aanduidingen[0]));
-});
-
-Given(/^(?:persoon |personen )?'([a-zA-Z0-9, ]*)' (?:is|zijn) ingeschreven op adres '([a-zA-Z0-9]*)' op een onbekende datum$/, function (persoonAanduidingen, adresAanduiding) {
-    const aanduidingen = persoonAanduidingen.replace(' en ', ',').split(',').map(aanduiding => aanduiding.trim());
-    for (const persoonAanduiding of aanduidingen) {
-        gegevenPersonenZijnIngeschrevenOpAdres(this.context, adresAanduiding, persoonAanduiding, '00000000');
-    }
-
-    global.logger.info(`gegeven persoon|personen '${persoonAanduidingen}' is|zijn ingeschreven op adres '${adresAanduiding}' op een onbekende datum`, getPersoon(this.context, aanduidingen[0]));
-});
 
 function gegevenPersoonIsIngeschrevenInGemeente(context, aanduiding, dataTable) {
     createVerblijfplaats(

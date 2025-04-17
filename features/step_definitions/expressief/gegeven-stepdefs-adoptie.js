@@ -87,9 +87,7 @@ function gegevenIsGeadopteerdDoorPersoon(context, aanduidingKind, aanduidingOude
     const ouder = kind['ouder-1'];
 
     if (ouder) {
-        if (ouder[0].geslachts_naam === '.') {
-            ouderType = '1';
-        } else {
+        if (ouder[0].geslachts_naam !== '.') {
             ouderType = '2';
         }
     }
