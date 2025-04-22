@@ -88,7 +88,18 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
         objectToDataTable(kindData)
     );
 
-    createOuder(
+    if (kind.hasOwnProperty('ouder-' + ouderType)) {
+      wijzigOuder(
+        kind, 
+        ouderType,
+        arrayOfArraysToDataTable([
+          ['burgerservicenummer (01.20)', getBsn(ouder)],
+          ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
+          ['aktenummer (81.20)', `1A${erkenningsType}0100`]
+        ], dataTable)
+      );
+    } else {
+      createOuder(
         kind,
         ouderType,
         arrayOfArraysToDataTable([
@@ -96,7 +107,8 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
             ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
             ['aktenummer (81.20)', `1A${erkenningsType}0100`]
         ], dataTable)
-    );
+      );
+    }
 
     const data = [
         ['burgerservicenummer (01.20)', getBsn(kind)],
