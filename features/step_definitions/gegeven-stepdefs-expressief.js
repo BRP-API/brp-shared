@@ -230,11 +230,11 @@ Given(/^(?:'(.*)' )?is geboren op (\d*)-(\d*)-(\d*)$/, function (aanduiding, dag
     let persoon = getPersoon(this.context, aanduiding);
     let geboortedatum = toBRPDate(dag, maand, jaar)
 
-    if (persoon.hasOwnProperty('ouder-1') && persoon['ouder-1'].at(-1).familie_betrek_start_datum == persoon.persoon.at(-1).geboorte_datum) {
+    if (persoon.hasOwnProperty('ouder-1') && persoon['ouder-1'].at(-1).hasOwnProperty('familie_betrek_start_datum') && persoon['ouder-1'].at(-1).familie_betrek_start_datum == persoon.persoon.at(-1).geboorte_datum) {
         persoon['ouder-1'].at(-1).familie_betrek_start_datum = geboortedatum
     }
 
-    if (persoon.hasOwnProperty('ouder-2') && persoon['ouder-2'].at(-1).familie_betrek_start_datum == persoon.persoon.at(-1).geboorte_datum) {
+    if (persoon.hasOwnProperty('ouder-2') && persoon['ouder-2'].at(-1).hasOwnProperty('familie_betrek_start_datum') && persoon['ouder-2'].at(-1).familie_betrek_start_datum == persoon.persoon.at(-1).geboorte_datum) {
         persoon['ouder-2'].at(-1).familie_betrek_start_datum = geboortedatum
     }
 
