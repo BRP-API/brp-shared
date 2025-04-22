@@ -19,26 +19,20 @@ When(/^de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd$/, a
 
         await execute(sqlStatements);
 
-        for(const autorisatie of sqlStatements.autorisaties) {
-            let input = this.context.data.autorisaties.find(a => a.id === autorisatie.stap);
-            if(input) {
-                input.autorisatieId = autorisatie.autorisatieId;
-            }
-        }
-        for(const adres of sqlStatements.adressen) {
-            let input = this.context.data.adressen.find(a => a.id === adres.stap);
-            if(input) {
-                input.adresId = adres.adresId;
-            }
-        }
-        for(const persoon of sqlStatements.personen) {
-            let input = this.context.data.personen.find(p => p.id === persoon.stap);
-            if(input) {
-                input.plId = persoon.plId;
-            }
-        }
+        updateContextData(this.context.data.autorisaties, sqlStatements.autorisaties, 'autorisatieId');
+        updateContextData(this.context.data.adressen, sqlStatements.adressen, 'adresId');
+        updateContextData(this.context.data.personen, sqlStatements.personen, 'plId');
     }
 });
+
+function updateContextData(contextData, sqlData, idField) {
+    sqlData.forEach(sqlItem => {
+        const item = contextData.find(item => item.id === sqlItem.stap);
+        if (item) {
+            item[idField] = sqlItem[idField];
+        }
+    });
+}
 
 Then(/heeft ([a-z]*) '(.*)' de volgende rij(?:en)? in tabel '(.*)'/, async function(type, aanduiding, tabelNaam, dataTable) {
     const objecten = createObjectArrayFrom(dataTable);
