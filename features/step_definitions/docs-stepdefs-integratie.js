@@ -19,6 +19,12 @@ When(/^de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd$/, a
 
         await execute(sqlStatements);
 
+        for(const autorisatie of sqlStatements.autorisaties) {
+            let input = this.context.data.autorisaties.find(a => a.id === autorisatie.stap);
+            if(input) {
+                input.autorisatieId = autorisatie.autorisatieId;
+            }
+        }
         for(const adres of sqlStatements.adressen) {
             let input = this.context.data.adressen.find(a => a.id === adres.stap);
             if(input) {
