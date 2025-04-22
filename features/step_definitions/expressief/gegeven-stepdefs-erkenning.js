@@ -1,5 +1,5 @@
 const { Given } = require('@cucumber/cucumber');
-const { createOuder, createKind, wijzigPersoon } = require('../persoon-2');
+const { createOuder, createKind, wijzigPersoon, wijzigOuder } = require('../persoon-2');
 const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
