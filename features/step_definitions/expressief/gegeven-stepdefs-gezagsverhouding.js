@@ -55,7 +55,7 @@ Given(/^in een gerechtelijke uitspraak is het gezag toegewezen aan '(.*)'$/, fun
     )
 });
 
-Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan '(.*)'$/, function (relatieveDatum, aanduiding) {
+function uitspraakGezagOpDatum(relatieveDatum, aanduiding) {
     let indicatieGezag = getIndicatieGezag(this.context, aanduiding);
 
     createGezagsverhouding(
@@ -65,7 +65,11 @@ Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan '(.*)'$/
             ['datum ingang geldigheid (85.10)', relatieveDatum],
         ])
     )
-});
+}
+
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagOpDatum);
+
 
 Given(/^in een gerechtelijke uitspraak is het gezag toegewezen aan '(.*)' en een derde$/, function (aanduiding) {
     let indicatieGezag = (getIndicatieGezag(this.context, aanduiding) == IndicatieGezag.Ouder1)
