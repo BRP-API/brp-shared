@@ -225,3 +225,21 @@ function gegevenGeregistreerdPartnerschapIsOntbonden(aanduidingPartner1, aanduid
 
     gegevenDePersonenZijnGescheiden(this.context, aanduidingPartner1, aanduidingPartner2, scheidingData);
 }
+
+// bij nietig verklaring wordt datum ontbinding gelijk aan datum huwelijkssluiting en wordt datum ingang geldigheid de datum van nietigverklaring
+Given(/^het huwelijk van '(.*)' en '(.*)' is (.*) nietig verklaard$/, function (aanduiding1, aanduiding2, relatieveDatum) {
+    const persoon1 = getPersoon(this.context, aanduiding1);
+    const persoon2 = getPersoon(this.context, aanduiding2);
+    const partner1 = { ...getPartnerActueleGegevens(persoon1, getBsn(persoon2)) };
+
+    const scheidingData = arrayOfArraysToDataTable([
+        ['datum ontbinding huwelijk/geregistreerd partnerschap (07.10)', partner1.relatie_start_datum],
+        ['plaats ontbinding huwelijk/geregistreerd partnerschap (07.20)', partner1.relatie_start_plaats],
+        ['land ontbinding huwelijk/geregistreerd partnerschap (07.30)', partner1.relatie_start_land_code],
+        ['reden ontbinding huwelijk/geregistreerd partnerschap (07.40)', 'N'],
+        ['soort verbintenis (15.10)', VerbintenisSoort.Huwelijk],
+        ['datum ingang geldigheid (85.10)', relatieveDatum]
+    ])
+
+    gegevenDePersonenZijnGescheiden(this.context, aanduiding1, aanduiding2, scheidingData);
+});

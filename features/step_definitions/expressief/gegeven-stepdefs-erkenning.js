@@ -72,6 +72,43 @@ Given(/^is erkend door '(.*)' als ouder ([1-2]) met gerechtelijke vaststelling o
     gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.GerechtelijkeVaststellingOuderschap, ouderType, ouderData);
 });
 
+Given(/^'(.*)' is erkend door '(.*)' bij geboorteaangifte$/, function (aanduidingPersoon, aanduidingOuder) {
+    persoon = getPersoon(this.context, aanduidingPersoon);
+  
+    const ouderData = arrayOfArraysToDataTable([
+        ['datum ingang familierechtelijke betrekking (62.10)', { ...persoon.persoon.at(-1) }['geboorte_datum']]
+    ]);
+  
+    ouderType = beschikbareOuder(persoon);
+  
+    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.ErkenningBijGeboorteaangifte, ouderType, ouderData);
+});
+  
+Given(/^'(.*)' is erkend door '(.*)' (na geboorteaangifte|bij notariële akte|met gerechtelijke vaststelling ouderschap) op (\d*)-(\d*)-(\d*)$/, function (aanduidingPersoon, aanduidingOuder, soortErkenning, dag, maand, jaar) {
+    persoon = getPersoon(this.context, aanduidingPersoon);
+  
+    const ouderData = arrayOfArraysToDataTable([
+        ['datum ingang familierechtelijke betrekking (62.10)', toBRPDate(dag, maand, jaar)]
+    ]);
+
+    ouderType = beschikbareOuder(persoon);
+  
+    let akteCodeErkenning = 'A'
+    switch (soortErkenning) {
+        case 'na geboorteaangifte': 
+            akteCodeErkenning = ErkenningsType.ErkenningNaGeboorteaangifte; 
+            break;
+        case 'bij notariële akte': 
+            akteCodeErkenning = ErkenningsType.ErkenningBijNotarieleAkte; 
+            break;
+        case 'met gerechtelijke vaststelling ouderschap': 
+            akteCodeErkenning = ErkenningsType.GerechtelijkeVaststellingOuderschap; 
+            break;
+    }
+  
+    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, akteCodeErkenning, ouderType, ouderData);
+});
+
 function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkenningsType, ouderType, dataTable) {
     if (!erkenningsType) {
         erkenningsType = ErkenningsType.ErkenningBijGeboorteaangifte;
@@ -113,3 +150,17 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
         arrayOfArraysToDataTable(data)
     )
 }
+
+function beschikbareOuder(persoon) { 
+    if(!persoon['ouder-1'] ) {
+      return 1
+    } 
+    if (persoon['ouder-1'] && !persoon['ouder-1'][0]['geslachts_naam']) {
+      return 1
+    }
+    if (persoon['ouder-1'] && persoon['ouder-1'][0]['geslachts_naam'] == '.') {
+      return 1
+    }
+  
+    return 2
+  }
