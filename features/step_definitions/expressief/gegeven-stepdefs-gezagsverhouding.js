@@ -70,7 +70,6 @@ function uitspraakGezagOpDatum(relatieveDatum, aanduiding) {
 Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagOpDatum);
 Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagOpDatum);
 
-
 Given(/^in een gerechtelijke uitspraak is het gezag toegewezen aan '(.*)' en een derde$/, function (aanduiding) {
     let indicatieGezag = (getIndicatieGezag(this.context, aanduiding) == IndicatieGezag.Ouder1)
         ? IndicatieGezag.Ouder1Derde
@@ -85,7 +84,7 @@ Given(/^in een gerechtelijke uitspraak is het gezag toegewezen aan '(.*)' en een
     )
 });
 
-Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan '(.*)' en een derde$/, function (relatieveDatum, aanduiding) {
+function uitspraakGezagOuderEnDerdeOpDatum(relatieveDatum, aanduiding) {
     let indicatieGezag = (getIndicatieGezag(this.context, aanduiding) == IndicatieGezag.Ouder1)
         ? IndicatieGezag.Ouder1Derde
         : IndicatieGezag.Ouder2Derde;
@@ -97,7 +96,12 @@ Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan '(.*)' e
             ['datum ingang geldigheid (85.10)', relatieveDatum],
         ])
     )
-});
+}
+
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan {string} en een derde', uitspraakGezagOuderEnDerdeOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan {string} en een derde', uitspraakGezagOuderEnDerdeOpDatum);
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan ouder {string} en een derde', uitspraakGezagOuderEnDerdeOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan ouder {string} en een derde', uitspraakGezagOuderEnDerdeOpDatum);
 
 Given(/^in een gerechtelijke uitspraak is het gezag toegewezen aan beide ouders$/, function () {
     let indicatieGezag = IndicatieGezag.BeideOuders;
@@ -123,17 +127,20 @@ Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan beide ou
     )
 });
 
-Given(/^(.*) is in een nieuwe gerechtelijke uitspraak het gezag toegewezen aan beide ouders$/, function (relatieveDatum) {
+function uitspraakGezagBeideOudersOpDatum(relatieveDatum) {
     let indicatieGezag = IndicatieGezag.BeideOuders;
-  
-    wijzigGezagsverhouding(
-      getPersoon(this.context, undefined),
-      arrayOfArraysToDataTable([
-          ['indicatie gezag minderjarige (32.10)', indicatieGezag],
-          ['datum ingang geldigheid (85.10)', relatieveDatum],
-      ])
-  )
-  });
+
+    createGezagsverhouding(
+        getPersoon(this.context, undefined),
+        arrayOfArraysToDataTable([
+            ['indicatie gezag minderjarige (32.10)', indicatieGezag],
+            ['datum ingang geldigheid (85.10)', relatieveDatum],
+        ])
+    )
+};
+
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan beide ouders', uitspraakGezagBeideOudersOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan beide ouders', uitspraakGezagBeideOudersOpDatum);
 
 Given(/^in een gerechtelijke uitspraak is een (voogdijinstelling|derde) tot voogd benoemd$/, function (gezaghebbende) {
     let indicatieGezag = (gezaghebbende == 'voogdijinstelling') ? IndicatieGezag.VoogdijInstelling : IndicatieGezag.Derde;
@@ -147,8 +154,8 @@ Given(/^in een gerechtelijke uitspraak is een (voogdijinstelling|derde) tot voog
     )
 });
 
-Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan een (voogdijinstelling|derde)$/, function (relatieveDatum, gezaghebbende) {
-    let indicatieGezag = (gezaghebbende == 'voogdijinstelling') ? IndicatieGezag.VoogdijInstelling : IndicatieGezag.Derde;
+function uitspraakGezagDerdeOpDatum(relatieveDatum) {
+    let indicatieGezag = IndicatieGezag.Derde;
 
     createGezagsverhouding(
         getPersoon(this.context, undefined),
@@ -157,7 +164,12 @@ Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan een (voo
             ['datum ingang geldigheid (85.10)', relatieveDatum],
         ])
     )
-});
+}
+
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan een voogdijinstelling', uitspraakGezagDerdeOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan een voogdijinstelling', uitspraakGezagDerdeOpDatum);
+Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan een derde', uitspraakGezagDerdeOpDatum);
+Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan een derde', uitspraakGezagDerdeOpDatum);
 
 function getIndicatieGezag(context, aanduiding) {
     let plKind = getPersoon(context, undefined);
