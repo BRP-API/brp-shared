@@ -16,5 +16,6 @@ components:
           $ref: '../brp/geslacht/geslachtsaanduiding-v1.yaml#/components/schemas/Geslachtsaanduiding'
         geboorte:
           $ref: '../brp/geboorte/geboorte-basis-v1.yaml#/components/schemas/GeboorteBasis'
-      required: 
+      required:
+        - burgerservicenummer
         - naam

@@ -210,6 +210,8 @@ components:
           properties:
             ouder:
               $ref: '#/components/schemas/GezagOuder'
+      required:
+        - ouder
     Derde:
       type: object
       required:
@@ -268,6 +270,8 @@ components:
           properties:
             toelichting:
               $ref: '#/components/schemas/Toelichting'
+      required:
+        - toelichting
     GezagNietTeBepalen:
       allOf:
         - $ref: '#/components/schemas/Gezagsrelatie'
@@ -275,6 +279,8 @@ components:
           properties:
             toelichting:
               $ref: '#/components/schemas/Toelichting'
+      required:
+        - toelichting
     GbaDatum:
       type: string
       pattern: ^[0-9]{8}$
@@ -299,6 +305,7 @@ components:
           $ref: '#/components/schemas/GeboorteBasis'
       required:
         - burgerservicenummer
+        - naam
     Gezag:
       type: array
       items:
