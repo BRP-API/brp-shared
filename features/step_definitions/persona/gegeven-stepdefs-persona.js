@@ -31,48 +31,52 @@ const partnerBurgerservicenummer       = '000000106'
 const geboortedatumMinderjarige  = 'gisteren - 16 jaar'
 const geboortedatumMeerderjarige = 'morgen - 37 jaar'
 
-// dit is een in Nederland geboren minderjarige met een moeder en een vader die nooit met elkaar gehuwd waren
-Given('de minderjarige persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
-  const persoonData = [
+function createPersoonData(aanduidingPersoon) {
+  return [
     ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
     ['geslachtsnaam (02.40)', aanduidingPersoon],
     ['geboortedatum (03.10)', geboortedatumMinderjarige],
     ['geboorteland (03.30)', '6030']
   ];
+}
 
-  const geboorteaktePersoon = [
-    ['aktenummer (81.20)', '1XA3600']
+const geboorteaktePersoon = [
+  ['aktenummer (81.20)', '1XA3600']
+];
+
+const verblijfplaatsData = [
+  ['gemeente van inschrijving (09.10)', '0518']
+];
+
+const geboorteakteMoeder = [
+  ['aktenummer (81.20)', '1XA1200']
+];
+
+const geboorteakteVader = [
+  ['aktenummer (81.20)', '1XA2400']
+];
+
+function createOuderData(burgerservicenummer, geslachtsnaam, geboortedatum, geslachtsaanduiding) {
+  return [
+    ['burgerservicenummer (01.20)', burgerservicenummer],
+    ['geslachtsnaam (02.40)', geslachtsnaam],
+    ['geboortedatum (03.10)', geboortedatum],
+    ['geslachtsaanduiding (04.10)', geslachtsaanduiding]
   ];
+}
+
+// dit is een in Nederland geboren minderjarige met een moeder en een vader die nooit met elkaar gehuwd waren
+Given('de minderjarige persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
+
+  const persoonData = createPersoonData(aanduidingPersoon);
 
   const erkenningAkte = [
     ['aktenummer (81.20)', '1XB3624']
   ];
 
-  const verblijfplaatsData = [
-    ['gemeente van inschrijving (09.10)', '0518']
-  ];
+  const moederData = createOuderData(ouder1Burgerservicenummer, aanduidingOuder1, geboortedatumMeerderjarige, 'V');
 
-  const moederData = [
-    ['burgerservicenummer (01.20)', ouder1Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder1],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
-
-  const geboorteakteMoeder = [
-    ['aktenummer (81.20)', '1XA1200']
-  ];
-
-  const vaderData = [
-    ['burgerservicenummer (01.20)', ouder2Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder2],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'M']
-  ];
-
-  const geboorteakteVader = [
-    ['aktenummer (81.20)', '1XA2400']
-  ];
+  const vaderData = createOuderData(ouder2Burgerservicenummer, aanduidingOuder2, geboortedatumMeerderjarige, 'M');
 
   const ouderData = [
     ['datum ingang familierechtelijke betrekking (62.10)', geboortedatumMinderjarige]
@@ -139,42 +143,12 @@ Given('de minderjarige persoon {string} met twee ouders {string} en {string} die
 
 // dit is een in Nederland geboren minderjarige met een moeder en een vader die met elkaar gehuwd zijn
 Given('de minderjarige persoon {string} met twee gehuwde ouders {string} en {string}', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6030']
-  ];
 
-  const geboorteaktePersoon = [
-    ['aktenummer (81.20)', '1XA3600']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon);
 
-  const verblijfplaatsData = [
-    ['gemeente van inschrijving (09.10)', '0518']
-  ];
+  const moederData = createOuderData(ouder1Burgerservicenummer, aanduidingOuder1, geboortedatumMeerderjarige, 'V');
 
-  const moederData = [
-    ['burgerservicenummer (01.20)', ouder1Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder1],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
-
-  const geboorteakteMoeder = [
-    ['aktenummer (81.20)', '1XA1200']
-  ];
-
-  const vaderData = [
-    ['burgerservicenummer (01.20)', ouder2Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder2],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'M']
-  ];
-
-  const geboorteakteVader = [
-    ['aktenummer (81.20)', '1XA2400']
-  ];
+  const vaderData = createOuderData(ouder2Burgerservicenummer, aanduidingOuder2, geboortedatumMeerderjarige, 'M');
 
   const ouderRelatieData = [
     ['datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10)', 'gisteren - 20 jaar'],
