@@ -31,12 +31,12 @@ const partnerBurgerservicenummer       = '000000106'
 const geboortedatumMinderjarige  = 'gisteren - 16 jaar'
 const geboortedatumMeerderjarige = 'morgen - 37 jaar'
 
-function createPersoonData(aanduidingPersoon) {
+function createPersoonData(aanduidingPersoon, geboorteland = '6030') {
   return [
     ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
     ['geslachtsnaam (02.40)', aanduidingPersoon],
     ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6030']
+    ['geboorteland (03.30)', geboorteland]
   ];
 }
 
@@ -65,17 +65,17 @@ function createOuderData(burgerservicenummer, geslachtsnaam, geboortedatum, gesl
   ];
 }
 
-function createIngeschrevenMinderjarige(context, aanduidingPersoon, persoonData, ouder1Data, ouder2Data) {
+function createIngeschrevenMinderjarige(context, aanduidingPersoon, persoonData, verblijfplaatsData, ouder1Data, ouder2Data) {
   createPersoon(
     context,
     aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
+    persoonData
   );
 
   // categorie verblijfplaats van persoon
   createVerblijfplaats(
     getPersoon(context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
+    verblijfplaatsData
   );
 
   // categorie ouder 1 van persoon
@@ -125,7 +125,9 @@ Given('de minderjarige persoon {string} met twee ouders {string} en {string} die
   );
 
   // maak pl van minderjarige
-  createIngeschrevenMinderjarige(this.context, aanduidingPersoon, persoonData,
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteaktePersoon))),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(erkenningAkte)))
   );
@@ -185,7 +187,9 @@ Given('de minderjarige persoon {string} met twee gehuwde ouders {string} en {str
   );
 
   // maak pl van minderjarige
-  createIngeschrevenMinderjarige(this.context, aanduidingPersoon, persoonData,
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData))
   );
@@ -242,7 +246,9 @@ Given('de minderjarige persoon {string} met één ouder {string}', function(aand
   );
 
   // maak pl van minderjarige
-  createIngeschrevenMinderjarige(this.context, aanduidingPersoon, persoonData,
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(legeOuderData)
   );
@@ -259,38 +265,12 @@ Given('de minderjarige persoon {string} met één ouder {string}', function(aand
 
 // dit is een in Nederland geboren minderjarige met een moeder die gehuwd is en er is geen tweede ouder
 Given('de minderjarige persoon {string} met één ouder {string} die gehuwd is met {string}', function(aanduidingPersoon, aanduidingOuder1, aanduidingPartner) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6030']
-  ];
 
-  const geboorteaktePersoon = [
-    ['aktenummer (81.20)', '1XA3600']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon);
 
-  const verblijfplaatsData = [
-    ['gemeente van inschrijving (09.10)', '0518']
-  ];
+  const moederData = createOuderData(ouder1Burgerservicenummer, aanduidingOuder1, geboortedatumMeerderjarige, 'V');
 
-  const moederData = [
-    ['burgerservicenummer (01.20)', ouder1Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder1],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
-
-  const geboorteakteMoeder = [
-    ['aktenummer (81.20)', '1XA1200']
-  ];
-
-  const partnerData = [
-    ['burgerservicenummer (01.20)', ouder2Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPartner],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
+  const partnerData = createOuderData(ouder2Burgerservicenummer, aanduidingPartner, geboortedatumMeerderjarige, 'V');
 
   const geboorteaktePartner = [
     ['aktenummer (81.20)', '1XA2400']
@@ -329,31 +309,12 @@ Given('de minderjarige persoon {string} met één ouder {string} die gehuwd is m
   );
 
   // maak pl van minderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
-  );
-
-  // categorie ouder 1 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '1',
-    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData))
-  );
-
-  // categorie ouder 2 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '2',
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
+    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(legeOuderData)
-  )
+  );
 
   // categorie kind van moeder
   createKind(
@@ -379,12 +340,7 @@ Given('de minderjarige persoon {string} met één ouder {string} die gehuwd is m
 
 // dit is een in het buitenland geboren minderjarige met een moeder en een vader die met elkaar gehuwd zijn en het hele gezin is geïmmigreerd naar Nederland
 Given('de minderjarige persoon {string} geboren in het buitenland met twee gehuwde ouders {string} en {string}', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6029']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon, '6029');
 
   const geboorteaktePersoon = [
     ['beschrijving document (82.30)', 'buitenlandse geboorteakte']
@@ -396,23 +352,13 @@ Given('de minderjarige persoon {string} geboren in het buitenland met twee gehuw
     ['datum vestiging in Nederland (14.20)', 'gisteren - 5 jaar'],
   ];
 
-  const moederData = [
-    ['burgerservicenummer (01.20)', ouder1Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder1],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
+  const moederData = createOuderData(ouder1Burgerservicenummer, aanduidingOuder1, geboortedatumMeerderjarige, 'V');
 
   const geboorteakteMoeder = [
     ['beschrijving document (82.30)', 'paspoort']
   ];
 
-  const vaderData = [
-    ['burgerservicenummer (01.20)', ouder2Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingOuder2],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'M']
-  ];
+  const vaderData = createOuderData(ouder2Burgerservicenummer, aanduidingOuder2, geboortedatumMeerderjarige, 'M');
 
   const geboorteakteVader = [
     ['beschrijving document (82.30)', 'beëdigde verklaring']
@@ -446,31 +392,12 @@ Given('de minderjarige persoon {string} geboren in het buitenland met twee gehuw
   );
 
   // maak pl van minderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
-  );
-
-  // categorie ouder 1 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '1',
-    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData))
-  );
-
-  // categorie ouder 2 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '2',
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
+    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData))
-  )
+  );
 
   // categorie kind van moeder
   createKind(
