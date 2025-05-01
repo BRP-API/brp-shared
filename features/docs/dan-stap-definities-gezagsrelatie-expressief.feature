@@ -794,3 +794,171 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en een onbekende derde
       En is het gezag over 'Bert' voogdij
       En is het gezag over 'Bert' voogdij met derde 'Aart'
+
+  Regel: Dan is het gezag in onderzoek
+
+    @info-api
+    Scenario: inOnderzoek wordt verwacht
+      Gegeven de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "gezag": [
+                {
+                  "type": "GezamenlijkOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012",
+                      "naam": {
+                        "volledigeNaam": "Gerda"
+                      }
+                    },
+                    {
+                      "burgerservicenummer": "000000024",
+                      "naam": {
+                        "volledigeNaam": "Aart"
+                      }
+                    }
+                  ],
+                  "inOnderzoek": true
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag in onderzoek
+
+    @data-api
+    Scenario: inOnderzoek wordt verwacht
+      Gegeven de persoon 'Bert' heeft de volgende gegevens
+        | geboortedatum (03.10) |
+        |              20221201 |
+      En de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "gezag": [
+                {
+                  "type": "GezamenlijkOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "geslachtsnaam": "Jansen"
+                    },
+                    "geboorte": {
+                      "datum": "20221201"
+                    }
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012",
+                      "naam": {
+                        "geslachtsnaam": "Gerda"
+                      }
+                    },
+                    {
+                      "burgerservicenummer": "000000024",
+                      "naam": {
+                        "geslachtsnaam": "Aart"
+                      }
+                    }
+                  ],
+                  "inOnderzoek": true
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag in onderzoek
+
+    @gezag-api @nieuw
+    Scenario: inOnderzoek wordt verwacht
+      Gegeven de persoon 'Bert' heeft de volgende gegevens
+        | geboortedatum (03.10) |
+        |              20221201 |
+      En de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "burgerservicenummer": "000000036",
+              "gezag": [
+                {
+                  "type": "GezamenlijkOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "geslachtsnaam": "Jansen"
+                    },
+                    "geboorte": {
+                      "datum": "20221201"
+                    }
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012",
+                      "naam": {
+                        "geslachtsnaam": "Gerda"
+                      }
+                    },
+                    {
+                      "burgerservicenummer": "000000024",
+                      "naam": {
+                        "geslachtsnaam": "Aart"
+                      }
+                    }
+                  ],
+                  "inOnderzoek": true
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag in onderzoek
+
+    @deprecated @gezag-api
+    Scenario: inOnderzoek wordt verwacht
+      Gegeven de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "burgerservicenummer": "000000036",
+              "gezag": [
+                {
+                  "type": "TweehoofdigOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012"
+                    },
+                    {
+                      "burgerservicenummer": "000000024"
+                    }
+                  ],
+                  "inOnderzoek": true
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag in onderzoek
