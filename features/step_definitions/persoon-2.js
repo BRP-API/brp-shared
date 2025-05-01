@@ -184,6 +184,16 @@ function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties 
     });
 
     if (!partner) {
+        Object.keys(persoon).forEach(property => {
+            if (property.startsWith('partner')) {
+                if (!persoon[property].at(-1).burger_service_nr) {
+                    partner = persoon[property];
+                }
+            }
+        });
+    }
+
+    if (!partner) {
         global.logger.warn(`geen partner met bsn ${partnerData.burger_service_nr} gevonden`, persoon);
         return;
     }
