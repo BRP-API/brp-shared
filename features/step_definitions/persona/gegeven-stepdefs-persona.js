@@ -521,29 +521,10 @@ Given('de minderjarige persoon {string} geboren in het buitenland met niet-ingez
   ];
 
   // maak pl van minderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData)
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
-  );
-
-  // categorie ouder 1 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '1',
-    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData))
-  );
-
-  // categorie ouder 2 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '2',
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData),
+    arrayOfArraysToDataTable(verblijfplaatsData),
+    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData))
   );
 
