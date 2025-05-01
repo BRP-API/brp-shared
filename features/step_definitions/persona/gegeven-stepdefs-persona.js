@@ -93,6 +93,23 @@ function createIngeschrevenMinderjarige(context, aanduidingPersoon, persoonData,
   );
 }
 
+function createOuderMetKind(context, aanduidingOuder, ouderData, kindData) {
+  // maak pl van ouder
+  createPersoon(
+    context,
+    aanduidingOuder,
+    ouderData
+  );
+
+  // categorie kind van ouder
+  if (kindData) {
+    createKind(
+      getPersoon(context, aanduidingOuder),
+      kindData
+    );
+  }
+}
+
 // dit is een in Nederland geboren minderjarige met een moeder en een vader die nooit met elkaar gehuwd waren
 Given('de minderjarige persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
 
@@ -111,17 +128,15 @@ Given('de minderjarige persoon {string} met twee ouders {string} en {string} die
   ];
 
   // maak pl van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingOuder1,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingOuder1,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van ouder 2
-  createPersoon(
-    this.context,
-    aanduidingOuder2,
-    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader))
+  createOuderMetKind(this.context, aanduidingOuder2,
+    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(erkenningAkte))
   );
 
   // maak pl van minderjarige
@@ -130,18 +145,6 @@ Given('de minderjarige persoon {string} met twee ouders {string} en {string} die
     arrayOfArraysToDataTable(verblijfplaatsData),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteaktePersoon))),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(erkenningAkte)))
-  );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingOuder1),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
-
-  // categorie kind van vader
-  createKind(
-    getPersoon(this.context, aanduidingOuder2),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(erkenningAkte))
   );
 
   // zet context naar de minderjarige persoon
@@ -173,17 +176,15 @@ Given('de minderjarige persoon {string} met twee gehuwde ouders {string} en {str
   ];
 
   // maak pl van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingOuder1,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingOuder1,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van ouder 2
-  createPersoon(
-    this.context,
-    aanduidingOuder2,
-    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader))
+  createOuderMetKind(this.context, aanduidingOuder2,
+    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van minderjarige
@@ -193,18 +194,6 @@ Given('de minderjarige persoon {string} met twee gehuwde ouders {string} en {str
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData))
   );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingOuder1),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
-
-  // categorie kind van vader
-  createKind(
-    getPersoon(this.context, aanduidingOuder2),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
 
   // categorie partner van moeder
   createPartner(
@@ -239,10 +228,9 @@ Given('de minderjarige persoon {string} met één ouder {string}', function(aand
   ]
 
   // maak pl van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingOuder1,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingOuder1,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van minderjarige
@@ -251,12 +239,6 @@ Given('de minderjarige persoon {string} met één ouder {string}', function(aand
     arrayOfArraysToDataTable(verblijfplaatsData),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(legeOuderData)
-  );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingOuder1),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // zet context naar de minderjarige persoon
@@ -295,17 +277,15 @@ Given('de minderjarige persoon {string} met één ouder {string} die gehuwd is m
   ]
 
   // maak pl van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingOuder1,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingOuder1,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van partner van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingPartner,
-    arrayOfArraysToDataTable(partnerData, arrayOfArraysToDataTable(geboorteaktePartner))
+  createOuderMetKind(this.context, aanduidingPartner,
+    arrayOfArraysToDataTable(partnerData, arrayOfArraysToDataTable(geboorteaktePartner)),
+    undefined
   );
 
   // maak pl van minderjarige
@@ -315,12 +295,6 @@ Given('de minderjarige persoon {string} met één ouder {string} die gehuwd is m
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(legeOuderData)
   );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingOuder1),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
 
   // categorie partner op pl van moeder
   createPartner(
@@ -378,17 +352,15 @@ Given('de minderjarige persoon {string} geboren in het buitenland met twee gehuw
   ];
 
   // maak pl van ouder 1
-  createPersoon(
-    this.context,
-    aanduidingOuder1,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingOuder1,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van ouder 2
-  createPersoon(
-    this.context,
-    aanduidingOuder2,
-    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader))
+  createOuderMetKind(this.context, aanduidingOuder2,
+    arrayOfArraysToDataTable(vaderData, arrayOfArraysToDataTable(geboorteakteVader)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
   );
 
   // maak pl van minderjarige
@@ -398,18 +370,6 @@ Given('de minderjarige persoon {string} geboren in het buitenland met twee gehuw
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(vaderData))
   );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingOuder1),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
-
-  // categorie kind van vader
-  createKind(
-    getPersoon(this.context, aanduidingOuder2),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  )
 
   // categorie partner van moeder
   createPartner(
