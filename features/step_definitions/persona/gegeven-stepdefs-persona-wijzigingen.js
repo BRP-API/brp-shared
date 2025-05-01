@@ -53,11 +53,6 @@ const geboortedatumMeerderjarige = 'morgen - 37 jaar'
 
 // maakt de adoptieouder als meerderjarige persoon en legt ouder-kind relatie tussen de persoon in context en de adoptieouder
 Given('is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door Nederlandse adoptieouder {string} met een Nederlandse adoptieakte', function (adoptieDatum, aanduidingAdoptieOuder) {
-  if (/(\d+) jaar geleden/.test(adoptieDatum)) {
-    const years = adoptieDatum.match(/(\d+)/)[0];
-    adoptieDatum = `vandaag - ${years} jaar`;
-  }
-
   const adoptieOuderData = [
     ['burgerservicenummer (01.20)', adoptieOuder1Burgerservicenummer],
     ['geslachtsnaam (02.40)', aanduidingAdoptieOuder],
@@ -116,11 +111,6 @@ Given('is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door Nederlan
 
 // maakt de adoptieouders als meerderjarige personen en legt ouder-kind relaties tussen de persoon in context en de adoptieouders
 Given('is {vandaag, gisteren of morgen x jaar geleden} geadopteerd door twee Nederlandse adoptieouders {string} en {string} met een Nederlandse adoptieakte', function(adoptieDatum, aanduidingOuder1, aanduidingOuder2) {
-  if (/(\d+) jaar geleden/.test(adoptieDatum)) {
-    const years = adoptieDatum.match(/(\d+)/)[0];
-    adoptieDatum = `vandaag - ${years} jaar`;
-  }
-
   const adoptiemoederData = [
     ['burgerservicenummer (01.20)', adoptieOuder1Burgerservicenummer],
     ['geslachtsnaam (02.40)', aanduidingOuder1],
