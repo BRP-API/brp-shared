@@ -175,7 +175,7 @@ function createPersoonMetGezag(context, type, aanduidingMinderjarige, aanduiding
     return retval;
 }
 
-Then(/^is het gezag over '([\wë\-]*)' (eenhoofdig ouderlijk gezag|gezamenlijk gezag) met ouder '([\wë\-]*)'(?: en een onbekende derde)?$/, function (aanduidingMinderjarige, type, aanduidingOuder) {
+Then(/^is het gezag over '([\wë\- ]*)' (eenhoofdig ouderlijk gezag|gezamenlijk gezag) met ouder '([\wë\- ]*)'(?: en een onbekende derde)?$/, function (aanduidingMinderjarige, type, aanduidingOuder) {
     this.context.verifyResponse = true;
 
     const expected = {
@@ -185,7 +185,7 @@ Then(/^is het gezag over '([\wë\-]*)' (eenhoofdig ouderlijk gezag|gezamenlijk g
     this.context.expected = expected;
 });
 
-Then(/^is het gezag over '([\wë\-]*)' (gezamenlijk gezag|gezamenlijk ouderlijk gezag) met ouder '([\wë\-]*)' en (?:ouder|derde) '([\wë\-]*)'$/, function (aanduidingMinderjarige, type, aanduidingMeerderjarige1, aanduidingMeerderjarige2) {
+Then(/^is het gezag over '([\wë\- ]*)' (gezamenlijk gezag|gezamenlijk ouderlijk gezag) met ouder '([\wë\- ]*)' en (?:ouder|derde) '([\wë\- ]*)'$/, function (aanduidingMinderjarige, type, aanduidingMeerderjarige1, aanduidingMeerderjarige2) {
     this.context.verifyResponse = true;
 
     const expected = {
@@ -196,7 +196,7 @@ Then(/^is het gezag over '([\wë\-]*)' (gezamenlijk gezag|gezamenlijk ouderlijk 
 
 });
        
-Then(/^is het gezag over '([\wë\-]*)' voogdij(?: met derde '([\wë\-]*)')?$/, function (aanduidingMinderjarige, aanduidingMeerderjarige) {
+Then(/^is het gezag over '([\wë\- ]*)' voogdij(?: met derde '([\wë\- ]*)')?$/, function (aanduidingMinderjarige, aanduidingMeerderjarige) {
     this.context.verifyResponse = true;
 
     const expected = {
@@ -206,7 +206,7 @@ Then(/^is het gezag over '([\wë\-]*)' voogdij(?: met derde '([\wë\-]*)')?$/, f
     this.context.expected = expected;
 });
 
-Then(/^is het gezag over '([\wë\-]*)' (niet te bepalen|tijdelijk geen gezag) met de toelichting '(.*)'$/, function (aanduidingMinderjarige, type, toelichting) {
+Then(/^is het gezag over '([\wë\- ]*)' (niet te bepalen|tijdelijk geen gezag) met de toelichting '(.*)'$/, function (aanduidingMinderjarige, type, toelichting) {
     this.context.verifyResponse = true;
 
     const expected = {
