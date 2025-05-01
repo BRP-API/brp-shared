@@ -573,7 +573,10 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       Dan heeft 'Bert' geen gezaghouder
 
   Regel: De response kan meerdere gezagsrelaties bevatten
-    
+    De gezag API levert daarbij het burgerservicenummer van de persoon waarvan het gezag gevraagd is.
+    Dat kan de minderjarige zijn, maar ook een ouder of derde.
+    Welk burgerservicenummer dit is wordt uitgeleid uit de Als stap.
+
     @deprecated @gezag-api
     Scenario: meerdere gezagsrelaties van één persoon
       Gegeven de response body is gelijk aan
@@ -581,7 +584,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         {
           "personen": [
             {
-              "burgerservicenummer": "000000036",
+              "burgerservicenummer": "<burgerservicenummer>",
               "gezag": [
                 {
                   "type": "TweehoofdigOuderlijkGezag",
@@ -655,12 +658,18 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
           ]
         }
         """
+      Als 'gezag' wordt gevraagd van '<naam>'
       Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
       En is het gezag over 'Bert' eenhoofdig ouderlijk gezag met ouder 'Gerda'
       En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en derde 'Aart'
       En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en een onbekende derde
       En is het gezag over 'Bert' voogdij
       En is het gezag over 'Bert' voogdij met derde 'Aart'
+
+      Voorbeelden:
+        | naam  | burgerservicenummer |
+        | Gerda |           000000012 |
+        | Aart  |           000000024 |
 
     @info-api
     Scenario: meerdere gezagsrelaties van één persoon
