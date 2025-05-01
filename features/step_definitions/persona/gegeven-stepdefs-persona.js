@@ -31,11 +31,13 @@ const partnerBurgerservicenummer       = '000000106'
 const geboortedatumMinderjarige  = 'gisteren - 16 jaar'
 const geboortedatumMeerderjarige = 'morgen - 37 jaar'
 
-function createPersoonData(aanduidingPersoon, geboorteland = '6030') {
+const defaultLandCode = '6030';
+
+function createPersoonData(geslachtsnaam, geboorteland = defaultLandCode, burgerservicenummer = persoonBurgerservicenummer, geboortedatum = geboortedatumMinderjarige) {
   return [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
+    ['burgerservicenummer (01.20)', burgerservicenummer],
+    ['geslachtsnaam (02.40)', geslachtsnaam],
+    ['geboortedatum (03.10)', geboortedatum],
     ['geboorteland (03.30)', geboorteland]
   ];
 }
@@ -491,13 +493,8 @@ Given('de minderjarige persoon {string} geboren in het buitenland geadopteerd do
 
 // dit is een in het buitenland geboren minderjarige met ouders die niet in de BRP of RNI staan
 Given('de minderjarige persoon {string} geboren in het buitenland met niet-ingezeten ouders {string} en {string}', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6029'],
-    ['beschrijving document (82.30)', 'buitenlandse geboorteakte']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon, '6029');
+  persoonData.push(['beschrijving document (82.30)', 'buitenlandse geboorteakte']);
 
   const verblijfplaatsData = [
     ['gemeente van inschrijving (09.10)', '0518'],
@@ -538,13 +535,8 @@ Given('de minderjarige persoon {string} geboren in het buitenland met niet-ingez
 
 // dit is een minderjarige in RNI die nooit ingezetene is geweest
 Given('de minderjarige persoon {string} die nooit ingezetene is geweest', function (aanduidingPersoon) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6029'],
-    ['beschrijving document (82.30)', 'buitenlandse geboorteakte']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon, '6029');
+  persoonData.push(['beschrijving document (82.30)', 'buitenlandse geboorteakte']);
 
   const verblijfplaatsData = [
     ['gemeente van inschrijving (09.10)', '1999']
@@ -575,12 +567,7 @@ Given('de minderjarige persoon {string} die nooit ingezetene is geweest', functi
 
 // dit is een in Nederland geboren en ingezeten meerderjarige zonder kinderen
 Given('de meerderjarige persoon {string}', function (aanduidingPersoon) {
-  const persoonData = [
-    ['burgerservicenummer (01.20)', partnerBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geboorteland (03.30)', '6030']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon, defaultLandCode, partnerBurgerservicenummer, geboortedatumMeerderjarige);
 
   const geboorteaktePersoon = [
     ['aktenummer (81.20)', '1XA4800']
