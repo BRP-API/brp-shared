@@ -571,3 +571,226 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         }
         """
       Dan is er geen gezag over 'Bert'
+
+  Regel: De response kan meerdere gezagsrelaties bevatten
+    
+    @deprecated @gezag-api
+    Scenario: meerdere gezagsrelaties van één persoon
+      Gegeven de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "burgerservicenummer": "000000036",
+              "gezag": [
+                {
+                  "type": "TweehoofdigOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012"
+                    },
+                    {
+                      "burgerservicenummer": "000000024"
+                    }
+                  ]
+                },
+                {
+                  "type": "EenhoofdigOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012"
+                  }
+                },
+                {
+                  "type": "GezamenlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012"
+                  },
+                  "derde": {
+                    "type": "BekendeDerde",
+                    "burgerservicenummer": "000000024"
+                  }
+                },
+                {
+                  "type": "GezamenlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012"
+                  },
+                  "derde": {
+                    "type": "OnbekendeDerde"
+                  }
+                },
+                {
+                  "type": "Voogdij",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "derden": []
+                },
+                {
+                  "type": "Voogdij",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036"
+                  },
+                  "derden": [
+                    {
+                      "type": "BekendeDerde",
+                      "burgerservicenummer": "000000024"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag over 'Bert' eenhoofdig ouderlijk gezag met ouder 'Gerda'
+      En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en derde 'Aart'
+      En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en een onbekende derde
+      En is het gezag over 'Bert' voogdij
+      En is het gezag over 'Bert' voogdij met derde 'Aart'
+
+    @info-api
+    Scenario: meerdere gezagsrelaties van één persoon
+      Gegeven de response body is gelijk aan
+        """
+        {
+          "personen": [
+            {
+              "burgerservicenummer": "000000036",
+              "gezag": [
+                {
+                  "type": "GezamenlijkOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "ouders": [
+                    {
+                      "burgerservicenummer": "000000012",
+                      "naam": {
+                        "volledigeNaam": "Gerda"
+                      }
+                    },
+                    {
+                      "burgerservicenummer": "000000024",
+                      "naam": {
+                        "volledigeNaam": "Aart"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "EenhoofdigOuderlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012",
+                    "naam": {
+                      "volledigeNaam": "Gerda"
+                    }
+                  }
+                },
+                {
+                  "type": "GezamenlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012",
+                    "naam": {
+                      "volledigeNaam": "Gerda"
+                    }
+                  },
+                  "derde": {
+                    "type": "BekendeDerde",
+                    "burgerservicenummer": "000000024",
+                    "naam": {
+                      "volledigeNaam": "Aart"
+                    }
+                  }
+                },
+                {
+                  "type": "GezamenlijkGezag",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "ouder": {
+                    "burgerservicenummer": "000000012",
+                    "naam": {
+                      "volledigeNaam": "Gerda"
+                    }
+                  },
+                  "derde": {
+                    "type": "OnbekendeDerde"
+                  }
+                },
+                {
+                  "type": "Voogdij",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "derden": []
+                },
+                {
+                  "type": "Voogdij",
+                  "minderjarige": {
+                    "burgerservicenummer": "000000036",
+                    "naam": {
+                      "volledigeNaam": "Jansen"
+                    },
+                    "leeftijd": 2
+                  },
+                  "derden": [
+                    {
+                      "type": "BekendeDerde",
+                      "burgerservicenummer": "000000024",
+                      "naam": {
+                        "volledigeNaam": "Aart"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+        """
+      Dan is het gezag over 'Bert' gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
+      En is het gezag over 'Bert' eenhoofdig ouderlijk gezag met ouder 'Gerda'
+      En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en derde 'Aart'
+      En is het gezag over 'Bert' gezamenlijk gezag met ouder 'Gerda' en een onbekende derde
+      En is het gezag over 'Bert' voogdij
+      En is het gezag over 'Bert' voogdij met derde 'Aart'
