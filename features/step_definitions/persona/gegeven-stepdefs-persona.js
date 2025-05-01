@@ -591,15 +591,10 @@ Given('de meerderjarige persoon {string}', function (aanduidingPersoon) {
   ];
 
   // maak pl van de meerderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon))
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(geboorteaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
+    undefined,
+    undefined
   );
 });

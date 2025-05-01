@@ -272,3 +272,16 @@ Functionaliteit: persona stap definities
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code | rni_deelnemer |
       | Jan   |       0 |                       1999 |           201 |
+
+  Scenario: de meerderjarige persoon {persoon}
+    Gegeven de meerderjarige persoon 'Jan'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind |
+      | Jan   |          0 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum   | geboorte_land_code | akte_nr |
+      | Jan   |         0 |       0 | P            |         000000106 | Jan            | morgen - 37 jaar | 6030              | 1XA4800 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | volg_nr | inschrijving_gemeente_code |
+      | Jan   |       0 |                       0518 |
