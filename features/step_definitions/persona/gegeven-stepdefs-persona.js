@@ -439,12 +439,7 @@ Given('de minderjarige persoon {string} geboren in het buitenland met één oude
 Given('de minderjarige persoon {string} geboren in het buitenland geadopteerd door één ouder {string}', function (aanduidingPersoon, aanduidingAdoptieouder) {
   const adoptiedatum = 'gisteren - 15 jaar'
 
-  const persoonData = [
-    ['burgerservicenummer (01.20)', persoonBurgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingPersoon],
-    ['geboortedatum (03.10)', geboortedatumMinderjarige],
-    ['geboorteland (03.30)', '6029']
-  ];
+  const persoonData = createPersoonData(aanduidingPersoon, '6029');
 
   const adoptieaktePersoon = [
     ['aktenummer (81.20)', '1XQ2436']
@@ -456,12 +451,7 @@ Given('de minderjarige persoon {string} geboren in het buitenland geadopteerd do
     ['datum vestiging in Nederland (14.20)', 'gisteren - 5 jaar'],
   ];
 
-  const moederData = [
-    ['burgerservicenummer (01.20)', adoptieOuder1Burgerservicenummer],
-    ['geslachtsnaam (02.40)', aanduidingAdoptieouder],
-    ['geboortedatum (03.10)', geboortedatumMeerderjarige],
-    ['geslachtsaanduiding (04.10)', 'V']
-  ];
+  const moederData = createOuderData(adoptieOuder1Burgerservicenummer, aanduidingAdoptieouder, geboortedatumMeerderjarige, 'V');
 
   const geboorteakteMoeder = [
     ['beschrijving document (82.30)', 'paspoort']
@@ -478,43 +468,17 @@ Given('de minderjarige persoon {string} geboren in het buitenland geadopteerd do
   ]
 
   // maak pl van ouder 1 (adoptiemoeder)
-  createPersoon(
-    this.context,
-    aanduidingAdoptieouder,
-    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder))
+  createOuderMetKind(this.context, aanduidingAdoptieouder,
+    arrayOfArraysToDataTable(moederData, arrayOfArraysToDataTable(geboorteakteMoeder)),
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(adoptieaktePersoon))
   );
 
   // maak pl van minderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(adoptieaktePersoon))
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData)
-  );
-
-  // categorie ouder 1 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '1',
-    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData))
-  );
-
-  // categorie ouder 2 van persoon
-  createOuder(
-    getPersoon(this.context, aanduidingPersoon),
-    '2',
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(adoptieaktePersoon)),
+    arrayOfArraysToDataTable(verblijfplaatsData),
+    arrayOfArraysToDataTable(ouderData, arrayOfArraysToDataTable(moederData)),
     arrayOfArraysToDataTable(legeOuderData)
-  );
-
-  // categorie kind van moeder
-  createKind(
-    getPersoon(this.context, aanduidingAdoptieouder),
-    arrayOfArraysToDataTable(persoonData, arrayOfArraysToDataTable(adoptieaktePersoon))
   );
 
   // zet context naar de minderjarige persoon

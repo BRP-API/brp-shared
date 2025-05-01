@@ -214,3 +214,31 @@ Functionaliteit: persona stap definities
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | doc_beschrijving          | geldigheid_start_datum |
       | Jan   |         0 |       0 |            2 | buitenlandse geboorteakte | gisteren - 16 jaar     |
+
+  Scenario: de minderjarige persoon {kind} geboren in het buitenland geadopteerd door één ouder {ouder}
+    Gegeven de minderjarige persoon 'Jan' geboren in het buitenland geadopteerd door één ouder 'Petra'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Petra' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind |
+      | Petra |          0 |
+    En heeft persoon 'Petra' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum   | geslachts_aand | doc_beschrijving |
+      | Petra |         0 |       0 | P            |         000000104 | Petra          | morgen - 37 jaar | V              | paspoort         |
+    En heeft persoon 'Petra' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
+      | Petra |         0 |       0 | K            |         000000103 | Jan            | gisteren - 16 jaar |               6029 | 1XQ2436 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind |
+      | Jan   |          0 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
+      | Jan   |         0 |       0 | P            |         000000103 | Jan            | gisteren - 16 jaar |               6029 | 1XQ2436 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | volg_nr | inschrijving_gemeente_code | vestiging_land_code | vestiging_datum   |
+      | Jan   |       0 |                       0518 |                6029 | gisteren - 5 jaar |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | familie_betrek_start_datum | akte_nr | burger_service_nr | geslachts_naam | geboorte_datum   | geslachts_aand |
+      | Jan   |         0 |       0 |            1 | gisteren - 15 jaar         | 1XQ2436 |         000000104 | Petra          | morgen - 37 jaar | V              |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | doc_beschrijving          | geldigheid_start_datum |
+      | Jan   |         0 |       0 |            2 | buitenlandse geboorteakte | gisteren - 16 jaar     |
