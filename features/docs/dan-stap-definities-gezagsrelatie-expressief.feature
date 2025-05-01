@@ -557,7 +557,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         """
       Dan is het gezag over 'Bert' niet te bepalen met de toelichting 'dit is de reden dat het gezag niet te bepalen is. Het gaat om de volgende gegevens: geboortedatum'
 
-  Regel: Dan is er geen gezag
+  Regel: Dan heeft '{aanduidingMinderjarige}' geen gezaghouder
 
     Scenario: gevraagde persoon heeft geen gezagsrelaties
       Gegeven de response body is gelijk aan
@@ -570,7 +570,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
           ]
         }
         """
-      Dan is er geen gezag over 'Bert'
+      Dan heeft 'Bert' geen gezaghouder
 
   Regel: De response kan meerdere gezagsrelaties bevatten
     

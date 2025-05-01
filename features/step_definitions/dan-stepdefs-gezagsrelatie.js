@@ -228,7 +228,7 @@ Then(/^heeft de (minderjarige|ouder|derde) geen (\w*)$/, function (type, propert
     }
 });
 
-Then('is er geen gezag over {string}', function (aanduidingMinderjarige) {
+Then('heeft {string} geen gezaghouder', function (aanduidingMinderjarige) {
     this.context.verifyResponse = true;
 
     const expected = {
