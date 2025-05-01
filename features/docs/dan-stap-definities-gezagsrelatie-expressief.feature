@@ -669,7 +669,6 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         {
           "personen": [
             {
-              "burgerservicenummer": "000000036",
               "gezag": [
                 {
                   "type": "GezamenlijkOuderlijkGezag",
