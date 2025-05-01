@@ -259,3 +259,16 @@ Functionaliteit: persona stap definities
       | pl_id | stapel_nr | volg_nr | persoon_type | familie_betrek_start_datum | doc_beschrijving          | voor_naam | geslachts_naam | geboorte_datum   | geslachts_aand |
       | Jan   |         0 |       0 |            1 | gisteren - 16 jaar         | buitenlandse geboorteakte | Jane      | Petra          | morgen - 37 jaar | V              |
       | Jan   |         0 |       0 |            2 | gisteren - 16 jaar         | buitenlandse geboorteakte | John      | Piet           | morgen - 37 jaar | M              |
+
+  Scenario: de minderjarige persoon {string} die nooit ingezetene is geweest
+    Gegeven de minderjarige persoon 'Jan' die nooit ingezetene is geweest
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind | bijhouding_opschort_datum | bijhouding_opschort_reden |
+      | Jan   |          0 | gisteren - 1 jaar         | R                         |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | doc_beschrijving          | rni_deelnemer |
+      | Jan   |         0 |       0 | P            |         000000103 | Jan            | gisteren - 16 jaar |               6029 | buitenlandse geboorteakte |           201 |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | volg_nr | inschrijving_gemeente_code | rni_deelnemer |
+      | Jan   |       0 |                       1999 |           201 |

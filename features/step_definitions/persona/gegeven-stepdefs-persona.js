@@ -79,18 +79,22 @@ function createIngeschrevenMinderjarige(context, aanduidingPersoon, persoonData,
   );
 
   // categorie ouder 1 van persoon
-  createOuder(
-    getPersoon(context, aanduidingPersoon),
-    '1',
-    ouder1Data
-  );
+  if (ouder1Data) {
+    createOuder(
+      getPersoon(context, aanduidingPersoon),
+      '1',
+      ouder1Data
+    );
+  }
 
   // categorie ouder 2 van persoon
-  createOuder(
-    getPersoon(context, aanduidingPersoon),
-    '2',
-    ouder2Data
-  );
+  if (ouder2Data) {
+    createOuder(
+      getPersoon(context, aanduidingPersoon),
+      '2',
+      ouder2Data
+    );
+  }
 }
 
 function createOuderMetKind(context, aanduidingOuder, ouderData, kindData) {
@@ -556,16 +560,11 @@ Given('de minderjarige persoon {string} die nooit ingezetene is geweest', functi
   ];
 
   // maak pl van minderjarige
-  createPersoon(
-    this.context,
-    aanduidingPersoon,
-    arrayOfArraysToDataTable(persoonData.concat(deelnemerData))
-  );
-
-  // categorie verblijfplaats van persoon
-  createVerblijfplaats(
-    getPersoon(this.context, aanduidingPersoon),
-    arrayOfArraysToDataTable(verblijfplaatsData.concat(deelnemerData))
+  createIngeschrevenMinderjarige(this.context, aanduidingPersoon,
+    arrayOfArraysToDataTable(persoonData.concat(deelnemerData)),
+    arrayOfArraysToDataTable(verblijfplaatsData.concat(deelnemerData)),
+    undefined,
+    undefined
   );
 
   aanvullenInschrijving(
