@@ -243,3 +243,7 @@ Given(/^het huwelijk van '(.*)' en '(.*)' is (.*) nietig verklaard$/, function (
 
     gegevenDePersonenZijnGescheiden(this.context, aanduiding1, aanduiding2, scheidingData);
 });
+
+module.exports = {
+    gegevenDePersonenZijnGehuwd
+};

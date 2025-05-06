@@ -34,9 +34,19 @@ function getGeslachtsaanduiding(persoon) {
     return persoon.persoon.at(-1).geslachts_aand;
 }
 
+function getAkteNr(persoon) {
+    return persoon.persoon.at(-1).akte_nr;
+}
+
+function getBeschrijvingDocument(persoon) {
+    return persoon.persoon.at(-1).doc_beschrijving;
+}
+
 module.exports = {
     getAdres,
     getAdresIndex,
+    getAkteNr,
+    getBeschrijvingDocument,
     getBsn,
     getVoornamen,
     getGeslachtsnaam,

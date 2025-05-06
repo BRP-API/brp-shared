@@ -1,6 +1,12 @@
 const { Given } = require('@cucumber/cucumber');
 const { createOuder, createKind } = require('../persoon-2');
-const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
+const { getPersoon,
+        getBsn,
+        getGeslachtsnaam,
+        getGeboortedatum,
+        getGeslachtsaanduiding,
+        getAkteNr,
+        getBeschrijvingDocument } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
@@ -108,3 +114,107 @@ Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven 
 Given(/^heeft '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduiding, ouderType, dataTable) {
     gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, dataTable);
 });
+
+function persoonPropertiesToArrayofArrays(persoon) {
+    const retval = [];
+
+    if(persoon) {
+        Object.keys(persoon.persoon.at(-1)).forEach(key => {
+            if(!['pl_id', 'stapel_nr', 'volg_nr', 'persoon_type'].includes(key)) {
+                retval.push([key, persoon.persoon.at(-1)[key]]);
+            }
+        });
+    }
+
+    return retval;
+}
+
+function gegevenDePersoonHeeftAlsOuder(context, persoonAanduiding, ouderAanduiding, ouderType, ouderDataTable, kindDataTable) {
+    const kind = getPersoon(context, persoonAanduiding);
+    const ouder = getPersoon(context, ouderAanduiding);
+
+    createOuder(
+        kind,
+        ouderType,
+        arrayOfArraysToDataTable(
+            persoonPropertiesToArrayofArrays(ouder),
+            ouderDataTable
+        )
+    );
+    createKind(
+        ouder,
+        arrayOfArraysToDataTable(
+            persoonPropertiesToArrayofArrays(kind),
+            kindDataTable
+        )
+    );
+}
+
+function createKindData(kind) {
+    let retval = [];
+
+    const aktenr = getAkteNr(kind);
+    if(aktenr) {
+        retval.push(['aktenummer (81.20)', aktenr]);
+    }
+
+    const docBeschrijving = getBeschrijvingDocument(kind);
+    if(docBeschrijving) {
+        retval.push(['beschrijving document (82.30)', docBeschrijving]);
+    }
+
+    return retval;
+}
+
+function createOuderData(kind, ouder) {
+    let retval = createKindData(kind);
+
+    const geboorteDatum = getGeboortedatum(kind);
+    if(geboorteDatum) {
+        retval.push([
+            ouder
+                ? 'datum ingang familierechtelijke betrekking (62.10)'
+                : 'datum ingang geldigheid (85.10)',
+            geboorteDatum]);
+    }
+
+    return retval;
+}
+
+function createKindEnOuder(kind, ouder, ouderType) {
+    const ouderData = persoonPropertiesToArrayofArrays(ouder).concat(createOuderData(kind, ouder));
+    createOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+
+    if(ouder) {
+        const kindData = persoonPropertiesToArrayofArrays(kind).concat(createKindData(kind));
+        createKind(ouder, arrayOfArraysToDataTable(kindData));
+    }
+}
+
+function gegevenDePersoonHeeftAlsOuders(context, persoonAanduiding, ouderAanduiding1, ouderAanduiding2) {
+    const kind = getPersoon(context, persoonAanduiding);
+    if (!kind) {
+        global.logger.error(`persoon ${persoonAanduiding} niet gevonden`);
+        return;
+    }
+
+    const ouder1 = ouderAanduiding1 ? getPersoon(context, ouderAanduiding1) : undefined;
+    if (ouderAanduiding1 && !ouder1) {
+        global.logger.error(`ouder ${ouderAanduiding1} niet gevonden`);
+        return;
+    }
+
+    let ouder2 = ouderAanduiding2 ? getPersoon(context, ouderAanduiding2) : undefined;
+    if (ouderAanduiding2 && !ouder2) {
+        global.logger.error(`ouder ${ouderAanduiding2} niet gevonden`);
+        return;
+    }
+
+    createKindEnOuder(kind, ouder1, '1');
+    createKindEnOuder(kind, ouder2, '2');
+}
+
+module.exports = {
+    gegevenDePersoonHeeftAlsOuder,
+    gegevenDePersoonHeeftAlsOuders
+};

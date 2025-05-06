@@ -45,6 +45,10 @@ function gegevenDePersoonMetBsn(context, aanduiding, burgerservicenummer, dataTa
     }
 }
 
+function gegevenDePersoon(context, aanduiding, dataTable) {
+    createPersoon(context, aanduiding, dataTable);
+}
+
 Given(/^(?:de )?persoon '([a-zA-Z0-9]*)'(?: zonder burgerservicenummer)? heeft de volgende gegevens$/, function (aanduiding, dataTable) {
     gegevenDePersoonMetBsn(this.context, aanduiding, undefined, dataTable);
 });
@@ -56,3 +60,8 @@ Given(/^(?:de persoon(?: '(.*)')? )?met burgerservicenummer '(\d*)'$/, function 
 Given(/^(?:de persoon(?: '(.*)')? )?zonder burgerservicenummer$/, function (aanduiding) {
     gegevenDePersoonMetBsn(this.context, aanduiding, undefined, undefined);
 });
+
+module.exports = {
+    gegevenDePersoonMetBsn,
+    gegevenDePersoon
+};
