@@ -6,7 +6,8 @@ const { getPersoon,
         getGeboortedatum,
         getGeslachtsaanduiding,
         getAkteNr,
-        getBeschrijvingDocument } = require('../contextHelpers');
+        getBeschrijvingDocument,
+        persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
@@ -114,20 +115,6 @@ Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven 
 Given(/^heeft '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduiding, ouderType, dataTable) {
     gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, dataTable);
 });
-
-function persoonPropertiesToArrayofArrays(persoon) {
-    const retval = [];
-
-    if(persoon) {
-        Object.keys(persoon.persoon.at(-1)).forEach(key => {
-            if(!['pl_id', 'stapel_nr', 'volg_nr', 'persoon_type'].includes(key)) {
-                retval.push([key, persoon.persoon.at(-1)[key]]);
-            }
-        });
-    }
-
-    return retval;
-}
 
 function gegevenDePersoonHeeftAlsOuder(context, persoonAanduiding, ouderAanduiding, ouderType, ouderDataTable, kindDataTable) {
     const kind = getPersoon(context, persoonAanduiding);

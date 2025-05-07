@@ -64,7 +64,7 @@ defineDateParameterType(
 
 defineDateParameterType(
     'dd maand yyyy datum',
-    /(?:in )?(?:')?(?:(\d{1,2}) )?(?:(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december) )?(\d{4})(?:')?/,
+    /(?:op )?(?:in )?'?(?:(\d{1,2}) )?(?:(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december) )?(\d{4})'?/,
     (dag, maand, jaar) => getJaar(jaar) + getMaand(maand) + getDag(dag)
 );
 
@@ -105,4 +105,24 @@ defineParameterType({
 defineParameterType({
     name: 'relatieve datum',
     regexp: /(gisteren|vandaag|morgen|deze maand|vorige maand|volgende maand)/
+});
+
+function toGeslachtsaanduiding(omschrijvingGeslacht) {
+    const geslachtMap = new Map([
+        ['man', 'M'],
+        ['vrouw', 'V']
+    ]);
+
+    return geslachtMap.get(omschrijvingGeslacht) || omschrijvingGeslacht;
+}
+
+defineParameterType({
+    name: 'geslachtsaanduiding',
+    regexp: /(?:(man|vrouw))?/,
+    transformer(geslacht) {
+        if(!geslacht) {
+            return undefined;
+        }
+        return toGeslachtsaanduiding(geslacht);
+    }
 });

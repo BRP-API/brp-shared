@@ -1,7 +1,14 @@
 const { Given } = require('@cucumber/cucumber');
 const { objectToDataTable, arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzigOuder, aanvullenPersoon } = require('../persoon-2');
-const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
+const { getPersoon,
+        getBsn,
+        getGeslachtsnaam,
+        getGeboortedatum,
+        getGeslachtsaanduiding,
+        getAkteNr,
+        getBeschrijvingDocument,
+        persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
 
@@ -254,3 +261,95 @@ Given(/^is niet in Nederland geadopteerd$/, function () {
 Given(/^'(.*)' is in het buitenland geadopteerd door '(.*)' en '(.*)' op (\d*)-(\d*)-(\d*)$/, function (aanduidingKind, aanduidingOuder1, aanduidingOuder2, dag, maand, jaar) {
     return 'pending'
 });
+
+function createKindData(kind, aktenr) {
+    let retval = [];
+
+    retval.push(['aktenummer (81.20)', aktenr]);
+
+    return retval;
+}
+
+function createOuderData(kind, ouder, datumAdoptie, aktenummer) {
+    let retval = createKindData(kind, aktenummer);
+
+    retval.push([
+        ouder
+            ? 'datum ingang familierechtelijke betrekking (62.10)'
+            : 'datum ingang geldigheid (85.10)',
+        datumAdoptie]);
+
+    return retval;
+}
+
+function createLegeOuderData(kind) {
+    let retval = [];
+
+    const aktenr = getAkteNr(kind);
+    if(aktenr) {
+        retval.push(['aktenummer (81.20)', aktenr]);
+    }
+
+    const docBeschrijving = getBeschrijvingDocument(kind);
+    if(docBeschrijving) {
+        retval.push(['beschrijving document (82.30)', docBeschrijving]);
+    }
+
+    const geboorteDatum = getGeboortedatum(kind);
+    if(geboorteDatum) {
+        retval.push([ 'datum ingang geldigheid (85.10)', geboorteDatum]);
+    }
+
+    return retval;
+}
+
+function createKindEnOuder(kind, ouder, ouderType, datumAdoptie, aktenummer) {
+    const ouderData = ouder
+     ? persoonPropertiesToArrayofArrays(ouder).concat(createOuderData(kind, ouder, datumAdoptie, aktenummer))
+     : createLegeOuderData(kind);
+    if(kind[`ouder-${ouderType}`]) {
+        wijzigOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+    }
+    else {
+        createOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+    }
+
+    if(ouder) {
+        const kindData = persoonPropertiesToArrayofArrays(kind).concat(createKindData(kind, aktenummer));
+        createKind(ouder, arrayOfArraysToDataTable(kindData));
+    }
+}
+
+function gegevenDePersoonIsGeadopteerdOpDatum(context, persoonAanduiding, ouderAanduiding1, ouderAanduiding2, datumAdoptie) {
+    const kind = getPersoon(context, persoonAanduiding);
+    if (!kind) {
+        global.logger.error(`persoon ${persoonAanduiding} niet gevonden`);
+        return;
+    }
+
+    const ouder1 = ouderAanduiding1 ? getPersoon(context, ouderAanduiding1) : undefined;
+    if (ouderAanduiding1 && !ouder1) {
+        global.logger.error(`ouder ${ouderAanduiding1} niet gevonden`);
+        return;
+    }
+
+    let ouder2 = ouderAanduiding2 ? getPersoon(context, ouderAanduiding2) : undefined;
+    if (ouderAanduiding2 && !ouder2) {
+        global.logger.error(`ouder ${ouderAanduiding2} niet gevonden`);
+        return;
+    }
+
+    createKindEnOuder(kind, ouder1, '1', datumAdoptie, '1XQ2436');
+    createKindEnOuder(kind, ouder2, '2', datumAdoptie, '1XQ2436');
+
+    const kindData = persoonPropertiesToArrayofArrays(kind, [ 'akte_nr', 'doc_beschrijving' ]);
+    kindData.push(['aktenummer (81.20)', '1XQ2436']);
+    wijzigPersoon(
+        kind,
+        arrayOfArraysToDataTable(kindData)
+    );
+}
+
+module.exports = {
+    gegevenDePersoonIsGeadopteerdOpDatum
+};

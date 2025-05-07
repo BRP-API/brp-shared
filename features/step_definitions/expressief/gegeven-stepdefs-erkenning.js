@@ -1,6 +1,11 @@
 const { Given } = require('@cucumber/cucumber');
-const { createOuder, createKind, wijzigPersoon } = require('../persoon-2');
-const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
+const { createOuder, createKind, wijzigPersoon, wijzigOuder } = require('../persoon-2');
+const { getPersoon,
+        getBsn,
+        getGeslachtsnaam,
+        getGeboortedatum,
+        getGeslachtsaanduiding,
+        persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
@@ -164,3 +169,48 @@ function beschikbareOuder(persoon) {
   
     return 2
   }
+
+function createKindData(kind, aktenr) {
+    let retval = [];
+
+    retval.push(['aktenummer (81.20)', aktenr]);
+
+    return retval;
+}
+
+function createOuderData(kind, ouder, aktenummer) {
+    let retval = createKindData(kind, aktenummer);
+
+    const geboorteDatum = getGeboortedatum(kind);
+    if(geboorteDatum) {
+        retval.push([
+            ouder
+                ? 'datum ingang familierechtelijke betrekking (62.10)'
+                : 'datum ingang geldigheid (85.10)',
+            geboorteDatum]);
+    }
+
+    return retval;
+}
+
+function createKindEnWijzigOuder(kind, ouder, ouderType, aktenummer) {
+    const ouderData = persoonPropertiesToArrayofArrays(ouder).concat(createOuderData(kind, ouder, aktenummer));
+    wijzigOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+
+    if(ouder) {
+        const kindData = persoonPropertiesToArrayofArrays(kind).concat(createKindData(kind, aktenummer));
+        createKind(ouder, arrayOfArraysToDataTable(kindData));
+    }
+}
+
+function gegevenDePersoonIsBijGeboorteaangifteErkendDoor(context, aanduiding, aanduidingOuder) {
+    const kind = getPersoon(context, aanduiding);
+    const erkenner = getPersoon(context, aanduidingOuder);
+    const ouderType = '2'; // todo ouder type bepalen adhv lege ouder want ouder 1 en 2 zijn beide gevuld
+
+    createKindEnWijzigOuder(kind, erkenner, ouderType, '1XB3624');
+}
+
+module.exports = {
+    gegevenDePersoonIsBijGeboorteaangifteErkendDoor
+};

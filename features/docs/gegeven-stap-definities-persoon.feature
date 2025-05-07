@@ -38,14 +38,23 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | persoon 'P1' zonder burgerservicenummer heeft de volgende gegevens    |
       | de persoon 'P1' zonder burgerservicenummer heeft de volgende gegevens |
 
-  Scenario: de persoon met burgerservicenummer '[bsn]' heeft de volgende gegevens
-    Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
-    | naam                  | waarde |
-    | geslachtsnaam (02.40) | Jansen |
-    Dan zijn de gegenereerde SQL statements
-    | stap | categorie    | text                                                                                                                                                  | values                      |
-    | 1    | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES((SELECT COALESCE(MAX(pl_id), 0)+1 FROM public.lo3_pl),current_timestamp,$1) RETURNING * | 0                           |
-    |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr,geslachts_naam) VALUES($1,$2,$3,$4,$5,$6)                    | 9999,0,0,P,000000012,Jansen |
+  @integratie
+  Abstract Scenario: de {datum} in {land omschrijving} geboren {geslacht type} '{persoon aanduiding}' met burgerservicenummer '{bsn}'
+    Gegeven de <datum> in <land omschrijving> geboren <geslacht type> 'Jansen' met burgerservicenummer '000000012'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl'
+      | pl_id  | geheim_ind |
+      | Jansen |          0 |
+    En heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id  | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code  | geslachts_aand        | akte_nr  | doc_beschrijving        |
+      | Jansen |         0 |       0 | P            |         000000012 | Jansen         | <geboortedatum> | <code geboorteland> | <geslachtsaanduiding> | <aktenr> | <document beschrijving> |
+
+    Voorbeelden:
+      | datum                  | land omschrijving                   | geslacht type | geboortedatum    | code geboorteland | geslachtsaanduiding | aktenr  | document beschrijving     |
+      | vandaag 5 jaar geleden | 'Nederland'                         | man           | vandaag - 5 jaar |              6030 | M                   | 1_A____ |                           |
+      | op 21 januari 2021     | de 'Verenigde Staten van Amerika'   | vrouw         |         20210121 |              6014 | V                   |         | buitenlandse geboorteakte |
+      | op een onbekende datum | het 'Verenigde Arabische Republiek' | man           |         00000000 |              9047 | M                   |         | buitenlandse geboorteakte |
+      | in februari 2021       | 'België'                            |               |         20210200 |              5010 |                     |         | buitenlandse geboorteakte |
 
   Scenario: de persoon met burgerservicenummer '[bsn]' heeft de volgende gegevens (meerdere personen)
     Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
