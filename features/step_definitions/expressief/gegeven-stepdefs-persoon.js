@@ -61,8 +61,7 @@ Given(/^(?:de persoon(?: '(.*)')? )?zonder burgerservicenummer$/, function (aand
 function gegevenDePersoon(context, persoonAanduiding, burgerservicenummer, geboortedatum, geboortelandCode, geslachtsaanduiding, dataTable) {
     const data = [
         ['geslachtsnaam (02.40)', persoonAanduiding],
-        ['geboortedatum (03.10)', geboortedatum],
-        ['geboorteland (03.30)', geboortelandCode]
+        ['geboortedatum (03.10)', geboortedatum]
     ];
     if(burgerservicenummer) {
         data.push(['burgerservicenummer (01.20)', burgerservicenummer]);
@@ -70,35 +69,35 @@ function gegevenDePersoon(context, persoonAanduiding, burgerservicenummer, geboo
     if(geslachtsaanduiding) {
         data.push(['geslachtsaanduiding (04.10)', geslachtsaanduiding]);
     }
-    if(geboortelandCode == '6030') {
-        data.push(['aktenummer (81.20)', '1AA0100']);
-    }
-    else {
-        data.push(['beschrijving document (82.30)', 'buitenlandse geboorteakte']);
+    if(geboortelandCode) {
+        data.push(['geboorteland (03.30)', geboortelandCode]);
+
+        if(geboortelandCode == '6030') {
+            data.push(['aktenummer (81.20)', '1AA0100']);
+        }
+        else {
+            data.push(['beschrijving document (82.30)', 'buitenlandse geboorteakte']);
+        }
     }
 
     createPersoon(context, persoonAanduiding, arrayOfArraysToDataTable(data, dataTable));
 }
 
 async function gegevenDeOpDatumInLandGeborenPersoon(geboortedatum, omschrijvingLand, geslachtsaanduiding, persoonAanduiding, burgerservicenummer) {
-    const geboortelandCode = await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', omschrijvingLand, undefined);
+    const geboortelandCode = omschrijvingLand ?? await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', omschrijvingLand, undefined);
 
     gegevenDePersoon(this.context, persoonAanduiding, burgerservicenummer, geboortedatum, geboortelandCode, geslachtsaanduiding, undefined);
 }
 
-async function gegevenDeOpDatumInLandGeborenPersoonZonderBsn(geboortedatum, omschrijvingLand, geslachtsaanduiding, persoonAanduiding) {
-    const geboortelandCode = await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', omschrijvingLand, undefined);
-
-    gegevenDePersoon(this.context, persoonAanduiding, undefined, geboortedatum, geboortelandCode, geslachtsaanduiding, undefined);
+async function gegevenDeMeerderjarigePersoonZonderBsn(geslachtsAanduiding, persoonAanduiding) {
+    gegevenDePersoon(this.context, persoonAanduiding, undefined, 'gisteren - 45 jaar', undefined, geslachtsAanduiding, undefined);
 }
 
 Given('de {vandaag, gisteren of morgen x jaar geleden} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} met burgerservicenummer {string}', gegevenDeOpDatumInLandGeborenPersoon);
 Given('de {dd maand yyyy datum} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} met burgerservicenummer {string}', gegevenDeOpDatumInLandGeborenPersoon);
 Given('de {onbekende datum} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} met burgerservicenummer {string}', gegevenDeOpDatumInLandGeborenPersoon);
 
-Given('de {vandaag, gisteren of morgen x jaar geleden} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeOpDatumInLandGeborenPersoonZonderBsn);
-Given('de {dd maand yyyy datum} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeOpDatumInLandGeborenPersoonZonderBsn);
-Given('de {onbekende datum} in (de )(het ){string} geboren {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeOpDatumInLandGeborenPersoonZonderBsn);
+Given('de meerderjarige {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeMeerderjarigePersoonZonderBsn);
 
 module.exports = {
     gegevenDePersoon

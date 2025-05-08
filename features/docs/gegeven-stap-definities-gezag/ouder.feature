@@ -177,7 +177,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       # mogelijk gaan we later andere varianten toevoegen (minderjarige ouder) of extra gegevens toevoegen (voornamen, geboorteplaats, geboorteland, ...?)
       # als er nog geen geboortedatum van de persoon bekend is, wordt 'gisteren - 17 jaar' opgenomen bij familie_betrek_start_datum in de ouder-relatie
       Gegeven de gisteren 45 jaar geleden in 'Nederland' geboren man 'P1' met burgerservicenummer '000000012'
-      En de morgen 45 jaar geleden in 'Nederland' geboren vrouw 'P3' zonder burgerservicenummer
+      En de meerderjarige vrouw 'P3' zonder burgerservicenummer
       En de gisteren 17 jaar geleden in 'Nederland' geboren man 'P2' met burgerservicenummer '000000036'
       * heeft 'P1' en 'P3' als ouders
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
