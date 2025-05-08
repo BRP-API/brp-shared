@@ -140,9 +140,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren adoptie
     Scenario: adoptie naast andere ouder: '{naam}' is {relatieve datum} geadopteerd door '{naam}'
       # het soort ouder (persoon_type '1' of '2') is de eerste plek die beschikbaar is
       # als ouder 1 al bestaat en ouder 1 heeft geslachts_naam met een waarde ongelijk aan '.', dan wordt de adoptieouder ouder 2
-      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      En de persoon 'P2' met burgerservicenummer '000000024'
-      En de persoon 'P3' met burgerservicenummer '000000036'
+      Gegeven de gisteren 45 jaar geleden in 'Nederland' geboren 'P1' met burgerservicenummer '000000012'
+      En de morgen 40 jaar geleden in 'Nederland' geboren 'P2' met burgerservicenummer '000000024'
+      En de gisteren 17 jaar geleden in 'Nederland' geboren 'P3' met burgerservicenummer '000000036'
       * heeft 'P2' als ouder
       En 'P3' is 3 jaar geleden geadopteerd door 'P1'
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd

@@ -56,6 +56,20 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | op een onbekende datum | het 'Verenigde Arabische Republiek' | man           |         00000000 |              9047 | M                   |         | buitenlandse geboorteakte |
       | in februari 2021       | 'België'                            |               |         20210200 |              5010 |                     |         | buitenlandse geboorteakte |
 
+  @integratie
+  Scenario: de {datum} in {land omschrijving} geboren {geslacht type} '{persoon aanduiding}' zonder burgerservicenummer
+    Gegeven de <datum> in <land omschrijving> geboren <geslacht type> 'Jansen' zonder burgerservicenummer
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan zijn er geen rijen in tabel 'lo3_pl'
+    En zijn er geen rijen in tabel 'lo3_pl_persoon'
+
+    Voorbeelden:
+      | datum                  | land omschrijving                   | geslacht type |
+      | vandaag 5 jaar geleden | 'Nederland'                         | man           |
+      | op 21 januari 2021     | de 'Verenigde Staten van Amerika'   | vrouw         |
+      | op een onbekende datum | het 'Verenigde Arabische Republiek' | man           |
+      | in februari 2021       | 'België'                            |               |
+
   Scenario: de persoon met burgerservicenummer '[bsn]' heeft de volgende gegevens (meerdere personen)
     Gegeven de persoon met burgerservicenummer '000000012' heeft de volgende gegevens
     | naam                  | waarde |

@@ -4,13 +4,13 @@ const { getPersoon,
         getBsn,
         getGeslachtsnaam,
         getGeboortedatum,
-        getGeslachtsaanduiding,
         getAkteNr,
         getBeschrijvingDocument,
         persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
+    global.logger.error(`DEPRECATED. gegeven heeft de volgende persoon zonder burgerservicenummer als ouder ${ouderType}`, dataTable);
     createOuder(
         getPersoon(this.context, undefined),
         ouderType,
@@ -44,20 +44,8 @@ function gegevenHeeftPersoonAlsOuder(context, aanduiding, ouderType, dataTable) 
     )
 }
 
-function gegevenHeeftNietIngeschrevenPersoonAlsOuder(context, aanduiding, ouderType, dataTable) {
-    const kind = getPersoon(context, undefined);
-
-    createOuder(
-        kind,
-        ouderType,
-        arrayOfArraysToDataTable([
-            ['burgerservicenummer (01.20)', ''],
-            ['geslachtsnaam (02.40)', aanduiding]
-        ], dataTable)
-    );
-}
-
 Given(/^heeft '(.*)' als ouder ([1-2])$/, function (aanduiding, ouderType) {
+    global.logger.error(`DEPRECATED. gegeven heeft '${aanduiding}' als ouder ${ouderType}`);
     const ouderData = arrayOfArraysToDataTable([
         ['datum ingang familierechtelijke betrekking (62.10)', 'gisteren - 17 jaar']
     ]);
@@ -65,31 +53,12 @@ Given(/^heeft '(.*)' als ouder ([1-2])$/, function (aanduiding, ouderType) {
     gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, ouderData);
 });
 
-function getOuderData(context, aanduiding) {
-    const ouderData = [
-        ['datum ingang familierechtelijke betrekking (62.10)', getGeboortedatum(getPersoon(context, undefined)) ?? 'gisteren - 17 jaar'],
-        ['aktenummer (81.20)', '1AA0100'],
-        ['geboortedatum (03.10)', getGeboortedatum(getPersoon(context, aanduiding)) ?? 'gisteren - 45 jaar']
-    ];
-
-    const geslachtsAanduiding = getGeslachtsaanduiding(getPersoon(context, aanduiding));
-    if (geslachtsAanduiding) {
-        ouderData.push(['geslachtsaanduiding (04.10)', geslachtsAanduiding]);
-    }
-
-    return ouderData;
-}
-
 function gegevenHeeftOuderMetAanduiding(aanduiding) {
-    const huidigePersoon = getPersoon(this.context, undefined);
-    const ouderType = huidigePersoon['ouder-1'] ? '2' : '1';
-
-    gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, arrayOfArraysToDataTable(getOuderData(this.context, aanduiding)));
+    gegevenDePersoonHeeftAlsOuders(this.context, undefined, aanduiding, undefined);
 }
 
 function gegevenHeeftOudersMetAanduiding(aanduiding1, aanduiding2) {
-    gegevenHeeftOuderMetAanduiding.call(this, aanduiding1);
-    gegevenHeeftOuderMetAanduiding.call(this, aanduiding2);
+    gegevenDePersoonHeeftAlsOuders(this.context, undefined, aanduiding1, aanduiding2);
 }
 
 Given('heeft {string} als ouder', gegevenHeeftOuderMetAanduiding);
@@ -98,44 +67,10 @@ Given('heeft {string} als ouder vanaf de geboortedatum', gegevenHeeftOuderMetAan
 Given('heeft {string} en {string} als ouders', gegevenHeeftOudersMetAanduiding);
 Given('heeft {string} en {string} als ouders vanaf de geboortedatum', gegevenHeeftOudersMetAanduiding);
 
-Given(/^heeft '(.*)' als ouder die niet met burgerservicenummer is ingeschreven in de BRP$/, function (aanduiding) {
-    const ouderData = arrayOfArraysToDataTable([
-        ['geslachtsnaam (02.40)', aanduiding],
-        ['datum ingang familierechtelijke betrekking (62.10)', 'gisteren - 17 jaar'],
-        ['geboortedatum (03.10)', 'gisteren - 45 jaar'],
-        ['aktenummer (81.20)', '1AA0100']
-    ]);
-
-    const huidigePersoon = getPersoon(this.context, undefined);
-    const ouderType = huidigePersoon['ouder-1'] ? '2' : '1';
-
-    gegevenHeeftNietIngeschrevenPersoonAlsOuder(this.context, aanduiding, ouderType, ouderData);
-});
-
 Given(/^heeft '(.*)' als ouder ([1-2]) met de volgende gegevens$/, function (aanduiding, ouderType, dataTable) {
+    global.logger.error(`DEPRECATED. gegeven heeft '${aanduiding}' als ouder ${ouderType} met de volgende gegevens`, dataTable);
     gegevenHeeftPersoonAlsOuder(this.context, aanduiding, ouderType, dataTable);
 });
-
-function gegevenDePersoonHeeftAlsOuder(context, persoonAanduiding, ouderAanduiding, ouderType, ouderDataTable, kindDataTable) {
-    const kind = getPersoon(context, persoonAanduiding);
-    const ouder = getPersoon(context, ouderAanduiding);
-
-    createOuder(
-        kind,
-        ouderType,
-        arrayOfArraysToDataTable(
-            persoonPropertiesToArrayofArrays(ouder),
-            ouderDataTable
-        )
-    );
-    createKind(
-        ouder,
-        arrayOfArraysToDataTable(
-            persoonPropertiesToArrayofArrays(kind),
-            kindDataTable
-        )
-    );
-}
 
 function createKindData(kind) {
     let retval = [];
@@ -202,6 +137,5 @@ function gegevenDePersoonHeeftAlsOuders(context, persoonAanduiding, ouderAanduid
 }
 
 module.exports = {
-    gegevenDePersoonHeeftAlsOuder,
     gegevenDePersoonHeeftAlsOuders
 };

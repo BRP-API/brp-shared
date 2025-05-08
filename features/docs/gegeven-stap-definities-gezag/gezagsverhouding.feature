@@ -6,9 +6,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
 
     @integratie
     Scenario: {relatievedatum} is in een gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende in stapdefinitie>
-      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      En de persoon 'P2' met burgerservicenummer '000000024'
-      En de persoon 'P3' met burgerservicenummer '000000036'
+      Gegeven de gisteren 45 jaar geleden in 'Nederland' geboren 'P1' met burgerservicenummer '000000012'
+      En de morgen 40 jaar geleden in 'Nederland' geboren 'P2' met burgerservicenummer '000000024'
+      En de gisteren 17 jaar geleden in 'Nederland' geboren 'P3' met burgerservicenummer '000000036'
       * heeft 'P1' en 'P2' als ouders
       En <relatieve datum> is in een gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende>
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
