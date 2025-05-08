@@ -145,8 +145,8 @@ Given(/^(.*) is in een gerechtelijke uitspraak het gezag toegewezen aan een (voo
 
 function getIndicatieGezag(context, aanduiding) {
     let plKind = getPersoon(context, undefined);
-    let plKindOuder1 = plKind['ouder-1'];
-    let plKindOuder2 = plKind['ouder-2'];
+    let plKindOuder1 = plKind['ouder-1'].filter((voorkomen) => voorkomen.volg_nr == 0);
+    let plKindOuder2 = plKind['ouder-2'].filter((voorkomen) => voorkomen.volg_nr == 0);
 
     if (plKindOuder1) {
         plKindOuder1 = plKindOuder1[0];
