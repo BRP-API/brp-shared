@@ -195,7 +195,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
         | P2    | P            |         0 |       0 |         000000036 | P2             |                    |               6030 | 1AA0100 |                            |
         | P2    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P2    |            2 |         0 |       0 |                   | P3             | morgen - 45 jaar   |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    |            2 |         0 |       0 |                   | P3             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
 
     @integratie
     Scenario: '{naam}' is erkend door '{naam}' op {datum}

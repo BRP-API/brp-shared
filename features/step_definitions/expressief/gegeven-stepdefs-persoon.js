@@ -84,7 +84,7 @@ function gegevenDePersoon(context, persoonAanduiding, burgerservicenummer, geboo
 }
 
 async function gegevenDeOpDatumInLandGeborenPersoon(geboortedatum, omschrijvingLand, geslachtsaanduiding, persoonAanduiding, burgerservicenummer) {
-    const geboortelandCode = omschrijvingLand ?? await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', omschrijvingLand, undefined);
+    const geboortelandCode = omschrijvingLand ? await selectFirstOrDefault('lo3_land', ['land_code'], 'land_naam', omschrijvingLand, undefined) : undefined;
 
     gegevenDePersoon(this.context, persoonAanduiding, burgerservicenummer, geboortedatum, geboortelandCode, geslachtsaanduiding, undefined);
 }
