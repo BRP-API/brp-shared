@@ -1,5 +1,5 @@
 const { Given } = require('@cucumber/cucumber');
-const { createOuder, createKind, wijzigPersoon } = require('../persoon-2');
+const { createOuder, createKind, wijzigPersoon, wijzigOuder } = require('../persoon-2');
 const { getPersoon, getBsn, getGeslachtsnaam, getGeboortedatum, getGeslachtsaanduiding } = require('../contextHelpers');
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
@@ -88,7 +88,18 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
         objectToDataTable(kindData)
     );
 
-    createOuder(
+    if (kind.hasOwnProperty('ouder-' + ouderType)) {
+      wijzigOuder(
+        kind, 
+        ouderType,
+        arrayOfArraysToDataTable([
+          ['burgerservicenummer (01.20)', getBsn(ouder)],
+          ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
+          ['aktenummer (81.20)', `1A${erkenningsType}0100`]
+        ], dataTable)
+      );
+    } else {
+      createOuder(
         kind,
         ouderType,
         arrayOfArraysToDataTable([
@@ -96,7 +107,8 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
             ['geslachtsnaam (02.40)', getGeslachtsnaam(ouder)],
             ['aktenummer (81.20)', `1A${erkenningsType}0100`]
         ], dataTable)
-    );
+      );
+    }
 
     const data = [
         ['burgerservicenummer (01.20)', getBsn(kind)],
