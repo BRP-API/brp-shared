@@ -34,13 +34,43 @@ function getGeslachtsaanduiding(persoon) {
     return persoon.persoon.at(-1).geslachts_aand;
 }
 
+function getAkteNr(persoon) {
+    return persoon.persoon.at(-1).akte_nr;
+}
+
+function getBeschrijvingDocument(persoon) {
+    return persoon.persoon.at(-1).doc_beschrijving;
+}
+
+// converteert de properties van een persoon object naar een array van [name, value] arrays
+// standaard worden de properties pl_id, stapel_nr, volg_nr en persoon_type uitgesloten
+// extra properties kunnen worden uitgesloten door ze mee te geven in de extraPropertiestoExclude array
+function persoonPropertiesToArrayofArrays(persoon, extraPropertiestoExclude = []) {
+    const propertiesToExclude = ['pl_id', 'stapel_nr', 'volg_nr', 'persoon_type'].concat(extraPropertiestoExclude);
+
+    const retval = [];
+
+    if(persoon) {
+        Object.keys(persoon.persoon.at(-1)).forEach(key => {
+            if(!propertiesToExclude.includes(key)) {
+                retval.push([key, persoon.persoon.at(-1)[key]]);
+            }
+        });
+    }
+
+    return retval;
+}
+
 module.exports = {
     getAdres,
     getAdresIndex,
+    getAkteNr,
+    getBeschrijvingDocument,
     getBsn,
     getVoornamen,
     getGeslachtsnaam,
     getGeboortedatum,
     getGeslachtsaanduiding,
-    getPersoon
+    getPersoon,
+    persoonPropertiesToArrayofArrays
 };
