@@ -8,6 +8,7 @@ const { getPersoon,
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
+const { genereerAktenummer } = require('../generators');
 
 const ErkenningsType = {
     ErkenningBijGeboorteaangifte: 'B',
@@ -154,25 +155,6 @@ function kindHeeftGeenOuders(kind) {
     return !kind['ouder-1'] && !kind['ouder-2'];
 }
 
-function kindHeeftEenOuder(kind) {
-    return kind['ouder-1'] && kind['ouder-1'][0]['geslachts_naam'] !== '.';
-}
-
-function createAkteNr(erkenningsType) {
-    switch (erkenningsType) {
-        case ErkenningsType.ErkenningBijGeboorteaangifte:
-            return '1XB3624';
-        case ErkenningsType.ErkenningNaGeboorteaangifte:
-            return '1XC3624';
-        case ErkenningsType.ErkenningBijNotarieleAkte:
-            return '1XJ3624';
-        case ErkenningsType.GerechtelijkeVaststellingOuderschap:
-            return '1XV3624';
-        default:
-            return undefined;
-    }
-}
-
 function gegevenDePersoonIsErkend(context, persoonAanduiding, ouderAanduiding, erkenningsType, datumErkenning) {
     const kind = getPersoon(context, persoonAanduiding);
     if (!kind) {
@@ -188,7 +170,7 @@ function gegevenDePersoonIsErkend(context, persoonAanduiding, ouderAanduiding, e
 
     const datum = erkenningsType == ErkenningsType.ErkenningBijGeboorteaangifte ? getGeboortedatum(kind) : datumErkenning;
     const ouderType = kindHeeftGeenOuders(kind) ? '1' : '2';
-    const aktenummer = createAkteNr(erkenningsType);
+    const aktenummer = genereerAktenummer(erkenningsType);
 
     const kindData = persoonPropertiesToArrayofArrays(kind, [ 'akte_nr', 'doc_beschrijving' ]);
     kindData.push(['aktenummer (81.20)', aktenummer]);

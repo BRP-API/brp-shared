@@ -1,12 +1,14 @@
 const { Given } = require('@cucumber/cucumber');
 const { createOuder, createKind } = require('../persoon-2');
 const { getPersoon,
+        getPersoonMetAanduiding,
         getBsn,
         getGeslachtsnaam,
         getGeboortedatum,
         getAkteNr,
         getBeschrijvingDocument,
-        persoonPropertiesToArrayofArrays } = require('../contextHelpers');
+        persoonPropertiesToArrayofArrays,
+        getAanduidingDefaultPersoon } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 Given(/^heeft de volgende persoon zonder burgerservicenummer als ouder ([1-2])$/, function (ouderType, dataTable) {
@@ -54,11 +56,11 @@ Given(/^heeft '(.*)' als ouder ([1-2])$/, function (aanduiding, ouderType) {
 });
 
 function gegevenHeeftOuderMetAanduiding(aanduiding) {
-    gegevenDePersoonHeeftAlsOuders(this.context, undefined, aanduiding, undefined);
+    gegevenDePersoonHeeftAlsOuders(this.context, getAanduidingDefaultPersoon(this.context), aanduiding, undefined);
 }
 
 function gegevenHeeftOudersMetAanduiding(aanduiding1, aanduiding2) {
-    gegevenDePersoonHeeftAlsOuders(this.context, undefined, aanduiding1, aanduiding2);
+    gegevenDePersoonHeeftAlsOuders(this.context, getAanduidingDefaultPersoon(this.context), aanduiding1, aanduiding2);
 }
 
 Given('heeft {string} als ouder', gegevenHeeftOuderMetAanduiding);
@@ -114,21 +116,18 @@ function createKindEnOuder(kind, ouder, ouderType) {
 }
 
 function gegevenDePersoonHeeftAlsOuders(context, persoonAanduiding, ouderAanduiding1, ouderAanduiding2) {
-    const kind = getPersoon(context, persoonAanduiding);
+    const kind = getPersoonMetAanduiding(context, persoonAanduiding);
     if (!kind) {
-        global.logger.error(`persoon ${persoonAanduiding} niet gevonden`);
         return;
     }
 
-    const ouder1 = ouderAanduiding1 ? getPersoon(context, ouderAanduiding1) : undefined;
-    if (ouderAanduiding1 && !ouder1) {
-        global.logger.error(`ouder ${ouderAanduiding1} niet gevonden`);
+    const ouder1 = getPersoonMetAanduiding(context, ouderAanduiding1);
+    if (!ouder1) {
         return;
     }
 
-    let ouder2 = ouderAanduiding2 ? getPersoon(context, ouderAanduiding2) : undefined;
+    const ouder2 = ouderAanduiding2 ? getPersoonMetAanduiding(context, ouderAanduiding2) : undefined;
     if (ouderAanduiding2 && !ouder2) {
-        global.logger.error(`ouder ${ouderAanduiding2} niet gevonden`);
         return;
     }
 

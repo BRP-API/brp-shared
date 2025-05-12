@@ -2,6 +2,7 @@ const { Given } = require('@cucumber/cucumber');
 const { objectToDataTable, arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { createOuder, createKind, wijzigPersoon, wijzigGeadopteerdPersoon, wijzigOuder, aanvullenPersoon } = require('../persoon-2');
 const { getPersoon,
+        getPersoonMetAanduiding,
         getBsn,
         getGeslachtsnaam,
         getGeboortedatum,
@@ -11,6 +12,7 @@ const { getPersoon,
         persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
+const { genereerAktenummer, AkteTypes } = require('../generators');
 
 function gegevenIsGeadopteerdDoorPersoonAlsOuder(context, aanduidingKind, aanduidingOuder, ouderType, dataTable) {
     const kind = getPersoon(context, aanduidingKind);
@@ -283,26 +285,23 @@ function kindHeeftEenOuder(kind) {
 }
 
 function gegevenDePersoonIsGeadopteerdOpDatum(context, persoonAanduiding, ouderAanduiding1, ouderAanduiding2, datumAdoptie, buitenlandseAdoptieDocumentBeschrijving) {
-    const kind = getPersoon(context, persoonAanduiding);
+    const kind = getPersoonMetAanduiding(context, persoonAanduiding);
     if (!kind) {
-        global.logger.error(`persoon ${persoonAanduiding} niet gevonden`);
         return;
     }
 
-    const ouder1 = ouderAanduiding1 ? getPersoon(context, ouderAanduiding1) : undefined;
-    if (ouderAanduiding1 && !ouder1) {
-        global.logger.error(`ouder ${ouderAanduiding1} niet gevonden`);
+    const ouder1 = getPersoonMetAanduiding(context, ouderAanduiding1);
+    if (!ouder1) {
         return;
     }
 
     let ouder2 = ouderAanduiding2 ? getPersoon(context, ouderAanduiding2) : undefined;
     if (ouderAanduiding2 && !ouder2) {
-        global.logger.error(`ouder ${ouderAanduiding2} niet gevonden`);
         return;
     }
 
     const isAdoptieInBuitenland = buitenlandseAdoptieDocumentBeschrijving !== undefined;
-    const aktenummer = isAdoptieInBuitenland ? buitenlandseAdoptieDocumentBeschrijving : '1XQ2436';
+    const aktenummer = isAdoptieInBuitenland ? buitenlandseAdoptieDocumentBeschrijving : genereerAktenummer(AkteTypes.Adoptie);
 
     if (kindHeeftGeenOuders(kind) ||
         (kindHeeftEenOuder(kind) && ouder1 && ouder2)) {

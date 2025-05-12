@@ -3,6 +3,7 @@ const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { createPersoon, aanvullenPersoon } = require('../persoon-2');
 const { getPersoon } = require('../contextHelpers');
 const { selectFirstOrDefault } = require('../postgresqlHelpers-2');
+const { genereerAktenummer, AkteTypes, genereerBurgerservicenummer } = require('../generators');
 
 function dataTableHasColumn(dataTable, columnName) {
     return dataTable?.raw()[0].includes(columnName);
@@ -73,7 +74,7 @@ function gegevenDePersoon(context, persoonAanduiding, burgerservicenummer, geboo
         data.push(['geboorteland (03.30)', geboortelandCode]);
 
         if(geboortelandCode == '6030') {
-            data.push(['aktenummer (81.20)', '1AA0100']);
+            data.push(['aktenummer (81.20)', genereerAktenummer(AkteTypes.Geboorte)]);
         }
         else {
             data.push(['beschrijving document (82.30)', 'buitenlandse geboorteakte']);
@@ -99,15 +100,8 @@ Given('de {onbekende datum} in (de )(het ){string} geboren {geslachtsaanduiding}
 
 Given('de meerderjarige {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeMeerderjarigePersoonZonderBsn);
 
-function generateBsn(context) {
-    const count = context.data?.personen?.length || 0;
-
-    return (12 * (count+1)).toString().padStart(9, '0');
-}
-
 function gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn(geboortedatum, geslachtsaanduiding, persoonAanduiding) {
-    const bsn = generateBsn(this.context);
-    gegevenDePersoon(this.context, persoonAanduiding, bsn, geboortedatum, '6030', geslachtsaanduiding, undefined);
+    gegevenDePersoon(this.context, persoonAanduiding, genereerBurgerservicenummer(this.context), geboortedatum, '6030', geslachtsaanduiding, undefined);
 }
 
 Given('de {vandaag, gisteren of morgen x jaar geleden} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);

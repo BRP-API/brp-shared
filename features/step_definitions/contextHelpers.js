@@ -14,6 +14,18 @@ function getPersoon(context, aanduiding) {
         : context.data?.personen?.find(p => p.id === `persoon-${aanduiding}`);
 }
 
+function getPersoonMetAanduiding(context, aanduiding) {
+    if(!aanduiding) {
+        global.logger.error('geen persoon aanduiding opgegeven');
+        return undefined;
+    }
+    const retval = context.data?.personen?.find(p => p.id === `persoon-${aanduiding}`);
+    if(!retval) {
+        global.logger.error(`persoon met aanduiding '${aanduiding}' niet gevonden`);
+    }
+    return retval;
+}
+
 function getBsn(persoon) {
     return persoon.persoon.at(-1).burger_service_nr;
 }
@@ -87,6 +99,7 @@ module.exports = {
     getGeboortedatum,
     getGeslachtsaanduiding,
     getPersoon,
+    getPersoonMetAanduiding,
     persoonPropertiesToArrayofArrays,
     wijzigPersoonContext,
     getAanduidingDefaultPersoon
