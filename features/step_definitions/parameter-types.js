@@ -119,4 +119,4 @@ defineParameterType({
 
 defineParameterType({
     name: 'toelichting',
-    regexp: /[a-zA-Z0-9À-ž \/\;\:\.\-\?\(\)]{1,400}/});
+    regexp: /[a-zA-Z0-9À-ž /;:.-?()]{1,400}/});
