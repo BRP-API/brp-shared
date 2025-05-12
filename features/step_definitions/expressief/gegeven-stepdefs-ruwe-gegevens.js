@@ -119,47 +119,6 @@ Given('{object soort} is {gewijzigd of gecorrigeerd} naar de volgende gegevens',
   global.logger.info(`${soortPersoon} is gewijzigd/gecorrigeerd naar de volgende gegevens`, getPersoon(this.context, undefined));
 });
 
-function inschrijvingOpVerblijfplaats(context, dataTable) {
-  let persoon = getPersoon(context, undefined)
-
-  if (!persoon.verblijfplaats) {
-    createVerblijfplaats(
-      persoon,
-      dataTable
-    );
-  } else {
-    wijzigVerblijfplaats(
-      persoon,
-      dataTable
-    );
-  }
-}
-
-Given('is ingeschreven op adres {string} met de volgende gegevens', function (adresAanduiding, dataTable) {
-  const data = [
-    ['adres_id', getAdresIndex(this.context, adresAanduiding) + '']
-  ];
-
-  inschrijvingOpVerblijfplaats(this.context, arrayOfArraysToDataTable(data, dataTable));
-
-  global.logger.info(`is ingeschreven op adres ${adresAanduiding} met de volgende gegevens`, getPersoon(this.context, undefined));
-});
-
-Given('is ingeschreven op een buitenlands adres met de volgende gegevens', function (dataTable) {
-  inschrijvingOpVerblijfplaats(this.context, dataTable)
-
-  global.logger.info(`is ingeschreven op de buitenlandse verblijfplaats met de volgende gegevens`, getPersoon(this.context, undefined));
-});
-
-Given('is overleden met de volgende gegevens', function (dataTable) {
-  createOverlijden(
-    getPersoon(this.context, undefined),
-    dataTable
-  );
-
-  global.logger.info(`is overleden met de volgende gegevens`, getPersoon(this.context, undefined));
-});
-
 Given('is ingeschreven met de volgende gegevens', function (dataTable) {
   aanvullenInschrijving(
     getPersoon(this.context, undefined),
