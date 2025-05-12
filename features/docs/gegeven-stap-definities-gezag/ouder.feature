@@ -16,15 +16,15 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Abstract Scenario: neem geboortedatum van de minderjarige over: heeft '{naam}' als ouder
@@ -39,15 +39,15 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |                |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             | <datum>        |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |                |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             | <datum>        |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             | <datum>            |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AA0100 | <datum>                    |
+        | P2    | P            |         0 |       0 |         000000036 | P2             | <datum>            |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1_A____ | <datum>                    |
 
       Voorbeelden:
         | eigenschap kind        | geboortedatum            | datum              |
@@ -66,15 +66,15 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             | <datum>        |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             | <datum>        |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |                |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             | <datum>        |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |                |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             | <datum>        |                    | 1_A____ | gisteren - 17 jaar         |
 
       Voorbeelden:
         | eigenschap ouder       | geboortedatum            | datum              |
@@ -93,15 +93,15 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | geslachts_aand        |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 | <geslachtsaanduiding> |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |                       |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ | <geslachtsaanduiding> |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |                       |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum | geslachts_aand        |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |                       |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         | <geslachtsaanduiding> |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1_A____ |                            |                       |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         | <geslachtsaanduiding> |
 
       Voorbeelden:
         | eigenschap ouder | geslacht | geslachtsaanduiding |
@@ -121,23 +121,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1AA0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1_A____ |                            |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Scenario: overnemen gegevens van ouders en kind: heeft '{naam1}' en '{naam2}' als ouders
@@ -153,23 +153,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | geslachts_aand | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |               6030 | M              | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P3             |     2 jaar geleden |                    |                | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |               6030 | M              | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P3             |     2 jaar geleden |                    |                | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | geslachts_aand | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |       19880805 |               6030 | V              | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             | 2 jaar geleden |                    |                | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |       19880805 |               6030 | V              | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | 2 jaar geleden |                    |                | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | geslachts_aand | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             |     2 jaar geleden |               6030 |                | 1AA0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | M              | 1AA0100 |             2 jaar geleden |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |           19880805 |                    | V              | 1AA0100 |             2 jaar geleden |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |     2 jaar geleden |               6030 |                | 1_A____ |                            |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | M              | 1_A____ |             2 jaar geleden |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |           19880805 |                    | V              | 1_A____ |             2 jaar geleden |
 
     @integratie
     Scenario: heeft '{naam}' als ouder die niet met burgerservicenummer is ingeschreven in de BRP
@@ -186,16 +186,16 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |                    |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P2    |            2 |         0 |       0 |                   | P3             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |                    |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |
+        | P2    |            2 |         0 |       0 |                   | P3             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Scenario: '{naam}' is erkend door '{naam}' op {datum}
@@ -210,23 +210,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geboorte_datum     | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | gisteren - 45 jaar | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1AC0100 |
+        | P1    | P            |         0 |       0 |         000000012 | gisteren - 45 jaar | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1_C____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geboorte_datum     | geslachts_naam | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | gisteren - 45 jaar | P2             |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | gisteren - 45 jaar | P2             |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1AC0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AC0100 |                   20210516 |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1_C____ |                            |
+        | P3    |            1 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | 1_C____ |                   20210516 |
 
     @integratie
     Scenario: overnemen gegevens van ouder en kind: '{naam}' is erkend door '{naam}' op {datum}
@@ -241,23 +241,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geboorte_datum     | geslachts_naam | geboorte_land_code | geslachts_aand | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | gisteren - 45 jaar | P1             |               6030 | M              | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    |                | 1AC0100 |
+        | P1    | P            |         0 |       0 |         000000012 | gisteren - 45 jaar | P1             |               6030 | M              | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    |                | 1_C____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geboorte_datum     | geslachts_naam | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 |                    | P2             |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 |                    | P2             |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | gisteren - 17 jaar | P3             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | geslachts_aand | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 |                | 1AC0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    |                | 1AA0100 | gisteren - 17 jaar         |
-        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | M              | 1AC0100 |                   20210516 |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 |                | 1_C____ |                            |
+        | P3    |            1 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    |                | 1_A____ | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000012 | P1             | gisteren - 45 jaar |                    | M              | 1_C____ |                   20210516 |
 
   Regel: Een gerechtelijke uitspraak wordt vastgelegd in de gezagsverhouding
 
@@ -274,23 +274,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1AA0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1_A____ |                            |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1_A____ | gisteren - 17 jaar         |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_gezagsverhouding'
         | pl_id | volg_nr | minderjarig_gezag_ind | geldigheid_start_datum |
         | P3    |       0 | <indicatie gezag>     | gisteren - 1 jaar      |
@@ -318,25 +318,25 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1_A____ |
+        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
         | P1    | K            |         0 |       0 |                   |                |                    |                    | 1AE0100 |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum | geldigheid_start_datum | onjuist_ind |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1AA0100 |                            |                        |             |
-        | P3    |            1 |         0 |       1 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |                        | O           |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1_A____ |                            |                        |             |
+        | P3    |            1 |         0 |       1 |         000000012 | P1             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |                        | O           |
         | P3    |            1 |         0 |       0 |                   |                |                    |                    | 1AE0100 |                            |         4 jaar geleden |             |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |                        |             |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |                        |             |
 
     @integratie
     Scenario: '{naam}' heeft ontkend vader te zijn van '{naam}'
@@ -351,25 +351,25 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1_A____ |
+        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
         | P1    | K            |         0 |       0 |                   |                |                    |                    | 1AE0100 |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum | geldigheid_start_datum | onjuist_ind |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1AA0100 |                            |                        |             |
-        | P3    |            1 |         0 |       1 |         000000012 | P1             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |                        | O           |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1_A____ |                            |                        |             |
+        | P3    |            1 |         0 |       1 |         000000012 | P1             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |                        | O           |
         | P3    |            1 |         0 |       0 |                   |                |                    |                    | 1AE0100 |                            | gisteren - 17 jaar     |             |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1AA0100 | gisteren - 17 jaar         |                        |             |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             | gisteren - 45 jaar |                    | 1_A____ | gisteren - 17 jaar         |                        |             |
 
     @integratie
     Scenario: heeft '{naam}' als ouder vanaf de geboortedatum
@@ -384,15 +384,15 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Scenario: heeft '{naam1}' en '{naam2}' als ouders vanaf de geboortedatum
@@ -408,23 +408,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P3    | P            |         0 |       0 |         000000024 | P3             |               6030 | 1AA0100 |
-        | P3    | K            |         0 |       0 |         000000036 | P2             |                    | 1AA0100 |
+        | P3    | P            |         0 |       0 |         000000024 | P3             |               6030 | 1_A____ |
+        | P3    | K            |         0 |       0 |         000000036 | P2             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1AA0100 |                            |
-        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P2    |            2 |         0 |       0 |         000000024 | P3             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P2    | P            |         0 |       0 |         000000036 | P2             |               6030 | 1_A____ |                            |
+        | P2    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
+        | P2    |            2 |         0 |       0 |         000000024 | P3             |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Scenario: '{naam}' heeft ontkend vader te zijn van '{naam}'
@@ -439,25 +439,25 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1_A____ |
+        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
         | P1    | K            |         0 |       0 |                   |                |                    |                    | 1AE0100 |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1AA0100 |                            |
-        | P3    |            1 |         0 |       1 |         000000012 | P1             |                    |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1_A____ |                            |
+        | P3    |            1 |         0 |       1 |         000000012 | P1             |                    |                    | 1_A____ | gisteren - 17 jaar         |
         | P3    |            1 |         0 |       0 |                   |                |                    |                    | 1AE0100 |                            |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    |                    | 1_A____ | gisteren - 17 jaar         |
 
     @integratie
     Scenario: {relatieve datum} heeft '{naam}' het ouderschap ontkend
@@ -472,25 +472,25 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |                    |               6030 | 1_A____ |
+        | P1    | K            |         0 |       1 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
         | P1    | K            |         0 |       0 |                   |                |                    |                    | 1AE0100 |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |                    |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_datum     | geboorte_land_code | akte_nr | familie_betrek_start_datum | geldigheid_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1AA0100 |                            |                        |
-        | P3    |            1 |         0 |       1 |         000000012 | P1             |                    |                    | 1AA0100 | gisteren - 17 jaar         |                        |
+        | P3    | P            |         0 |       0 |         000000036 | P3             | gisteren - 17 jaar |               6030 | 1_A____ |                            |                        |
+        | P3    |            1 |         0 |       1 |         000000012 | P1             |                    |                    | 1_A____ | gisteren - 17 jaar         |                        |
         | P3    |            1 |         0 |       0 |                   |                |                    |                    | 1AE0100 |                            |         4 jaar geleden |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    |                    | 1AA0100 | gisteren - 17 jaar         |                        |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    |                    | 1_A____ | gisteren - 17 jaar         |                        |
 
     @integratie
     Abstract Scenario: {relatievedatum} is in een gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende in stapdefinitie>
@@ -505,23 +505,23 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P1    |          0 |
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |
-        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1_A____ |
+        | P1    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P2    |          0 |
       En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr |
-        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |
-        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1AA0100 |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1_A____ |
+        | P2    | K            |         0 |       0 |         000000036 | P3             |                    | 1_A____ |
       En heeft persoon 'P3' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
         | P3    |          0 |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | familie_betrek_start_datum |
-        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1AA0100 |                            |
-        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1AA0100 | gisteren - 17 jaar         |
-        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1AA0100 | gisteren - 17 jaar         |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |               6030 | 1_A____ |                            |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             |                    | 1_A____ | gisteren - 17 jaar         |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1_A____ | gisteren - 17 jaar         |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_gezagsverhouding'
         | pl_id | volg_nr | minderjarig_gezag_ind | geldigheid_start_datum |
         | P3    |       0 | <indicatie gezag>     | <relatieve datum>      |

@@ -61,6 +61,21 @@ function persoonPropertiesToArrayofArrays(persoon, extraPropertiestoExclude = []
     return retval;
 }
 
+// geeft aan dat de persoon met opgegeven aanduiding moet worden geleverd als de getPersoon functie wordt aangeroepen zonder opgave van een aanduiding
+function wijzigPersoonContext(context, aanduiding) {
+    const persoonId = `persoon-${aanduiding}`;
+    const index = context.data.personen.findIndex(element => element.id === persoonId);
+  
+    if (index !== -1) {
+        const [element] = context.data.personen.splice(index, 1);
+        context.data.personen.push(element);
+    }
+  }
+
+function getAanduidingDefaultPersoon(context) {
+    return getPersoon(context, undefined).id.split('-')[1];
+}
+
 module.exports = {
     getAdres,
     getAdresIndex,
@@ -72,5 +87,7 @@ module.exports = {
     getGeboortedatum,
     getGeslachtsaanduiding,
     getPersoon,
-    persoonPropertiesToArrayofArrays
+    persoonPropertiesToArrayofArrays,
+    wijzigPersoonContext,
+    getAanduidingDefaultPersoon
 };

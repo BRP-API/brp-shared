@@ -1,7 +1,8 @@
 const { Given } = require('@cucumber/cucumber');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { aanvullenInschrijving } = require('../persoon-2');
-const { getPersoon } = require('../contextHelpers');
+const { getPersoon,
+        wijzigPersoonContext } = require('../contextHelpers');
 const { gegevenDePersoon } = require('../expressief/gegeven-stepdefs-persoon');
 const { gegevenDePersoonIsIngeschrevenInGemeente,
         gegevenDePersoonIsIngeschrevenInDeBrp } = require('../expressief/gegeven-stepdefs-verblijfplaats');
@@ -9,20 +10,6 @@ const { gegevenDePersoonHeeftAlsOuders } = require('../expressief/gegeven-stepde
 const { gegevenDePersonenZijnGehuwd } = require('../expressief/gegeven-stepdefs-partner');
 const { gegevenDePersoonIsBijGeboorteaangifteErkendDoor } = require('../expressief/gegeven-stepdefs-erkenning');
 const { gegevenDePersoonIsGeadopteerdOpDatum } = require('../expressief/gegeven-stepdefs-adoptie');
-
-// **************************************************************************************************************
-//                     functies "geleend" uit expressief/gegeven-stepdefs-context.js
-// **************************************************************************************************************
-
-function wijzigPersoonContext(context, aanduiding) {
-  const persoonId = `persoon-${aanduiding}`;
-  const index = context.data.personen.findIndex(element => element.id === persoonId);
-
-  if (index !== -1) {
-      const [element] = context.data.personen.splice(index, 1);
-      context.data.personen.push(element);
-  }
-}
 
 // **************************************************************************************************************
 //                     default gevulde personen als startpunt van een scenario

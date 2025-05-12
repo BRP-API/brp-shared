@@ -99,6 +99,21 @@ Given('de {onbekende datum} in (de )(het ){string} geboren {geslachtsaanduiding}
 
 Given('de meerderjarige {geslachtsaanduiding}( ){string} zonder burgerservicenummer', gegevenDeMeerderjarigePersoonZonderBsn);
 
+function generateBsn(context) {
+    const count = context.data?.personen?.length || 0;
+
+    return (12 * (count+1)).toString().padStart(9, '0');
+}
+
+function gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn(geboortedatum, geslachtsaanduiding, persoonAanduiding) {
+    const bsn = generateBsn(this.context);
+    gegevenDePersoon(this.context, persoonAanduiding, bsn, geboortedatum, '6030', geslachtsaanduiding, undefined);
+}
+
+Given('de {vandaag, gisteren of morgen x jaar geleden} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
+Given('de {dd maand yyyy datum} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
+Given('de {onbekende datum} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
+
 module.exports = {
     gegevenDePersoon
 };

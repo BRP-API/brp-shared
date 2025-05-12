@@ -39,6 +39,62 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | de persoon 'P1' zonder burgerservicenummer heeft de volgende gegevens |
 
   @integratie
+  Abstract Scenario: de {datum} geboren {geslacht type} '{persoon aanduiding}'
+    Gegeven de <datum> geboren <geslacht type> 'Jansen'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl'
+      | pl_id  | geheim_ind |
+      | Jansen |          0 |
+    En heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id  | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | geslachts_aand        | akte_nr |
+      | Jansen |         0 |       0 | P            |         000000012 | Jansen         | <geboortedatum> |               6030 | <geslachtsaanduiding> | 1_A____ |
+
+    Voorbeelden:
+      | datum                  | geslacht type | geboortedatum    | geslachtsaanduiding |
+      | vandaag 5 jaar geleden | man           | vandaag - 5 jaar | M                   |
+      | op 21 januari 2021     | vrouw         |         20210121 | V                   |
+      | op een onbekende datum |               |         00000000 |                     |
+
+  @integratie
+  Scenario: de {datum} geboren {geslacht type} '{persoon aanduiding}'
+    Gegeven de vandaag 5 jaar geleden geboren man 'Jansen'
+    En de op 21 januari 2021 geboren vrouw 'Pietersen'
+    En de op een onbekende datum geboren 'Maassen'
+    En de in februari 2022 geboren man 'Klaassen'
+    En de in 2023 geboren vrouw 'Stöcker'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl'
+      | pl_id  | geheim_ind |
+      | Jansen |          0 |
+    En heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id  | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum   | geboorte_land_code | geslachts_aand | akte_nr |
+      | Jansen |         0 |       0 | P            |         000000012 | Jansen         | vandaag - 5 jaar |               6030 | M              | 1_A____ |
+    En heeft persoon 'Pietersen' de volgende rij in tabel 'lo3_pl'
+      | pl_id     | geheim_ind |
+      | Pietersen |          0 |
+    En heeft persoon 'Pietersen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id     | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | geslachts_aand | akte_nr |
+      | Pietersen |         0 |       0 | P            |         000000024 | Pietersen      |       20210121 |               6030 | V              | 1_A____ |
+    En heeft persoon 'Maassen' de volgende rij in tabel 'lo3_pl'
+      | pl_id   | geheim_ind |
+      | Maassen |          0 |
+    En heeft persoon 'Maassen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id   | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | geslachts_aand | akte_nr |
+      | Maassen |         0 |       0 | P            |         000000036 | Maassen        |       00000000 |               6030 |                | 1_A____ |
+    En heeft persoon 'Klaassen' de volgende rij in tabel 'lo3_pl'
+      | pl_id    | geheim_ind |
+      | Klaassen |          0 |
+    En heeft persoon 'Klaassen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id    | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | geslachts_aand | akte_nr |
+      | Klaassen |         0 |       0 | P            |         000000048 | Klaassen       |       20220200 |               6030 | M              | 1_A____ |
+    En heeft persoon 'Stöcker' de volgende rij in tabel 'lo3_pl'
+      | pl_id   | geheim_ind |
+      | Stöcker |          0 |
+    En heeft persoon 'Maassen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id   | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum | geboorte_land_code | geslachts_aand | akte_nr |
+      | Stöcker |         0 |       0 | P            |         000000060 | Stöcker        |       20230000 |               6030 | V              | 1_A____ |
+
+  @integratie
   Abstract Scenario: de {datum} in {land omschrijving} geboren {geslacht type} '{persoon aanduiding}' met burgerservicenummer '{bsn}'
     Gegeven de <datum> in <land omschrijving> geboren <geslacht type> 'Jansen' met burgerservicenummer '000000012'
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd

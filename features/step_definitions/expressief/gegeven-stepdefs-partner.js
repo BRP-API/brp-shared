@@ -1,6 +1,6 @@
 const { Given } = require('@cucumber/cucumber');
 const { createPartner, wijzigPartner } = require('../persoon-2');
-const { getPersoon, getBsn } = require('../contextHelpers');
+const { getPersoon, getBsn, persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { objectToDataTable, arrayOfArraysToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
 
@@ -26,18 +26,6 @@ function getPartnerActueleGegevens(persoon, bsnPartner) {
 const VerbintenisSoort = {
     Huwelijk: 'H',
     GeregistreerdPartnerschap: 'P'
-}
-
-function persoonPropertiesToArrayofArrays(persoon) {
-    const retval = [];
-
-    Object.keys(persoon.persoon.at(-1)).forEach(key => {
-        if(!['pl_id', 'stapel_nr', 'volg_nr', 'persoon_type'].includes(key)) {
-            retval.push([key, persoon.persoon.at(-1)[key]]);
-        }
-    });
-
-    return retval;
 }
 
 function gegevenDePersonenZijnGehuwd(context, aanduiding1, aanduiding2, dataTable) {

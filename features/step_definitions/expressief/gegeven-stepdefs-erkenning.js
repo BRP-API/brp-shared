@@ -4,7 +4,6 @@ const { getPersoon,
         getBsn,
         getGeslachtsnaam,
         getGeboortedatum,
-        getGeslachtsaanduiding,
         persoonPropertiesToArrayofArrays } = require('../contextHelpers');
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
@@ -17,28 +16,8 @@ const ErkenningsType = {
     GerechtelijkeVaststellingOuderschap: 'V'
 }
 
-Given('{string} is erkend door {string} op {int}-{int}-{int}', function (aanduiding, aanduidingOuder, dag, maand, jaar) {
-    const datumIngang = toBRPDate(dag, maand, jaar);
-
-    const ouderData = [
-        ['datum ingang familierechtelijke betrekking (62.10)', datumIngang]
-    ];
-
-    const geslachtsAanduiding = getGeslachtsaanduiding(getPersoon(this.context, aanduidingOuder));
-    if (geslachtsAanduiding) {
-        ouderData.push(['geslachtsaanduiding (04.10)', geslachtsAanduiding]);
-    }
-
-    const geboorteDatum = getGeboortedatum(getPersoon(this.context, aanduidingOuder));
-    if (geboorteDatum) {
-        ouderData.push(['geboortedatum (03.10)', geboorteDatum]);
-    }
-
-    const aanduidingOuderType = getPersoon(this.context, aanduiding)[`ouder-1`] ? '2' : '1';
-
-    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.ErkenningNaGeboorteaangifte, aanduidingOuderType, arrayOfArraysToDataTable(ouderData));
-
-    global.logger.info(`gegeven persoon is erkend door '${aanduidingOuder}'`, getPersoon(this.context, undefined));
+Given('{string} is erkend door {string} {erkenningstype}( )op {int}-{int}-{int}', function (aanduiding, aanduidingOuder, erkenningstype, dag, maand, jaar) {
+    gegevenDePersoonIsErkend(this.context, aanduiding, aanduidingOuder, erkenningstype, toBRPDate(dag, maand, jaar));
 });
 
 
@@ -77,41 +56,8 @@ Given(/^is erkend door '(.*)' als ouder ([1-2]) met gerechtelijke vaststelling o
     gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.GerechtelijkeVaststellingOuderschap, ouderType, ouderData);
 });
 
-Given(/^'(.*)' is erkend door '(.*)' bij geboorteaangifte$/, function (aanduidingPersoon, aanduidingOuder) {
-    persoon = getPersoon(this.context, aanduidingPersoon);
-  
-    const ouderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', { ...persoon.persoon.at(-1) }['geboorte_datum']]
-    ]);
-  
-    ouderType = beschikbareOuder(persoon);
-  
-    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, ErkenningsType.ErkenningBijGeboorteaangifte, ouderType, ouderData);
-});
-  
-Given(/^'(.*)' is erkend door '(.*)' (na geboorteaangifte|bij notariële akte|met gerechtelijke vaststelling ouderschap) op (\d*)-(\d*)-(\d*)$/, function (aanduidingPersoon, aanduidingOuder, soortErkenning, dag, maand, jaar) {
-    persoon = getPersoon(this.context, aanduidingPersoon);
-  
-    const ouderData = arrayOfArraysToDataTable([
-        ['datum ingang familierechtelijke betrekking (62.10)', toBRPDate(dag, maand, jaar)]
-    ]);
-
-    ouderType = beschikbareOuder(persoon);
-  
-    let akteCodeErkenning = 'A'
-    switch (soortErkenning) {
-        case 'na geboorteaangifte': 
-            akteCodeErkenning = ErkenningsType.ErkenningNaGeboorteaangifte; 
-            break;
-        case 'bij notariële akte': 
-            akteCodeErkenning = ErkenningsType.ErkenningBijNotarieleAkte; 
-            break;
-        case 'met gerechtelijke vaststelling ouderschap': 
-            akteCodeErkenning = ErkenningsType.GerechtelijkeVaststellingOuderschap; 
-            break;
-    }
-  
-    gegevenIsErkendDoorPersoonAlsOuder(this.context, aanduidingOuder, akteCodeErkenning, ouderType, ouderData);
+Given('{string} is erkend door {string} bij geboorteaangifte', function (aanduidingPersoon, aanduidingOuder) {
+    gegevenDePersoonIsErkend(this.context, aanduidingPersoon, aanduidingOuder, ErkenningsType.ErkenningBijGeboorteaangifte, undefined);
 });
 
 function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkenningsType, ouderType, dataTable) {
@@ -169,20 +115,6 @@ function gegevenIsErkendDoorPersoonAlsOuder(context, aanduidingOuder, erkennings
     )
 }
 
-function beschikbareOuder(persoon) { 
-    if(!persoon['ouder-1'] ) {
-      return 1
-    } 
-    if (persoon['ouder-1'] && !persoon['ouder-1'][0]['geslachts_naam']) {
-      return 1
-    }
-    if (persoon['ouder-1'] && persoon['ouder-1'][0]['geslachts_naam'] == '.') {
-      return 1
-    }
-  
-    return 2
-  }
-
 function createKindData(kind, aktenr) {
     let retval = [];
 
@@ -191,24 +123,22 @@ function createKindData(kind, aktenr) {
     return retval;
 }
 
-function createOuderData(kind, ouder, aktenummer) {
+function createOuderData(kind, ouder, aktenummer, datumErkenning) {
     let retval = createKindData(kind, aktenummer);
 
-    const geboorteDatum = getGeboortedatum(kind);
-    if(geboorteDatum) {
-        retval.push([
-            ouder
-                ? 'datum ingang familierechtelijke betrekking (62.10)'
-                : 'datum ingang geldigheid (85.10)',
-            geboorteDatum]);
-    }
-
+    retval.push(['datum ingang familierechtelijke betrekking (62.10)', datumErkenning]);
+ 
     return retval;
 }
 
-function createKindEnWijzigOuder(kind, ouder, ouderType, aktenummer) {
-    const ouderData = persoonPropertiesToArrayofArrays(ouder).concat(createOuderData(kind, ouder, aktenummer));
-    wijzigOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+function createKindEnWijzigOuder(kind, ouder, ouderType, aktenummer, datumErkenning) {
+    const ouderData = persoonPropertiesToArrayofArrays(ouder).concat(createOuderData(kind, ouder, aktenummer, datumErkenning));
+    if(kind[`ouder-${ouderType}`]) {
+        wijzigOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+    }
+    else {
+        createOuder(kind, ouderType, arrayOfArraysToDataTable(ouderData));
+    }
 
     if(ouder) {
         const kindData = persoonPropertiesToArrayofArrays(kind).concat(createKindData(kind, aktenummer));
@@ -217,11 +147,58 @@ function createKindEnWijzigOuder(kind, ouder, ouderType, aktenummer) {
 }
 
 function gegevenDePersoonIsBijGeboorteaangifteErkendDoor(context, aanduiding, aanduidingOuder) {
-    const kind = getPersoon(context, aanduiding);
-    const erkenner = getPersoon(context, aanduidingOuder);
-    const ouderType = '2'; // todo ouder type bepalen adhv lege ouder want ouder 1 en 2 zijn beide gevuld
+    gegevenDePersoonIsErkend(context, aanduiding, aanduidingOuder, ErkenningsType.ErkenningBijGeboorteaangifte, undefined);
+}
 
-    createKindEnWijzigOuder(kind, erkenner, ouderType, '1XB3624');
+function kindHeeftGeenOuders(kind) {
+    return !kind['ouder-1'] && !kind['ouder-2'];
+}
+
+function kindHeeftEenOuder(kind) {
+    return kind['ouder-1'] && kind['ouder-1'][0]['geslachts_naam'] !== '.';
+}
+
+function createAkteNr(erkenningsType) {
+    switch (erkenningsType) {
+        case ErkenningsType.ErkenningBijGeboorteaangifte:
+            return '1XB3624';
+        case ErkenningsType.ErkenningNaGeboorteaangifte:
+            return '1XC3624';
+        case ErkenningsType.ErkenningBijNotarieleAkte:
+            return '1XJ3624';
+        case ErkenningsType.GerechtelijkeVaststellingOuderschap:
+            return '1XV3624';
+        default:
+            return undefined;
+    }
+}
+
+function gegevenDePersoonIsErkend(context, persoonAanduiding, ouderAanduiding, erkenningsType, datumErkenning) {
+    const kind = getPersoon(context, persoonAanduiding);
+    if (!kind) {
+        global.logger.error(`persoon ${persoonAanduiding} niet gevonden`);
+        return;
+    }
+
+    const ouder = getPersoon(context, ouderAanduiding);
+    if (!ouder) {
+        global.logger.error(`ouder ${ouderAanduiding} niet gevonden`);
+        return;
+    }
+
+    const datum = erkenningsType == ErkenningsType.ErkenningBijGeboorteaangifte ? getGeboortedatum(kind) : datumErkenning;
+    const ouderType = kindHeeftGeenOuders(kind) ? '1' : '2';
+    const aktenummer = createAkteNr(erkenningsType);
+
+    const kindData = persoonPropertiesToArrayofArrays(kind, [ 'akte_nr', 'doc_beschrijving' ]);
+    kindData.push(['aktenummer (81.20)', aktenummer]);
+
+    createKindEnWijzigOuder(kind, ouder, ouderType, aktenummer, datum);
+
+    wijzigPersoon(
+        kind,
+        arrayOfArraysToDataTable(kindData)
+    );
 }
 
 module.exports = {

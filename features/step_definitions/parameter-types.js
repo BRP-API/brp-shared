@@ -126,3 +126,17 @@ defineParameterType({
         return toGeslachtsaanduiding(geslacht);
     }
 });
+
+defineParameterType({
+    name: 'erkenningstype',
+    regexp: /(?:(bij geboorteaangifte|na geboorteaangifte|bij notariële akte|met gerechtelijke vaststelling ouderschap))?/,
+    transformer(soortErkenning) {
+        const erkenningsMap = {
+            'bij geboorteaangifte': 'B',
+            'na geboorteaangifte': 'C',
+            'bij notariële akte': 'J',
+            'met gerechtelijke vaststelling ouderschap': 'V'
+        };
+        return erkenningsMap[soortErkenning] || 'C';
+    }
+});
