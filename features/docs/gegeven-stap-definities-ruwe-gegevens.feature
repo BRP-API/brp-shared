@@ -113,7 +113,7 @@ Functionaliteit: gegevens opgeven met waardentabel
         | een kind                | het kind               | K            | gewijzigd       |         |
         | een kind                | het kind               | K            | gecorrigeerd    | O       |
 
-    Scenario: meerdere kinderen en gegevens van het tweede kind worden gecorrigeerd
+    Scenario: meerdere kinderen en gegevens van het verschillende kinderen worden gecorrigeerd
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       * heeft een kind met de volgende gegevens
         | naam                        | waarde    |
@@ -150,6 +150,63 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    | K            |         1 |       0 |         000000036 | Herman Pieter |                            | Hanssen        |             |
         | P1    | K            |         2 |       1 |                   | Hanna         |                            | Hanssen        | O           |
         | P1    | K            |         2 |       0 |                   | Hanna Hellen  |                            | Hanssen        |             |
+
+    Scenario: meerdere partners met gewijzigde en gecorrigeerde gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * heeft een partner met de volgende gegevens
+        | naam                                                               | waarde    |
+        | burgerservicenummer (01.20)                                        | 000000024 |
+        | voornamen (02.10)                                                  | Helena    |
+        | geslachtsnaam (02.40)                                              | Hanssen   |
+        | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |  20150316 |
+      En de partner is gewijzigd naar de volgende gegevens
+        | naam                                                         | waarde    |
+        | burgerservicenummer (01.20)                                  | 000000024 |
+        | voornamen (02.10)                                            | Helena    |
+        | geslachtsnaam (02.40)                                        | Hanssen   |
+        | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |  20201103 |
+      * heeft een partner met de volgende gegevens
+        | naam                                                               | waarde   |
+        | voornamen (02.10)                                                  | Herman   |
+        | geslachtsnaam (02.40)                                              | Hapert   |
+        | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) | 20210604 |
+      En de partner is gecorrigeerd naar de volgende gegevens
+        | naam                                                               | waarde        |
+        | burgerservicenummer (01.20)                                        |     000000036 |
+        | voornamen (02.10)                                                  | Herman Pieter |
+        | geslachtsnaam (02.40)                                              | Hapert        |
+        | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |      20210604 |
+      En de partner is gewijzigd naar de volgende gegevens
+        | naam                                                         | waarde        |
+        | burgerservicenummer (01.20)                                  |     000000036 |
+        | voornamen (02.10)                                            | Herman Pieter |
+        | geslachtsnaam (02.40)                                        | Hapert        |
+        | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |      20240117 |
+      * heeft een partner met de volgende gegevens
+        | naam                                                               | waarde    |
+        | voornamen (02.10)                                                  | Hadewich  |
+        | geslachtsnaam (02.40)                                              | Heijliger |
+        | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |  20250429 |
+      En de partner is gecorrigeerd naar de volgende gegevens
+        | naam                                                               | waarde    |
+        | burgerservicenummer (01.20)                                        | 000000048 |
+        | voornamen (02.10)                                                  | Hadewich  |
+        | geslachtsnaam (02.40)                                              | Heijliger |
+        | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |  20250429 |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | voor_naam     | geslachts_naam | onjuist_ind | relatie_start_datum | relatie_eind_datum |
+        | P1    | P            |         0 |       0 |         000000012 |               | P1             |             |                     |                    |
+        | P1    | R            |         0 |       1 |         000000024 | Helena        | Hanssen        |             |            20150316 |                    |
+        | P1    | R            |         0 |       0 |         000000024 | Helena        | Hanssen        |             |                     |           20201103 |
+        | P1    | R            |         1 |       2 |                   | Herman        | Hapert         | O           |            20210604 |                    |
+        | P1    | R            |         1 |       1 |         000000036 | Herman Pieter | Hapert         |             |            20210604 |                    |
+        | P1    | R            |         1 |       0 |         000000036 | Herman Pieter | Hapert         |             |                     |           20240117 |
+        | P1    | R            |         2 |       1 |                   | Hadewich      | Heijliger      | O           |            20250429 |                    |
+        | P1    | R            |         2 |       0 |         000000048 | Hadewich      | Heijliger      |             |            20250429 |                    |
 
   Regel: is ingeschreven op adres {string} met de volgende gegevens
 
