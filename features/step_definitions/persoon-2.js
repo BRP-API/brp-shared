@@ -129,6 +129,7 @@ function wijzigKind(persoon, dataTable, isCorrectie = false, kindBsn = null) {
     });
 
     if (!kind) {
+        // wanneer het kind niet gevonden wordt op burgerservicenummer, dan wordt het laatst opgevoerde kind (zonder burgerservicenummer) gezocht
         Object.keys(persoon).forEach(property => {
             if (property.startsWith('kind')) {
                 if (!persoon[property].at(-1).burger_service_nr || !kindData.burger_service_nr) {
