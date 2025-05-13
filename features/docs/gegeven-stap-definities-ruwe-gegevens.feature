@@ -19,13 +19,13 @@ Functionaliteit: gegevens opgeven met waardentabel
       En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
         | pl_id | persoon_type   | stapel_nr | volg_nr | burger_service_nr | voor_naam | geslachts_naam |
         | P1    | P              |         0 |       0 |         000000012 |           | P1             |
-        | p1    | <persoon type> |         0 |       0 |         000000024 | Helena    | Hanssen        |
+        | P1    | <persoon type> |         0 |       0 |         000000024 | Helena    | Hanssen        |
 
       Voorbeelden:
         | relatie     | persoon type |
         | een ouder 1 |            1 |
         | een ouder 2 |            2 |
-        | een parner  | R            |
+        | een partner | R            |
         | een kind    | K            |
 
     @integratie
@@ -51,9 +51,9 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    | <persoon type> |         1 |       0 |                   | Herman    | Hanssen        |
 
       Voorbeelden:
-        | relatie    | persoon type |
-        | een parner | R            |
-        | een kind   | K            |
+        | relatie     | persoon type |
+        | een partner | R            |
+        | een kind    | K            |
 
     @integratie
     Abstract Scenario: meerdere van verschillende object soort: heeft <relatie> met de volgende gegevens
