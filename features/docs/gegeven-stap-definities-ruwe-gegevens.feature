@@ -78,6 +78,20 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    |            1 |         0 |       0 |         000000024 | Helena    | Hanssen        |
         | P1    | R            |         0 |       0 |         000000036 | Herman    | Hapert         |
 
+    Scenario: heeft gezagsverhouding met de volgende gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * heeft gezagsverhouding met de volgende gegevens
+        | naam                                 | waarde   |
+        | indicatie gezag minderjarige (32.10) |        2 |
+        | ingangsdatum geldigheid (85.10)      | 20211001 |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_gezagsverhouding'
+        | pl_id | volg_nr | minderjarig_gezag_ind | geldigheid_start_datum |
+        | P1    |       0 |                     2 |               20211001 |
+
   Regel: {object soort} is {gewijzigd of gecorrigeerd} naar de volgende gegevens
 
     @integratie
