@@ -143,12 +143,21 @@ function wijzigKind(persoon, dataTable, isCorrectie = false, kindBsn = null) {
         return;
     }
 
+    kindData.stapel_nr = kind.at(-1).stapel_nr;
+
     kind.forEach(p => {
         p.volg_nr = Number(p.volg_nr) + 1 + '';
         if (isCorrectie && p.volg_nr === '1') {
             p.onjuist_ind = 'O';
         }
     });
+
+    Object.keys(kindData).forEach(property => {
+        if (!kindData[property]) {
+            delete kindData[property];
+        }
+    });
+
     kind.push(kindData);
 }
 

@@ -113,6 +113,44 @@ Functionaliteit: gegevens opgeven met waardentabel
         | een kind                | het kind               | K            | gewijzigd       |         |
         | een kind                | het kind               | K            | gecorrigeerd    | O       |
 
+    Scenario: meerdere kinderen en gegevens van het tweede kind worden gecorrigeerd
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * heeft een kind met de volgende gegevens
+        | naam                        | waarde    |
+        | burgerservicenummer (01.20) | 000000024 |
+        | voornamen (02.10)           | Helena    |
+        | geslachtsnaam (02.40)       | Hanssen   |
+      * heeft een kind met de volgende gegevens
+        | naam                  | waarde  |
+        | voornamen (02.10)     | Herman  |
+        | voorvoegsel (02.30)   | van     |
+        | geslachtsnaam (02.40) | Hanssen |
+      En het kind is gecorrigeerd naar de volgende gegevens
+        | naam                        | waarde        |
+        | burgerservicenummer (01.20) |     000000036 |
+        | voornamen (02.10)           | Herman Pieter |
+        | geslachtsnaam (02.40)       | Hanssen       |
+      * heeft een kind met de volgende gegevens
+        | naam                  | waarde  |
+        | voornamen (02.10)     | Hanna   |
+        | geslachtsnaam (02.40) | Hanssen |
+      En het kind is gecorrigeerd naar de volgende gegevens
+        | naam                  | waarde       |
+        | voornamen (02.10)     | Hanna Hellen |
+        | geslachtsnaam (02.40) | Hanssen      |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | voor_naam     | geslachts_naam_voorvoegsel | geslachts_naam | onjuist_ind |
+        | P1    | P            |         0 |       0 |         000000012 |               |                            | P1             |             |
+        | P1    | K            |         0 |       0 |         000000024 | Helena        |                            | Hanssen        |             |
+        | P1    | K            |         1 |       1 |                   | Herman        | van                        | Hanssen        | O           |
+        | P1    | K            |         1 |       0 |         000000036 | Herman Pieter |                            | Hanssen        |             |
+        | P1    | K            |         2 |       1 |                   | Hanna         |                            | Hanssen        | O           |
+        | P1    | K            |         2 |       0 |                   | Hanna Hellen  |                            | Hanssen        |             |
+
   Regel: is ingeschreven op adres {string} met de volgende gegevens
 
     @integratie
