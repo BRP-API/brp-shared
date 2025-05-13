@@ -89,7 +89,7 @@ Functionaliteit: Erkenning
       | bij notariële akte                        |     1_J____ |
       | met gerechtelijke vaststelling ouderschap |     1_V____ |
 
-  Scenario: {aanduidingMinderjarige} is erkend door {aanduidingErkenner} na geboorteaangifte op {datum}
+  Scenario: er is al een lege categorie ouder 2 en {aanduidingMinderjarige} is erkend door {aanduidingErkenner} na geboorteaangifte op {datum}
     Gegeven de minderjarige persoon 'P1' met één ouder 'P2'
     En de gisteren 35 jaar geleden geboren man 'P3'
     En 'P1' is erkend door 'P3' na geboorteaangifte op 13-05-2024
