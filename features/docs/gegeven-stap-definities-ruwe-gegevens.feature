@@ -109,6 +109,52 @@ Functionaliteit: gegevens opgeven met waardentabel
         | een parner              | de partner             | R            | gewijzigd       |         |
         | een kind                | het kind               | K            | gecorrigeerd    | O       |
 
+  Regel: is ingeschreven op adres {string} met de volgende gegevens
+
+    @integratie
+    Scenario: is ingeschreven op adres {string} met de volgende gegevens
+      Gegeven adres 'A1'
+        | gemeentecode (92.10) | straatnaam (11.10) |
+        |                 0518 | Boterdiep          |
+      En de persoon 'P1' met burgerservicenummer '000000012'
+      En is ingeschreven op adres 'A1' met de volgende gegevens
+        | naam                               | waarde   |
+        | functie adres (10.10)              | B        |
+        | datum aanvang adreshouding (10.30) | 20111101 |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_verblijfplaats'
+        | pl_id | adres_id | volg_nr | adres_functie | adreshouding_start_datum |
+        | P1    | A1       |       0 | B             |                 20111101 |
+
+  Regel: is ingeschreven op een buitenlands adres met de volgende gegevens
+
+    @integratie
+    Scenario: is ingeschreven op een buitenlands adres met de volgende gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En is ingeschreven op een buitenlands adres met de volgende gegevens
+        | naam                                   | waarde   |
+        | land (13.10)                           |     6039 |
+        | datum aanvang adres buitenland (13.20) | 20111101 |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_verblijfplaats'
+        | pl_id | adres_id | volg_nr | vertrek_land_code | vertrek_datum |
+        | P1    |          |       0 |              6039 |      20111101 |
+
+  Regel: is overleden met de volgende gegevens
+
+    @integratie
+    Scenario: is overleden met de volgende gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * is overleden met de volgende gegevens
+        | naam                      | waarde   |
+        | datum overlijden (08.10)  | 20230924 |
+        | plaats overlijden (08.20) |     0518 |
+        | land overlijden (08.30)   |     6030 |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_overlijden'
+        | pl_id | volg_nr | overlijden_datum | overlijden_plaats | overlijden_land_code |
+        | P1    |       0 |         20230924 |              0518 |                 6030 |
+
   Regel: is ingeschreven met de volgende gegevens
 
     @integratie
