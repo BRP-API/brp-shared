@@ -105,8 +105,12 @@ Functionaliteit: gegevens opgeven met waardentabel
       Voorbeelden:
         | object soort toevoeging | object soort wijziging | persoon type | soort wijziging | onjuist |
         | een ouder 1             | ouder 1                |            1 | gewijzigd       |         |
+        | een ouder 1             | ouder 1                |            1 | gecorrigeerd    | O       |
+        | een ouder 2             | ouder 2                |            2 | gewijzigd       |         |
         | een ouder 2             | ouder 2                |            2 | gecorrigeerd    | O       |
-        | een parner              | de partner             | R            | gewijzigd       |         |
+        | een partner             | de partner             | R            | gewijzigd       |         |
+        | een partner             | de partner             | R            | gecorrigeerd    | O       |
+        | een kind                | het kind               | K            | gewijzigd       |         |
         | een kind                | het kind               | K            | gecorrigeerd    | O       |
 
   Regel: is ingeschreven op adres {string} met de volgende gegevens

@@ -116,19 +116,40 @@ function createKind(persoon, dataTable) {
 }
 
 function wijzigKind(persoon, dataTable, isCorrectie = false, kindBsn = null) {
+    let kindData = createPersoonType('kind', dataTable, 0);
+    
+    let kind;
+    
     Object.keys(persoon).forEach(property => {
         if (property.startsWith('kind')) {
-            if (persoon[property][0].burger_service_nr === kindBsn) {
-                persoon[property].forEach(p => {
-                    p.volg_nr = Number(p.volg_nr) + 1 + '';
-                    if (isCorrectie && p.volg_nr === '1') {
-                        p.onjuist_ind = 'O';
-                    }
-                });
-                persoon[property].push(createPersoonType('kind', dataTable, 0));
+            if (persoon[property][0].burger_service_nr === kindBsn || persoon[property].at(-1).burger_service_nr === kindData.burger_service_nr) {
+               kind = persoon[property]
             }
         }
     });
+
+    if (!kind) {
+        Object.keys(persoon).forEach(property => {
+            if (property.startsWith('kind')) {
+                if (!persoon[property].at(-1).burger_service_nr || !kindData.burger_service_nr) {
+                    kind = persoon[property];
+                }
+            }
+        });
+    }
+
+    if (!kind) {
+        global.logger.warn(`geen kind met bsn ${kindData.burger_service_nr} gevonden`, persoon);
+        return;
+    }
+
+    kind.forEach(p => {
+        p.volg_nr = Number(p.volg_nr) + 1 + '';
+        if (isCorrectie && p.volg_nr === '1') {
+            p.onjuist_ind = 'O';
+        }
+    });
+    kind.push(kindData);
 }
 
 function createOuder(persoon, ouderType, dataTable) {
@@ -182,6 +203,16 @@ function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties 
             }
         }
     });
+
+    if (!partner) {
+        Object.keys(persoon).forEach(property => {
+            if (property.startsWith('partner')) {
+                if (!persoon[property].at(-1).burger_service_nr || !partnerData.burger_service_nr) {
+                    partner = persoon[property];
+                }
+            }
+        });
+    }
 
     if (!partner) {
         global.logger.warn(`geen partner met bsn ${partnerData.burger_service_nr} gevonden`, persoon);
