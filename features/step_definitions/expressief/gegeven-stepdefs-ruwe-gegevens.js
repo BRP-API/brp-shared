@@ -15,7 +15,7 @@ const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 defineParameterType({
   name: 'object soort',
-  regexp: /(de |het |een )?(persoon|ouder 1|ouder 2|partner|kind|gezagsverhouding)/,
+  regexp: /(de |het |een )?(ouder 1|ouder 2|partner|kind|gezagsverhouding)/,
   transformer(lidwoord, soortPersoon) {
     return soortPersoon.split(' ').at(-1)
   }
@@ -70,13 +70,6 @@ Given('heeft {object soort} met de volgende gegevens', function (soortPersoon, d
 
 Given('{object soort} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (soortPersoon, isCorrectie, dataTable) {
   switch (soortPersoon) {
-    case 'persoon':
-      wijzigPersoon(
-        getPersoon(this.context, undefined),
-        dataTable,
-        isCorrectie
-      );
-      break;
     case '1':
       wijzigOuder(
         getPersoon(this.context, undefined),
