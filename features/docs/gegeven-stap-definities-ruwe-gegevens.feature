@@ -7,7 +7,7 @@ Functionaliteit: gegevens opgeven met waardentabel
     @integratie
     Abstract Scenario: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <relatie> met de volgende gegevens
+      * heeft <relatie> 'P2' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
@@ -31,12 +31,12 @@ Functionaliteit: gegevens opgeven met waardentabel
     @integratie
     Abstract Scenario: meerdere van zelfde object soort: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <relatie> met de volgende gegevens
+      * heeft <relatie> 'P2' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
         | geslachtsnaam (02.40)       | Hanssen   |
-      * heeft <relatie> met de volgende gegevens
+      * heeft <relatie> 'P3' met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Herman  |
         | geslachtsnaam (02.40) | Hanssen |
@@ -58,12 +58,12 @@ Functionaliteit: gegevens opgeven met waardentabel
     @integratie
     Abstract Scenario: meerdere van verschillende object soort: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft een ouder 1 met de volgende gegevens
+      * heeft een ouder 1 'P2' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
         | geslachtsnaam (02.40)       | Hanssen   |
-      * heeft een partner met de volgende gegevens
+      * heeft een partner 'P3' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000036 |
         | voornamen (02.10)           | Herman    |
@@ -80,7 +80,7 @@ Functionaliteit: gegevens opgeven met waardentabel
 
     Scenario: heeft gezagsverhouding met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft gezagsverhouding met de volgende gegevens
+      * heeft de volgende gezagsverhouding gegevens
         | naam                                 | waarde   |
         | indicatie gezag minderjarige (32.10) |        2 |
         | ingangsdatum geldigheid (85.10)      | 20211001 |
@@ -97,11 +97,11 @@ Functionaliteit: gegevens opgeven met waardentabel
     @integratie
     Abstract Scenario: <object soort wijziging> is <soort wijziging> naar de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <object soort toevoeging> met de volgende gegevens
+      * heeft <object soort toevoeging> 'P2' met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Helena  |
         | geslachtsnaam (02.40) | Hanssen |
-      En <object soort wijziging> is <soort wijziging> naar de volgende gegevens
+      En <object soort wijziging> 'P2' is <soort wijziging> naar de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Herman    |
@@ -129,26 +129,26 @@ Functionaliteit: gegevens opgeven met waardentabel
 
     Scenario: meerdere kinderen en gegevens van het verschillende kinderen worden gecorrigeerd
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft een kind met de volgende gegevens
+      * heeft een kind 'P2' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
         | geslachtsnaam (02.40)       | Hanssen   |
-      * heeft een kind met de volgende gegevens
+      * heeft een kind 'P3' met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Herman  |
         | voorvoegsel (02.30)   | van     |
         | geslachtsnaam (02.40) | Hanssen |
-      En het kind is gecorrigeerd naar de volgende gegevens
+      En kind 'P3' is gecorrigeerd naar de volgende gegevens
         | naam                        | waarde        |
         | burgerservicenummer (01.20) |     000000036 |
         | voornamen (02.10)           | Herman Pieter |
         | geslachtsnaam (02.40)       | Hanssen       |
-      * heeft een kind met de volgende gegevens
+      * heeft een kind 'P4' met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Hanna   |
         | geslachtsnaam (02.40) | Hanssen |
-      En het kind is gecorrigeerd naar de volgende gegevens
+      En kind 'P4' is gecorrigeerd naar de volgende gegevens
         | naam                  | waarde       |
         | voornamen (02.10)     | Hanna Hellen |
         | geslachtsnaam (02.40) | Hanssen      |
@@ -167,41 +167,41 @@ Functionaliteit: gegevens opgeven met waardentabel
 
     Scenario: meerdere partners met gewijzigde en gecorrigeerde gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft een partner met de volgende gegevens
+      * heeft een partner 'P2' met de volgende gegevens
         | naam                                                               | waarde    |
         | burgerservicenummer (01.20)                                        | 000000024 |
         | voornamen (02.10)                                                  | Helena    |
         | geslachtsnaam (02.40)                                              | Hanssen   |
         | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |  20150316 |
-      En de partner is gewijzigd naar de volgende gegevens
+      En partner 'P2' is gewijzigd naar de volgende gegevens
         | naam                                                         | waarde    |
         | burgerservicenummer (01.20)                                  | 000000024 |
         | voornamen (02.10)                                            | Helena    |
         | geslachtsnaam (02.40)                                        | Hanssen   |
         | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |  20201103 |
-      * heeft een partner met de volgende gegevens
+      * heeft een partner 'P3' met de volgende gegevens
         | naam                                                               | waarde   |
         | voornamen (02.10)                                                  | Herman   |
         | geslachtsnaam (02.40)                                              | Hapert   |
         | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) | 20210604 |
-      En de partner is gecorrigeerd naar de volgende gegevens
+      En partner 'P3' is gecorrigeerd naar de volgende gegevens
         | naam                                                               | waarde        |
         | burgerservicenummer (01.20)                                        |     000000036 |
         | voornamen (02.10)                                                  | Herman Pieter |
         | geslachtsnaam (02.40)                                              | Hapert        |
         | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |      20210604 |
-      En de partner is gewijzigd naar de volgende gegevens
+      En partner 'P3' is gewijzigd naar de volgende gegevens
         | naam                                                         | waarde        |
         | burgerservicenummer (01.20)                                  |     000000036 |
         | voornamen (02.10)                                            | Herman Pieter |
         | geslachtsnaam (02.40)                                        | Hapert        |
         | datum ontbinding huwelijk/geregistreerd partnerschap (07.10) |      20240117 |
-      * heeft een partner met de volgende gegevens
+      * heeft een partner 'P4' met de volgende gegevens
         | naam                                                               | waarde    |
         | voornamen (02.10)                                                  | Hadewich  |
         | geslachtsnaam (02.40)                                              | Heijliger |
         | datum huwelijkssluiting/aangaan geregistreerd partnerschap (06.10) |  20250429 |
-      En de partner is gecorrigeerd naar de volgende gegevens
+      En partner 'P4' is gecorrigeerd naar de volgende gegevens
         | naam                                                               | waarde    |
         | burgerservicenummer (01.20)                                        | 000000048 |
         | voornamen (02.10)                                                  | Hadewich  |

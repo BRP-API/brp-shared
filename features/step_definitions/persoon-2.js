@@ -115,6 +115,14 @@ function createKind(persoon, dataTable) {
     ];
 }
 
+function createKindMetAanduiding(persoon, aanduiding, dataTable) {
+    const stapelNr = getNextStapelNr(persoon, 'kind');
+
+    persoon[`kind-${aanduiding}`] = [
+        createPersoonType('kind', dataTable, stapelNr - 1)
+    ];
+}
+
 function wijzigKind(persoon, dataTable, isCorrectie = false, kindBsn = null) {
     let kindData = createPersoonType('kind', dataTable, 0);
     
@@ -162,12 +170,36 @@ function wijzigKind(persoon, dataTable, isCorrectie = false, kindBsn = null) {
     kind.push(kindData);
 }
 
+function wijzigKindMetAanduiding(persoon, aanduiding, dataTable, isCorrectie = false) {
+    const type = `kind-${aanduiding}`;
+    let actueleKind = persoon[type].at(-1);
+    const stapelnr = actueleKind.stapel_nr;
+
+    if(isCorrectie) {
+        actueleKind.onjuist_ind = 'O';
+    }
+
+    persoon[type].forEach(p => {
+        p.volg_nr = Number(p.volg_nr) + 1 + '';
+    });
+
+    persoon[type].push(createPersoonType('kind', dataTable, stapelnr));
+}
+
 function createOuder(persoon, ouderType, dataTable) {
     const type = `ouder-${ouderType}`;
     if (!persoon[type]) {
         persoon[type] = [];
     }
     persoon[type].push(createPersoonType(type, dataTable, 0));
+}
+
+function createOuderMetAanduiding(persoon, ouderType, aanduiding, dataTable) {
+    const type = `ouder-${aanduiding}`;
+    if (!persoon[type]) {
+        persoon[type] = [];
+    }
+    persoon[type].push(createPersoonType(`ouder-${ouderType}`, dataTable, 0));
 }
 
 function wijzigOuder(persoon, ouderType, dataTable, isCorrectie = false) {
@@ -183,10 +215,31 @@ function wijzigOuder(persoon, ouderType, dataTable, isCorrectie = false) {
     persoon[type].push(createPersoonType(type, dataTable, 0));
 }
 
+function wijzigOuderMetAanduiding(persoon, ouderType, aanduiding, dataTable, isCorrectie = false) {
+    const type = `ouder-${aanduiding}`;
+
+    persoon[type].forEach(p => {
+        p.volg_nr = Number(p.volg_nr) + 1 + '';
+        if (isCorrectie && p.volg_nr === '1') {
+            p.onjuist_ind = 'O';
+        }
+    });
+
+    persoon[type].push(createPersoonType(ouderType, dataTable, 0));
+}
+
 function createPartner(persoon, dataTable) {
     const stapelNr = getNextStapelNr(persoon, 'partner');
 
     persoon[`partner-${stapelNr}`] = [
+        createPersoonType('partner', dataTable, stapelNr - 1)
+    ];
+}
+
+function createPartnerMetAanduiding(persoon, aanduiding, dataTable) {
+    const stapelNr = getNextStapelNr(persoon, 'partner');
+
+    persoon[`partner-${aanduiding}`] = [
         createPersoonType('partner', dataTable, stapelNr - 1)
     ];
 }
@@ -253,6 +306,22 @@ function wijzigPartner(persoon, dataTable, isCorrectie = false, mergeProperties 
     partner.push(partnerData);
 }
 
+function wijzigPartnerMetAanduiding(persoon, aanduiding, dataTable, isCorrectie = false) {
+    const type = `partner-${aanduiding}`;
+    let actuelePartner = persoon[type].at(-1);
+    const stapelnr = actuelePartner.stapel_nr;
+
+    if(isCorrectie) {
+        actuelePartner.onjuist_ind = 'O';
+    }
+
+    persoon[type].forEach(p => {
+        p.volg_nr = Number(p.volg_nr) + 1 + '';
+    });
+
+    persoon[type].push(createPersoonType('partner', dataTable, stapelnr));
+}
+
 function createGezagsverhouding(persoon, dataTable) {
     if (!persoon.gezagsverhouding) {
         persoon.gezagsverhouding = [];
@@ -315,11 +384,17 @@ module.exports = {
     wijzigPersoon,
     wijzigGeadopteerdPersoon,
     createKind,
+    createKindMetAanduiding,
     wijzigKind,
+    wijzigKindMetAanduiding,
     createOuder,
+    createOuderMetAanduiding,
     wijzigOuder,
+    wijzigOuderMetAanduiding,
     createPartner,
+    createPartnerMetAanduiding,
     wijzigPartner,
+    wijzigPartnerMetAanduiding,
     createGezagsverhouding,
     aanvullenGezagsverhouding,
     createVerblijfplaats,

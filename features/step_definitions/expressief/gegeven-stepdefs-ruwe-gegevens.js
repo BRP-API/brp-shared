@@ -8,7 +8,13 @@ const {
         createOverlijden,
         createGezagsverhouding,
         wijzigGezagsverhouding,
-        wijzigPersoon
+        wijzigPersoon,
+        createOuderMetAanduiding,
+        wijzigOuderMetAanduiding,
+        createPartnerMetAanduiding,
+        wijzigPartnerMetAanduiding,
+        createKindMetAanduiding,
+        wijzigKindMetAanduiding
       } = require('../persoon-2');
 const { getAdresIndex,getPersoon } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
@@ -29,73 +35,58 @@ defineParameterType({
     }
 });
 
-Given('heeft {object soort} met de volgende gegevens', function (soortPersoon, dataTable) {
+Given('heeft {object soort} {aanduiding} met de volgende gegevens', function (soortPersoon, relatieAanduiding, dataTable) {
   switch (soortPersoon) {
     case '1':
-      createOuder(
-        getPersoon(this.context, undefined),
-        1,
-        dataTable
-      );
-      break
     case '2':
-      createOuder(
+      createOuderMetAanduiding(
         getPersoon(this.context, undefined),
-        2,
+        soortPersoon,
+        relatieAanduiding,
         dataTable
       );
-      break
+      break;
     case 'partner':
-      createPartner(
+      createPartnerMetAanduiding(
         getPersoon(this.context, undefined),
+        relatieAanduiding,
         dataTable
       );
       break;
     case 'kind':
-      createKind(
+      createKindMetAanduiding(
         getPersoon(this.context, undefined),
-        dataTable
-      );
-      break;
-    case 'gezagsverhouding':
-      createGezagsverhouding(
-        getPersoon(this.context, undefined),
+        relatieAanduiding,
         dataTable
       );
       break;
   }
-
-  global.logger.info(`heeft ${soortPersoon} met de volgende gegevens`, getPersoon(this.context, undefined));
 });
 
-Given('{object soort} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (soortPersoon, isCorrectie, dataTable) {
+Given('{object soort} {aanduiding} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (soortPersoon, relatieAanduiding, isCorrectie, dataTable) {
   switch (soortPersoon) {
     case '1':
-      wijzigOuder(
-        getPersoon(this.context, undefined),
-        '1',
-        dataTable,
-        isCorrectie
-      );
-      break;
     case '2':
-      wijzigOuder(
+      wijzigOuderMetAanduiding(
         getPersoon(this.context, undefined),
-        '2',
+        soortPersoon,
+        relatieAanduiding,
         dataTable,
         isCorrectie
       );
       break;
     case 'partner':
-      wijzigPartner(
+      wijzigPartnerMetAanduiding(
         getPersoon(this.context, undefined),
+        relatieAanduiding,
         dataTable,
         isCorrectie
       );
       break;
     case 'kind':
-      wijzigKind(
+      wijzigKindMetAanduiding(
         getPersoon(this.context, undefined),
+        relatieAanduiding,
         dataTable,
         isCorrectie
       );
@@ -160,4 +151,11 @@ Given('is ingeschreven met de volgende gegevens', function (dataTable) {
   );
 
   global.logger.info(`is ingeschreven met de volgende gegevens`, getPersoon(this.context, undefined));
+});
+
+Given('heeft de volgende gezagsverhouding gegevens', function (dataTable) {
+      createGezagsverhouding(
+        getPersoon(this.context, undefined),
+        dataTable
+      );
 });
