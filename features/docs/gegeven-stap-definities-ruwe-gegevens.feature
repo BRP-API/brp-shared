@@ -7,7 +7,7 @@ Functionaliteit: gegevens opgeven met waardentabel
     @integratie
     Abstract Scenario: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <relatie> 'P2' met de volgende gegevens
+      * heeft een <relatie> met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
@@ -22,21 +22,41 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    | <persoon type> |         0 |       0 |         000000024 | Helena    | Hanssen        |
 
       Voorbeelden:
-        | relatie     | persoon type |
-        | een ouder 1 |            1 |
-        | een ouder 2 |            2 |
-        | een partner | R            |
-        | een kind    | K            |
+        | relatie | persoon type |
+        | ouder 1 |            1 |
+        | ouder 2 |            2 |
 
     @integratie
-    Abstract Scenario: meerdere van zelfde object soort: heeft <relatie> met de volgende gegevens
+    Abstract Scenario: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <relatie> 'P2' met de volgende gegevens
+      * heeft een <relatie> 'P2' met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
         | geslachtsnaam (02.40)       | Hanssen   |
-      * heeft <relatie> 'P3' met de volgende gegevens
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type   | stapel_nr | volg_nr | burger_service_nr | voor_naam | geslachts_naam |
+        | P1    | P              |         0 |       0 |         000000012 |           | P1             |
+        | P1    | <persoon type> |         0 |       0 |         000000024 | Helena    | Hanssen        |
+
+      Voorbeelden:
+        | relatie | persoon type |
+        | partner | R            |
+        | kind    | K            |
+
+    @integratie
+    Abstract Scenario: meerdere van zelfde object soort: heeft <relatie> met de volgende gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * heeft een <relatie> 'P2' met de volgende gegevens
+        | naam                        | waarde    |
+        | burgerservicenummer (01.20) | 000000024 |
+        | voornamen (02.10)           | Helena    |
+        | geslachtsnaam (02.40)       | Hanssen   |
+      * heeft een <relatie> 'P3' met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Herman  |
         | geslachtsnaam (02.40) | Hanssen |
@@ -51,14 +71,14 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    | <persoon type> |         1 |       0 |                   | Herman    | Hanssen        |
 
       Voorbeelden:
-        | relatie     | persoon type |
-        | een partner | R            |
-        | een kind    | K            |
+        | relatie | persoon type |
+        | partner | R            |
+        | kind    | K            |
 
     @integratie
     Abstract Scenario: meerdere van verschillende object soort: heeft <relatie> met de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft een ouder 1 'P2' met de volgende gegevens
+      * heeft een ouder 1 met de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Helena    |
@@ -95,13 +115,42 @@ Functionaliteit: gegevens opgeven met waardentabel
   Regel: {object soort} is {gewijzigd of gecorrigeerd} naar de volgende gegevens
 
     @integratie
-    Abstract Scenario: <object soort wijziging> is <soort wijziging> naar de volgende gegevens
+    Abstract Scenario: ouder <ouder type> is <soort wijziging> naar de volgende gegevens
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
-      * heeft <object soort toevoeging> 'P2' met de volgende gegevens
+      * heeft een ouder <ouder type> met de volgende gegevens
         | naam                  | waarde  |
         | voornamen (02.10)     | Helena  |
         | geslachtsnaam (02.40) | Hanssen |
-      En <object soort wijziging> 'P2' is <soort wijziging> naar de volgende gegevens
+      En ouder <ouder type> is <soort wijziging> naar de volgende gegevens
+        | naam                        | waarde    |
+        | burgerservicenummer (01.20) | 000000024 |
+        | voornamen (02.10)           | Herman    |
+        | geslachtsnaam (02.40)       | Hanssen   |
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | voor_naam | geslachts_naam | onjuist_ind |
+        | P1    | P            |         0 |       0 |         000000012 |           | P1             |             |
+        | P1    | <ouder type> |         0 |       1 |                   | Helena    | Hanssen        | <onjuist>   |
+        | P1    | <ouder type> |         0 |       0 |         000000024 | Herman    | Hanssen        |             |
+
+      Voorbeelden:
+        | ouder type | soort wijziging | onjuist |
+        |          1 | gewijzigd       |         |
+        |          1 | gecorrigeerd    | O       |
+        |          2 | gewijzigd       |         |
+        |          2 | gecorrigeerd    | O       |
+
+    @integratie
+    Abstract Scenario: <object soort wijziging> is <soort wijziging> naar de volgende gegevens
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      * heeft een <relatie soort> 'P2' met de volgende gegevens
+        | naam                  | waarde  |
+        | voornamen (02.10)     | Helena  |
+        | geslachtsnaam (02.40) | Hanssen |
+      En <relatie soort> 'P2' is <soort wijziging> naar de volgende gegevens
         | naam                        | waarde    |
         | burgerservicenummer (01.20) | 000000024 |
         | voornamen (02.10)           | Herman    |
@@ -117,15 +166,11 @@ Functionaliteit: gegevens opgeven met waardentabel
         | P1    | <persoon type> |         0 |       0 |         000000024 | Herman    | Hanssen        |             |
 
       Voorbeelden:
-        | object soort toevoeging | object soort wijziging | persoon type | soort wijziging | onjuist |
-        | een ouder 1             | ouder 1                |            1 | gewijzigd       |         |
-        | een ouder 1             | ouder 1                |            1 | gecorrigeerd    | O       |
-        | een ouder 2             | ouder 2                |            2 | gewijzigd       |         |
-        | een ouder 2             | ouder 2                |            2 | gecorrigeerd    | O       |
-        | een partner             | de partner             | R            | gewijzigd       |         |
-        | een partner             | de partner             | R            | gecorrigeerd    | O       |
-        | een kind                | het kind               | K            | gewijzigd       |         |
-        | een kind                | het kind               | K            | gecorrigeerd    | O       |
+        | relatie soort | persoon type | soort wijziging | onjuist |
+        | partner       | R            | gewijzigd       |         |
+        | partner       | R            | gecorrigeerd    | O       |
+        | kind          | K            | gewijzigd       |         |
+        | kind          | K            | gecorrigeerd    | O       |
 
     Scenario: meerdere kinderen en gegevens van het verschillende kinderen worden gecorrigeerd
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'

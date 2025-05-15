@@ -194,14 +194,6 @@ function createOuder(persoon, ouderType, dataTable) {
     persoon[type].push(createPersoonType(type, dataTable, 0));
 }
 
-function createOuderMetAanduiding(persoon, ouderType, aanduiding, dataTable) {
-    const type = `ouder-${aanduiding}`;
-    if (!persoon[type]) {
-        persoon[type] = [];
-    }
-    persoon[type].push(createPersoonType(`ouder-${ouderType}`, dataTable, 0));
-}
-
 function wijzigOuder(persoon, ouderType, dataTable, isCorrectie = false) {
     const type = `ouder-${ouderType}`;
 
@@ -213,19 +205,6 @@ function wijzigOuder(persoon, ouderType, dataTable, isCorrectie = false) {
     });
 
     persoon[type].push(createPersoonType(type, dataTable, 0));
-}
-
-function wijzigOuderMetAanduiding(persoon, ouderType, aanduiding, dataTable, isCorrectie = false) {
-    const type = `ouder-${aanduiding}`;
-
-    persoon[type].forEach(p => {
-        p.volg_nr = Number(p.volg_nr) + 1 + '';
-        if (isCorrectie && p.volg_nr === '1') {
-            p.onjuist_ind = 'O';
-        }
-    });
-
-    persoon[type].push(createPersoonType(ouderType, dataTable, 0));
 }
 
 function createPartner(persoon, dataTable) {
@@ -388,9 +367,7 @@ module.exports = {
     wijzigKind,
     wijzigKindMetAanduiding,
     createOuder,
-    createOuderMetAanduiding,
     wijzigOuder,
-    wijzigOuderMetAanduiding,
     createPartner,
     createPartnerMetAanduiding,
     wijzigPartner,
