@@ -1,16 +1,10 @@
 const { Given, defineParameterType } = require('@cucumber/cucumber');
 const { 
-        createOuder, wijzigOuder, 
-        createPartner, wijzigPartner, 
+        createOuder, wijzigOuder,
         aanvullenInschrijving,
-        createVerblijfplaats, wijzigVerblijfplaats, 
-        createKind, wijzigKind, 
+        createVerblijfplaats, wijzigVerblijfplaats,
         createOverlijden,
         createGezagsverhouding,
-        wijzigGezagsverhouding,
-        wijzigPersoon,
-        createOuderMetAanduiding,
-        wijzigOuderMetAanduiding,
         createPartnerMetAanduiding,
         wijzigPartnerMetAanduiding,
         createKindMetAanduiding,
@@ -20,11 +14,8 @@ const { getAdresIndex,getPersoon } = require('../contextHelpers');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
 
 defineParameterType({
-  name: 'object soort',
-  regexp: /(de |het |een )?(ouder 1|ouder 2|partner|kind|gezagsverhouding)/,
-  transformer(lidwoord, soortPersoon) {
-    return soortPersoon.split(' ').at(-1)
-  }
+  name: 'ouder type',
+  regexp: /(1|2)/
 });
 
 defineParameterType({
@@ -35,72 +26,55 @@ defineParameterType({
     }
 });
 
-Given('heeft {object soort} {aanduiding} met de volgende gegevens', function (soortPersoon, relatieAanduiding, dataTable) {
-  switch (soortPersoon) {
-    case '1':
-    case '2':
-      createOuderMetAanduiding(
-        getPersoon(this.context, undefined),
-        soortPersoon,
-        relatieAanduiding,
-        dataTable
-      );
-      break;
-    case 'partner':
-      createPartnerMetAanduiding(
-        getPersoon(this.context, undefined),
-        relatieAanduiding,
-        dataTable
-      );
-      break;
-    case 'kind':
-      createKindMetAanduiding(
-        getPersoon(this.context, undefined),
-        relatieAanduiding,
-        dataTable
-      );
-      break;
-  }
+Given('heeft een ouder {ouder type} met de volgende gegevens', function (soortOuder, dataTable) {
+  createOuder(
+    getPersoon(this.context, undefined),
+    soortOuder,
+    dataTable
+  );
 });
 
-Given('{object soort} {aanduiding} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (soortPersoon, relatieAanduiding, isCorrectie, dataTable) {
-  switch (soortPersoon) {
-    case '1':
-    case '2':
-      wijzigOuderMetAanduiding(
-        getPersoon(this.context, undefined),
-        soortPersoon,
-        relatieAanduiding,
-        dataTable,
-        isCorrectie
-      );
-      break;
-    case 'partner':
-      wijzigPartnerMetAanduiding(
-        getPersoon(this.context, undefined),
-        relatieAanduiding,
-        dataTable,
-        isCorrectie
-      );
-      break;
-    case 'kind':
-      wijzigKindMetAanduiding(
-        getPersoon(this.context, undefined),
-        relatieAanduiding,
-        dataTable,
-        isCorrectie
-      );
-      break;
-    case 'gezagsverhouding':
-      wijzigGezagsverhouding(
-        getPersoon(this.context, undefined),
-        dataTable,
-        isCorrectie
-      );
-      break;
-  }
+Given('heeft een partner {aanduiding} met de volgende gegevens', function (relatieAanduiding, dataTable) {
+  createPartnerMetAanduiding(
+    getPersoon(this.context, undefined),
+    relatieAanduiding,
+    dataTable
+  );
+});
 
-  global.logger.info(`${soortPersoon} is gewijzigd/gecorrigeerd naar de volgende gegevens`, getPersoon(this.context, undefined));
+Given('heeft een kind {aanduiding} met de volgende gegevens', function (relatieAanduiding, dataTable) {
+  createKindMetAanduiding(
+    getPersoon(this.context, undefined),
+    relatieAanduiding,
+    dataTable
+  );
+});
+
+Given('ouder {ouder type} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (soortOuder, isCorrectie, dataTable) {
+  wijzigOuder(
+    getPersoon(this.context, undefined),
+    soortOuder,
+    dataTable,
+    isCorrectie
+  );
+});
+
+Given('partner {aanduiding} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (relatieAanduiding, isCorrectie, dataTable) {
+  wijzigPartnerMetAanduiding(
+    getPersoon(this.context, undefined),
+    relatieAanduiding,
+    dataTable,
+    isCorrectie
+  );
+});
+
+Given('kind {aanduiding} is {gewijzigd of gecorrigeerd} naar de volgende gegevens', function (relatieAanduiding, isCorrectie, dataTable) {
+  wijzigKindMetAanduiding(
+    getPersoon(this.context, undefined),
+    relatieAanduiding,
+    dataTable,
+    isCorrectie
+  );
 });
 
 function inschrijvingOpVerblijfplaats(context, dataTable) {
