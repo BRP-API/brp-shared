@@ -75,6 +75,22 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | op 21-01-2021          | man           |         20210121 | M                   |
 
   @integratie
+  Abstract Scenario: de {meer- of minderjarige} {geslacht type} '{persoon aanduiding}'
+    Gegeven de <omschrijving persoon> 'Jansen'
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl'
+      | pl_id  | geheim_ind |
+      | Jansen |          0 |
+    En heeft persoon 'Jansen' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id  | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | geslachts_aand        | akte_nr |
+      | Jansen |         0 |       0 | P            |         000000012 | Jansen         | <geboortedatum> |               6030 | <geslachtsaanduiding> | 1_A____ |
+
+    Voorbeelden:
+      | omschrijving persoon | geboortedatum      | geslachtsaanduiding |
+      | minderjarige         | gisteren - 17 jaar |                     |
+      | meerderjarige vrouw  | gisteren - 45 jaar | V                   |
+
+  @integratie
   Scenario: de {datum} geboren {geslacht type} '{persoon aanduiding}'
     Gegeven de vandaag 5 jaar geleden geboren man 'Jansen'
     En de op 21 januari 2021 geboren vrouw 'Pietersen'

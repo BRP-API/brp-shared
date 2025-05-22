@@ -111,6 +111,7 @@ Given('de {vandaag, gisteren of morgen x jaar geleden} geboren {geslachtsaanduid
 Given('de {dd maand yyyy datum} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
 Given('de {onbekende datum} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
 Given('de {dd-mm-yyyy datum} geboren {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
+Given('de {meer- of minderjarige} {geslachtsaanduiding}( ){string}', gegevenDeOpDatumInNederlandGeborenPersoonMetGegenereerdeBsn);
 
 Given('de persoon {aanduiding}', function (aanduiding) {
     gegevenDePersoon(this.context, aanduiding, genereerBurgerservicenummer(this.context), undefined, undefined, undefined, undefined);
