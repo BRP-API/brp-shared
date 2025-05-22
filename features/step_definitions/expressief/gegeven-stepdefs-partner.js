@@ -90,10 +90,10 @@ function gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap(aanduidin
          datumVerbintenis, '0518', '6030', soortVerbintenis);
 }
 
-Given('{aanduiding} en {aanduiding} zijn (met elkaar ){vandaag, gisteren of morgen x jaar geleden} {soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
-Given('{aanduiding} en {aanduiding} zijn (met elkaar ){vandaag, gisteren of morgen - x jaar} {soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
-Given('{aanduiding} en {aanduiding} zijn (met elkaar ){relatieve datum} {soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
-Given('{aanduiding} en {aanduiding} zijn {soort verbintenis} {dd-mm-yyyy datum}', function(aanduiding1, aanduiding2, soortVerbintenis, datum) {
+Given('{aanduiding} en {aanduiding} zijn (met elkaar ){vandaag, gisteren of morgen x jaar geleden} (opnieuw ){soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
+Given('{aanduiding} en {aanduiding} zijn (met elkaar ){vandaag, gisteren of morgen - x jaar} (opnieuw ){soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
+Given('{aanduiding} en {aanduiding} zijn (met elkaar ){relatieve datum} (opnieuw ){soort verbintenis}', gegevenDePersonenZijnOpDatumGehuwdOfGeregistreerdPartnerschap);
+Given('{aanduiding} en {aanduiding} zijn (opnieuw ){soort verbintenis} {dd-mm-yyyy datum}', function(aanduiding1, aanduiding2, soortVerbintenis, datum) {
     gegevenDePersonenZijnGehuwdOfGeregistreerdPartnerschap(this.context, aanduiding1, aanduiding2,
          datum, '0518', '6030', soortVerbintenis);
 });

@@ -182,7 +182,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P2    | R            |         0 |       0 |         000000012 | P1             |                    |         |                     |                      |                         |     2 jaar geleden |                0518 |                   6030 | H                 |
 
     @integratie
-    Scenario: personen zijn gehuwd, gescheiden en opnieuw gehuwd
+    Scenario: personen zijn gehuwd, gescheiden en daarna gehuwd met een ander
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       En de persoon 'P2' met burgerservicenummer '000000024'
       En de persoon 'P3' met burgerservicenummer '000000036'
@@ -224,6 +224,33 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
         | P4    | P            |         0 |       0 |         000000048 | P4             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
         | P4    | R            |         0 |       0 |         000000012 | P1             |                    |         |      5 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
+
+    @integratie
+    Scenario: personen zijn gehuwd, gescheiden en opnieuw gehuwd
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En 'P1' en 'P2' zijn 10 jaar geleden gehuwd
+      En 'P1' en 'P2' zijn 7 jaar geleden gescheiden
+      En 'P1' en 'P2' zijn 5 jaar geleden opnieuw gehuwd
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P1    | R            |         0 |       1 |         000000024 | P2             |                    |         |     10 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
+        | P1    | R            |         0 |       0 |         000000024 | P2             |                    |         |                     |                      |                         |     7 jaar geleden |                0518 |                   6030 | H                 |
+        | P1    | R            |         1 |       0 |         000000024 | P2             |                    |         |      5 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P2    | R            |         0 |       1 |         000000012 | P1             |                    |         |     10 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
+        | P2    | R            |         0 |       0 |         000000012 | P1             |                    |         |                     |                      |                         |     7 jaar geleden |                0518 |                   6030 | H                 |
+        | P2    | R            |         1 |       0 |         000000012 | P1             |                    |         |      5 jaar geleden |                 0518 |                    6030 |                    |                     |                        | H                 |
 
     Abstract Scenario: het geregistreerd partnerschap van '{naam1} en {naam2}' is {relatieve datum} ontbonden
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
