@@ -127,34 +127,28 @@ function gegevenDePersonenZijnGescheiden(context, aanduiding1, aanduiding2, data
     );
 }
 
-Given(/^'(.*)' en '(.*)' zijn gescheiden$/, function (aanduiding1, aanduiding2) {
-    const datumScheiding = 'gisteren - 1 jaar';
+Given('{aanduiding} en {aanduiding} zijn gescheiden', function (aanduiding1, aanduiding2) {
+    gegevenGescheidenOpDatum(aanduiding1, aanduiding2, 'gisteren - 1 jaar')
+});
+
+Given('{aanduiding} en {aanduiding} zijn (op ){dd-mm-yyyy datum} gescheiden', gegevenGescheidenOpDatum);
+Given('{aanduiding} en {aanduiding} zijn (op ){dd maand yyyy datum} gescheiden', gegevenGescheidenOpDatum);
+Given('{aanduiding} en {aanduiding} zijn {vandaag, gisteren of morgen x jaar geleden} gescheiden', gegevenGescheidenOpDatum);
+Given('{aanduiding} en {aanduiding} zijn {vandaag, gisteren of morgen - x jaar} gescheiden', gegevenGescheidenOpDatum);
+
+function gegevenGescheidenOpDatum(aanduidingPartner1, aanduidingPartner2, datum) {
     const plaatsScheiding = '0518';
     const landScheiding = '6030';
 
     const scheidingData = arrayOfArraysToDataTable([
-        ['datum ontbinding huwelijk/geregistreerd partnerschap (07.10)', datumScheiding],
+        ['datum ontbinding huwelijk/geregistreerd partnerschap (07.10)', datum],
         ['plaats ontbinding huwelijk/geregistreerd partnerschap (07.20)', plaatsScheiding],
         ['land ontbinding huwelijk/geregistreerd partnerschap (07.30)', landScheiding],
         ['soort verbintenis (15.10)', VerbintenisSoort.Huwelijk]
-    ])
+    ]);
 
-    gegevenDePersonenZijnGescheiden(this.context, aanduiding1, aanduiding2, scheidingData);
-});
-
-Given(/^'(.*)' en '(.*)' zijn (.*) gescheiden$/, function (aanduiding1, aanduiding2, relatieveDatum) {
-    const plaatsScheiding = '0518';
-    const landScheiding = '6030';
-
-    const scheidingData = arrayOfArraysToDataTable([
-        ['datum ontbinding huwelijk/geregistreerd partnerschap (07.10)', relatieveDatum],
-        ['plaats ontbinding huwelijk/geregistreerd partnerschap (07.20)', plaatsScheiding],
-        ['land ontbinding huwelijk/geregistreerd partnerschap (07.30)', landScheiding],
-        ['soort verbintenis (15.10)', VerbintenisSoort.Huwelijk]
-    ])
-
-    gegevenDePersonenZijnGescheiden(this.context, aanduiding1, aanduiding2, scheidingData);
-});
+    gegevenDePersonenZijnGescheiden(this.context, aanduidingPartner1, aanduidingPartner2, scheidingData);
+}
 
 Given(/^'(.*)' en '(.*)' zijn gescheiden met de volgende gegevens$/, function (aanduiding1, aanduiding2, dataTable) {
     gegevenDePersonenZijnGescheiden(this.context, aanduiding1, aanduiding2, dataTable);

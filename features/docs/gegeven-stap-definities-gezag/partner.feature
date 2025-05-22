@@ -124,6 +124,29 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         |    2 jaar geleden |
         | gisteren - 5 jaar |
 
+    Scenario: '{naam1}' en '{naam2}' zijn op {dd-mm-yyyy datum} gescheiden
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En 'P1' en 'P2' zijn met elkaar gehuwd
+      En 'P1' en 'P2' zijn 3-7-2023 gescheiden
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P1    |          0 |
+      En heeft persoon 'P1' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P1    | P            |         0 |       0 |         000000012 | P1             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P1    | R            |         0 |       1 |         000000024 | P2             |                    |         | gisteren - 20 jaar  |                 0518 |                    6030 |                    |                     |                        | H                 |
+        | P1    | R            |         0 |       0 |         000000024 | P2             |                    |         |                     |                      |                         |           20230703 |                0518 |                   6030 | H                 |
+      En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl'
+        | pl_id | geheim_ind |
+        | P2    |          0 |
+      En heeft persoon 'P2' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | geboorte_land_code | akte_nr | relatie_start_datum | relatie_start_plaats | relatie_start_land_code | relatie_eind_datum | relatie_eind_plaats | relatie_eind_land_code | verbintenis_soort |
+        | P2    | P            |         0 |       0 |         000000024 | P2             |               6030 | 1AA0100 |                     |                      |                         |                    |                     |                        |                   |
+        | P2    | R            |         0 |       1 |         000000012 | P1             |                    |         | gisteren - 20 jaar  |                 0518 |                    6030 |                    |                     |                        | H                 |
+        | P2    | R            |         0 |       0 |         000000012 | P1             |                    |         |                     |                      |                         |           20230703 |                0518 |                   6030 | H                 |
+
     @integratie
     Abstract Scenario: volgende relatie: '{naam1}' en '{naam2}' zijn {relatievedatum} gehuwd
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
