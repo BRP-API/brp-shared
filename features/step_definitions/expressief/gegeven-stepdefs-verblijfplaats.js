@@ -241,3 +241,7 @@ module.exports = {
     gegevenDePersoonIsIngeschrevenInGemeente,
     gegevenDePersoonIsIngeschrevenInDeBrp
 }
+
+Given('is ingeschreven met een tijdelijke verblijfplaats in Nederland', function () {
+    // Later desgewenst invullen, wanneer we iets doen met tijdelijke verblijfplaats
+});
