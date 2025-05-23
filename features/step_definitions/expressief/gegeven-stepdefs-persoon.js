@@ -120,7 +120,7 @@ Given('de persoon {aanduiding}', function (aanduiding) {
 function gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn(geboortedatum, persoonAanduiding) {
     gegevenDePersoon(this.context, persoonAanduiding, genereerBurgerservicenummer(this.context), geboortedatum, '6030', undefined, undefined);
 
-    verblijfplaats = [
+    const verblijfplaats = [
         ['gemeente van inschrijving (09.10)', '0518']
     ]
     createVerblijfplaats(getPersoon(this.context, persoonAanduiding), arrayOfArraysToDataTable(verblijfplaats))

@@ -283,3 +283,4 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | de op 21-01-2021 geboren inwoner 'P1'          |           20210121 |
       | de op een onbekende datum geboren inwoner 'P1' |           00000000 |
       | de minderjarige inwoner 'P1'                   | gisteren - 17 jaar |
+      | de meerderjarige inwoner 'P1'                  | gisteren - 45 jaar |
