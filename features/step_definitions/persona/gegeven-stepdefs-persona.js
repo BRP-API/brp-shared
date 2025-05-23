@@ -213,6 +213,24 @@ Given('de minderjarige persoon {string} die nooit ingezetene is geweest', functi
   );
 });
 
+function minderjarigeVondeling(geboortedatum, aanduidingPersoon) {
+  gegevenDePersoon(this.context, '.', undefined, undefined, undefined, undefined);
+  
+  gegevenDePersoon(this.context, aanduidingPersoon, persoonBurgerservicenummer, geboortedatum, '6030', 'M');
+  gegevenDePersoonIsIngeschrevenInDeBrp(this.context, aanduidingPersoon);
+  gegevenDePersoonHeeftAlsOuders(this.context, aanduidingPersoon, '.', undefined);
+
+  // zet context naar de minderjarige persoon
+  wijzigPersoonContext(this.context, aanduidingPersoon);
+}
+
+// dit is een in Nederland geboren minderjarige die als vondeling geboren is: één onbekende ouder
+Given('de {meer- of minderjarige} persoon {aanduiding} die als vondeling geboren is', minderjarigeVondeling)
+Given('de {vandaag, gisteren of morgen x jaar geleden} geboren persoon {aanduiding} die als vondeling geboren is', minderjarigeVondeling)
+Given('de (op ){dd maand yyyy datum} geboren persoon {aanduiding} die als vondeling geboren is', minderjarigeVondeling)
+Given('de (op ){dd-mm-yyyy datum} geboren persoon {aanduiding} die als vondeling geboren is', minderjarigeVondeling)
+Given('de {onbekende datum} geboren persoon {aanduiding} die als vondeling geboren is', minderjarigeVondeling)
+
 // dit is een in Nederland geboren en ingezeten meerderjarige zonder kinderen
 Given('de meerderjarige persoon {string}', function (aanduidingPersoon) {
   gegevenDePersoon(this.context, aanduidingPersoon, partnerBurgerservicenummer, geboortedatumMeerderjarige, defaultLandCode, 'M');

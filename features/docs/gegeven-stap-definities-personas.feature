@@ -287,6 +287,31 @@ Functionaliteit: persona stap definities
       | pl_id | volg_nr | inschrijving_gemeente_code | rni_deelnemer |
       | Jan   |       0 |                       1999 |           201 |
 
+  Scenario: de {datum omschrijving} persoon {kind} die als vondeling geboren is
+    Gegeven de <leeftijd omschrijving> persoon 'Jan' die als vondeling geboren is
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind |
+      | Jan   |          0 |
+    En heeft persoon 'Petra' de volgende rijen in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | familie_betrek_start_datum | akte_nr |
+      | Jan   |         0 |       0 | P            |         000000103 | Jan            | <geboortedatum> |               6030 |                            | 1_A____ |
+      | Jan   |         0 |       0 |            1 |                   | .              |                 |                    | <geboortedatum>            | 1_A____ |
+      | Jan   |         0 |       0 |            2 |                   |                |                 |                    |                            | 1_A____ |
+    En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | volg_nr | inschrijving_gemeente_code |
+      | Jan   |       0 |                       0518 |
+
+    Voorbeelden:
+      | leeftijd omschrijving          | geboortedatum      |
+      | minderjarige                   | gisteren - 17 jaar |
+      | meerderjarige                  | gisteren - 45 jaar |
+      |         7 jaar geleden geboren |     7 jaar geleden |
+      |             03-11-2024 geboren |           20241103 |
+      | op 03-11-2024 geboren          |           20241103 |
+      | op 3 november 2024 geboren     |           20241103 |
+      | op een onbekende datum geboren |           00000000 |
+
   Scenario: de meerderjarige persoon {persoon}
     Gegeven de meerderjarige persoon 'Jan'
     Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
