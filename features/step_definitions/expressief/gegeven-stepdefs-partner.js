@@ -128,7 +128,7 @@ function gegevenDePersonenZijnGescheiden(context, aanduiding1, aanduiding2, data
 }
 
 Given('{aanduiding} en {aanduiding} zijn gescheiden', function (aanduiding1, aanduiding2) {
-    gegevenGescheidenOpDatum(aanduiding1, aanduiding2, 'gisteren - 1 jaar')
+    gegevenGescheidenOpDatum.call(this, aanduiding1, aanduiding2, 'gisteren - 1 jaar')
 });
 
 Given('{aanduiding} en {aanduiding} zijn (op ){dd-mm-yyyy datum} gescheiden', gegevenGescheidenOpDatum);
