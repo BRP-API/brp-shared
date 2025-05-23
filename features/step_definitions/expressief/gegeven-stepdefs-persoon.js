@@ -1,6 +1,6 @@
 const { Given } = require('@cucumber/cucumber');
 const { arrayOfArraysToDataTable } = require('../dataTableFactory');
-const { createPersoon, aanvullenPersoon } = require('../persoon-2');
+const { createPersoon, aanvullenPersoon, createVerblijfplaats } = require('../persoon-2');
 const { getPersoon } = require('../contextHelpers');
 const { selectFirstOrDefault } = require('../postgresqlHelpers-2');
 const { genereerAktenummer, AkteTypes, genereerBurgerservicenummer } = require('../generators');
@@ -116,6 +116,21 @@ Given('de {meer- of minderjarige} {geslachtsaanduiding}( ){string}', gegevenDeOp
 Given('de persoon {aanduiding}', function (aanduiding) {
     gegevenDePersoon(this.context, aanduiding, genereerBurgerservicenummer(this.context), undefined, undefined, undefined, undefined);
 });
+
+function gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn(geboortedatum, persoonAanduiding) {
+    gegevenDePersoon(this.context, persoonAanduiding, genereerBurgerservicenummer(this.context), geboortedatum, '6030', undefined, undefined);
+
+    verblijfplaats = [
+        ['gemeente van inschrijving (09.10)', '0518']
+    ]
+    createVerblijfplaats(getPersoon(this.context, persoonAanduiding), arrayOfArraysToDataTable(verblijfplaats))
+}
+
+Given('de {vandaag, gisteren of morgen x jaar geleden} geboren inwoner {string}', gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn);
+Given('de {dd maand yyyy datum} geboren inwoner {string}', gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn);
+Given('de {onbekende datum} geboren inwoner {string}', gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn);
+Given('de {dd-mm-yyyy datum} geboren inwoner {string}', gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn);
+Given('de {meer- of minderjarige} inwoner {string}', gegevenDeOpDatumInNederlandGeborenEnVerblijvendePersoonMetGegenereerdeBsn);
 
 module.exports = {
     gegevenDePersoon

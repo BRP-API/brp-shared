@@ -260,3 +260,26 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | stap | categorie    | text                                                                                                             | values               |
       |    1 | inschrijving | INSERT INTO public.lo3_pl(pl_id,mutatie_dt,geheim_ind) VALUES(9999,current_timestamp,$1) RETURNING *             |                    0 |
       |      | persoon      | INSERT INTO public.lo3_pl_persoon(pl_id,stapel_nr,volg_nr,persoon_type,burger_service_nr) VALUES($1,$2,$3,$4,$5) | 9999,0,0,P,000000012 |
+
+  @integratie
+  Scenario: de {datum}( geboren) inwoner {aanduiding}
+    Gegeven <persoon beschrijving>
+    Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+    Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
+      | pl_id | geheim_ind |
+      | P1    |          0 |
+    En heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_persoon'
+      | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | akte_nr |
+      | P1    |         0 |       0 | P            |         000000012 | P1             | <geboortedatum> |               6030 | 1_A____ |
+    En heeft persoon 'P1' de volgende rij in tabel 'lo3_pl_verblijfplaats'
+      | pl_id | volg_nr | inschrijving_gemeente_code |
+      | P1    |       0 |                       0518 |
+
+    Voorbeelden:
+      | persoon beschrijving                           | geboortedatum      |
+      | de vandaag 5 jaar geleden geboren inwoner 'P1' | vandaag - 5 jaar   |
+      | de 5 jaar geleden geboren inwoner 'P1'         | vandaag - 5 jaar   |
+      | de op 21 januari 2021 geboren inwoner 'P1'     |           20210121 |
+      | de op 21-01-2021 geboren inwoner 'P1'          |           20210121 |
+      | de op een onbekende datum geboren inwoner 'P1' |           00000000 |
+      | de minderjarige inwoner 'P1'                   | gisteren - 17 jaar |
