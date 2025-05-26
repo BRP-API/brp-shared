@@ -8,7 +8,8 @@ const { getPersoon,
 const { arrayOfArraysToDataTable, objectToDataTable } = require('../dataTableFactory');
 const { toBRPDate } = require('../brpDatum');
 const { toDbColumnName } = require('../brp');
-const { genereerAktenummer } = require('../generators');
+const { genereerAktenummer, genereerBurgerservicenummer } = require('../generators');
+const { gegevenDePersoon } = require('../expressief/gegeven-stepdefs-persoon');
 
 const ErkenningsType = {
     Geboorte: 'A',
@@ -166,10 +167,10 @@ function gegevenDePersoonIsErkend(context, persoonAanduiding, ouderAanduiding, e
         return;
     }
 
-    const ouder = getPersoon(context, ouderAanduiding);
+    let ouder = getPersoon(context, ouderAanduiding);
     if (!ouder) {
-        global.logger.error(`ouder ${ouderAanduiding} niet gevonden`);
-        return;
+        gegevenDePersoon(context, ouderAanduiding, genereerBurgerservicenummer(context), 'gisteren - 45 jaar', '6030', 'M');
+        ouder = getPersoon(context, ouderAanduiding);
     }
 
     const datum = erkenningsType == ErkenningsType.ErkenningBijGeboorteaangifte ? getGeboortedatum(kind) : datumErkenning;
