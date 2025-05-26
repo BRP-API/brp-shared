@@ -10,13 +10,13 @@ Functionaliteit: persona stap definities
       | Jan   |          0 |
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | akte_nr |
-      | Jan   |         0 |       0 | P            |         000000103 | Jan            | <geboortedatum> |               6030 | 1_B____ |
+      | Jan   |         0 |       0 | P            |         000000103 | Jan            | <geboortedatum> |               6030 | 1_A____ |
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | familie_betrek_start_datum | burger_service_nr | geslachts_naam | geboorte_datum   | geslachts_aand | akte_nr |
       | Jan   |         0 |       0 |            1 | <geboortedatum>            |         000000101 | Petra          | morgen - 37 jaar | V              | 1_A____ |
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | familie_betrek_start_datum | burger_service_nr | geslachts_naam | geboorte_datum   | geslachts_aand | akte_nr |
-      | Jan   |         0 |       0 |            2 | <geboortedatum>            |         000000102 | Piet           | morgen - 37 jaar | M              | 1_B____ |
+      | Jan   |         0 |       0 |            2 | <geboortedatum>            |         000000102 | Piet           | morgen - 37 jaar | M              | 1_A____ |
     En heeft persoon 'Jan' de volgende rij in tabel 'lo3_pl_verblijfplaats'
       | pl_id | volg_nr | inschrijving_gemeente_code |
       | Jan   |       0 |                       0518 |
@@ -37,7 +37,7 @@ Functionaliteit: persona stap definities
       | Piet  |         0 |       0 | P            |         000000102 | Piet           | morgen - 37 jaar | M              | 1_A____ |
     En heeft persoon 'Piet' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam | geboorte_datum  | geboorte_land_code | akte_nr |
-      | Piet  |         0 |       0 | K            |         000000103 | Jan            | <geboortedatum> |               6030 | 1_B____ |
+      | Piet  |         0 |       0 | K            |         000000103 | Jan            | <geboortedatum> |               6030 | 1_A____ |
 
     Voorbeelden:
       | leeftijd omschrijving          | geboortedatum      |

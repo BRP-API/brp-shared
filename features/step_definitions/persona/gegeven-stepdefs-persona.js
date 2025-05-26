@@ -50,14 +50,13 @@ function minderjarigePersoonMetOngehuwdeOuders(geboortedatum, aanduidingPersoon,
 
   gegevenDePersoon(this.context, aanduidingPersoon, persoonBurgerservicenummer, geboortedatum, defaultLandCode, 'M');
   gegevenDePersoonIsIngeschrevenInDeBrp(this.context, aanduidingPersoon);
-  gegevenDePersoonHeeftAlsOuders(this.context, aanduidingPersoon, aanduidingOuder1, undefined);
-  gegevenDePersoonIsBijGeboorteaangifteErkendDoor(this.context, aanduidingPersoon, aanduidingOuder2);
+  gegevenDePersoonHeeftAlsOuders(this.context, aanduidingPersoon, aanduidingOuder1, aanduidingOuder2);
 
   // zet context naar de minderjarige persoon
   wijzigPersoonContext(this.context, aanduidingPersoon);
 }
 
-// dit is een in Nederland geboren minderjarige met een moeder en een vader die nooit met elkaar gehuwd waren
+// dit is een in Nederland geboren minderjarige met een moeder en een vader die nooit met elkaar gehuwd waren, minderjarige is als ongeboren vrucht erkend
 Given('de {meer- of minderjarige} persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', minderjarigePersoonMetOngehuwdeOuders);
 Given('de {vandaag, gisteren of morgen x jaar geleden} geboren persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', minderjarigePersoonMetOngehuwdeOuders);
 Given('de (op ){dd maand yyyy datum} geboren persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', minderjarigePersoonMetOngehuwdeOuders);
