@@ -63,19 +63,25 @@ Given('de (op ){dd maand yyyy datum} geboren persoon {string} met twee ouders {s
 Given('de (op ){dd-mm-yyyy datum} geboren persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', minderjarigePersoonMetOngehuwdeOuders);
 Given('de {onbekende datum} geboren persoon {string} met twee ouders {string} en {string} die ten tijde van de geboorte van de minderjarige niet met elkaar gehuwd waren', minderjarigePersoonMetOngehuwdeOuders);
 
-// dit is een in Nederland geboren minderjarige met een moeder en een vader die met elkaar gehuwd zijn
-Given('de minderjarige persoon {string} met twee gehuwde ouders {string} en {string}', function (aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
+function minderjarigePersoonMetGehuwdeOuders(geboortedatum, aanduidingPersoon, aanduidingOuder1, aanduidingOuder2) {
   gegevenDePersoon(this.context, aanduidingOuder1, ouder1Burgerservicenummer, geboortedatumMeerderjarige, defaultLandCode, 'V');
   gegevenDePersoon(this.context, aanduidingOuder2, ouder2Burgerservicenummer, geboortedatumMeerderjarige, defaultLandCode, 'M');
   gegevenDePersonenZijnInNederlandGehuwd(this.context, aanduidingOuder1, aanduidingOuder2);
 
-  gegevenDePersoon(this.context, aanduidingPersoon, persoonBurgerservicenummer, geboortedatumMinderjarige, defaultLandCode, 'M');
+  gegevenDePersoon(this.context, aanduidingPersoon, persoonBurgerservicenummer, geboortedatum, defaultLandCode, 'M');
   gegevenDePersoonIsIngeschrevenInDeBrp(this.context, aanduidingPersoon);
   gegevenDePersoonHeeftAlsOuders(this.context, aanduidingPersoon, aanduidingOuder1, aanduidingOuder2);
 
   // zet context naar de minderjarige persoon
   wijzigPersoonContext(this.context, aanduidingPersoon);
-});
+}
+
+// dit is een in Nederland geboren minderjarige met een moeder en een vader die met elkaar gehuwd zijn
+Given('de {meer- of minderjarige} persoon {string} met twee gehuwde ouders {string} en {string}', minderjarigePersoonMetGehuwdeOuders);
+Given('de {vandaag, gisteren of morgen x jaar geleden} geboren persoon {string} met twee gehuwde ouders {string} en {string}', minderjarigePersoonMetGehuwdeOuders);
+Given('de (op ){dd maand yyyy datum} geboren persoon {string} met twee gehuwde ouders {string} en {string}', minderjarigePersoonMetGehuwdeOuders);
+Given('de (op ){dd-mm-yyyy datum} geboren persoon {string} met twee gehuwde ouders {string} en {string}', minderjarigePersoonMetGehuwdeOuders);
+Given('de {onbekende datum} geboren persoon {string} met twee gehuwde ouders {string} en {string}', minderjarigePersoonMetGehuwdeOuders);
 
 function minderjarigePersoonMetEenOuder(geboortedatum, aanduidingPersoon, aanduidingOuder1) {
   gegevenDePersoon(this.context, aanduidingOuder1, ouder1Burgerservicenummer, geboortedatumMeerderjarige, defaultLandCode, 'V');
