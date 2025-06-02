@@ -198,15 +198,15 @@ function initExpected(context, type, aanduidingMinderjarige, aanduidingMeerderja
     }
 }
 
-Then(/^is het gezag over '([a-zA-Z0-9À-ž-]*)' (eenhoofdig ouderlijk gezag|gezamenlijk gezag) met ouder '([a-zA-Z0-9À-ž-]*)'(?: en een onbekende derde)?$/, function (aanduidingMinderjarige, type, aanduidingOuder) {
+Then(/^(?:is )?het gezag over '([a-zA-Z0-9À-ž-]*)' (?:is )?(eenhoofdig ouderlijk gezag|gezamenlijk gezag) met ouder '([a-zA-Z0-9À-ž-]*)'(?: en een onbekende derde)?$/, function (aanduidingMinderjarige, type, aanduidingOuder) {
     initExpected(this.context, type, aanduidingMinderjarige, aanduidingOuder);
 });
 
-Then(/^is het gezag over '([a-zA-Z0-9À-ž-]*)' (gezamenlijk gezag|gezamenlijk ouderlijk gezag) met ouder '([a-zA-Z0-9À-ž-]*)' en (?:ouder|derde) '([a-zA-Z0-9À-ž-]*)'$/, function (aanduidingMinderjarige, type, aanduidingMeerderjarige1, aanduidingMeerderjarige2) {
+Then(/^(?:is )?het gezag over '([a-zA-Z0-9À-ž-]*)' (?:is )?(gezamenlijk gezag|gezamenlijk ouderlijk gezag) met ouder '([a-zA-Z0-9À-ž-]*)' en (?:ouder|derde) '([a-zA-Z0-9À-ž-]*)'$/, function (aanduidingMinderjarige, type, aanduidingMeerderjarige1, aanduidingMeerderjarige2) {
     initExpected(this.context, type, aanduidingMinderjarige, aanduidingMeerderjarige1, aanduidingMeerderjarige2);
 });
        
-Then(/^is het gezag over '([a-zA-Z0-9À-ž-]*)' voogdij(?: met derde '([a-zA-Z0-9À-ž-]*)')?$/, function (aanduidingMinderjarige, aanduidingMeerderjarige) {
+Then(/^(?:is )?het gezag over '([a-zA-Z0-9À-ž-]*)' (?:is )?voogdij(?: met derde '([a-zA-Z0-9À-ž-]*)')?$/, function (aanduidingMinderjarige, aanduidingMeerderjarige) {
     initExpected(this.context, 'voogdij', aanduidingMinderjarige, aanduidingMeerderjarige);
 });
 
@@ -248,4 +248,22 @@ Then('heeft {aanduiding} geen gezaghouder', function (aanduidingMinderjarige) {
 
 Then('is het gezag in onderzoek', function () {
     this.context.expected.personen.at(-1).gezag.at(-1).inOnderzoek = "true";
+});
+
+Then('heeft {aanduiding} de volgende gezagsrelaties', function (aanduiding) {
+    this.context.verifyResponse = true;
+
+    if(!this.context.expected) {
+        this.context.expected = {
+            personen: []
+        };
+    }
+
+    let persoon = {
+        gezag: []
+    }
+    if(this.context.isGezagApiAanroep) {
+        persoon.burgerservicenummer = getBsn(getPersoon(this.context, aanduiding));
+    }
+    this.context.expected.personen.push(persoon);
 });

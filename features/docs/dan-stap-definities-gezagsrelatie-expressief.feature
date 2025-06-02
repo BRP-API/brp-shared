@@ -665,7 +665,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | Bert  |           000000036 | minderjarige |
 
     @deprecated @gezag-api
-    Scenario: meerdere gezagsrelaties van één persoon
+    Abstract Scenario: meerdere gezagsrelaties van één persoon
       Gegeven de persoon 'Ernie' met burgerservicenummer '000000048'
       En de persoon 'Ieniemienie' met burgerservicenummer '000000061'
       En de persoon 'Pino' met burgerservicenummer '000000073'
@@ -764,7 +764,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | Aart  |           000000024 |
 
     @info-api
-    Scenario: meerdere gezagsrelaties van één persoon
+    Abstract Scenario: meerdere gezagsrelaties van één persoon
       Gegeven de persoon 'Ernie' heeft de volgende gegevens
         | burgerservicenummer (01.20) | geslachtsnaam (02.40) | geboortedatum (03.10) |
         |                   000000048 | Ernie                 | gisteren - 3 jaar     |
@@ -1092,7 +1092,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         {
           "personen": [
             {
-              "burgerservicenummer": "<burgerservicenummer>",
+              "burgerservicenummer": "000000048",
               "gezag": [
                 {
                   "type": "TweehoofdigOuderlijkGezag",
@@ -1123,7 +1123,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
           ]
         }
         """
-      Dan heeft '<naam>' de volgende gezagsrelaties
+      Dan heeft 'Ernie' de volgende gezagsrelaties
       * het gezag over 'Bert' is gezamenlijk ouderlijk gezag met ouder 'Gerda' en ouder 'Aart'
       En is het gezag in onderzoek
       * het gezag over 'Ernie' is eenhoofdig ouderlijk gezag met ouder 'Gerda'
