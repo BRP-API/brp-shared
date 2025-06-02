@@ -7,6 +7,7 @@ const { createCollectieObjectMetSubCollectieObject,
         createSubSubCollectieObjectenInLastSubCollectieObjectInLastCollectieObject } = require('./dataTable2ObjectFactory');
 const { setObjectPropertiesFrom } = require('./dataTable2Object');
 const { getBsn,
+        getGeslachtsaanduiding,
         getGeslachtsnaam,
         getVoornamen,
         getGeboortedatum,
@@ -65,6 +66,25 @@ function setProperty(obj, key, value) {
     }
 }
 
+function setGezagRelatieProperties(persoon, retval, isMinderjarige) {
+    retval.naam = {};
+
+    setProperty(retval.naam, 'voornamen', getVoornamen(persoon));
+    setProperty(retval.naam, 'geslachtsnaam', getGeslachtsnaam(persoon));
+    const geslachtsaanduiding = getGeslachtsaanduiding(persoon);
+    if(geslachtsaanduiding) {
+        retval.geslacht = {};
+
+        setProperty(retval.geslacht, 'code', geslachtsaanduiding);
+    }
+
+    if(isMinderjarige) {
+        retval.geboorte = {};
+
+        setProperty(retval.geboorte, 'datum', getGeboortedatum(persoon));
+    }
+}
+
 function createGezagspersoon(context, aanduiding, isMinderjarige = false) {
     const persoon = getPersoon(context, aanduiding);
 
@@ -83,29 +103,11 @@ function createGezagspersoon(context, aanduiding, isMinderjarige = false) {
         }
     }
     if((context.isAllApiScenario || context.isDataApiScenario) && context.isDataApiAanroep) {
-        retval.naam = {};
-
-        setProperty(retval.naam, 'voornamen', getVoornamen(persoon));
-        setProperty(retval.naam, 'geslachtsnaam', getGeslachtsnaam(persoon));
-
-        if(isMinderjarige) {
-            retval.geboorte = {};
-
-            setProperty(retval.geboorte, 'datum', getGeboortedatum(persoon));
-        }
+        setGezagRelatieProperties(persoon, retval, isMinderjarige);
     }
     if((context.isAllApiScenario || context.isGezagApiScenario) && context.isGezagApiAanroep) {
         if(!context.isDeprecatedScenario) {
-            retval.naam = {};
-
-            setProperty(retval.naam, 'voornamen', getVoornamen(persoon));
-            setProperty(retval.naam, 'geslachtsnaam', getGeslachtsnaam(persoon));
-
-            if(isMinderjarige) {
-                retval.geboorte = {};
-
-                setProperty(retval.geboorte, 'datum', getGeboortedatum(persoon));
-            }
+            setGezagRelatieProperties(persoon, retval, isMinderjarige);
         }
     }
 

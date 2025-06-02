@@ -7,11 +7,11 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
     Gegeven de persoon 'Gerda' met burgerservicenummer '000000012'
     En de persoon 'Aart' met burgerservicenummer '000000024'
     En de persoon 'Bert' heeft de volgende gegevens
-      | burgerservicenummer (01.20) | geslachtsnaam (02.40) | geboortedatum (03.10) |
-      |                   000000036 | Jansen                | gisteren - 2 jaar     |
+      | burgerservicenummer (01.20) | geslachtsnaam (02.40) | geboortedatum (03.10) | geslachtsaanduiding (04.10) |
+      |                   000000036 | Jansen                | gisteren - 2 jaar     | M                           |
     En de persoon 'Jeanette' heeft de volgende gegevens
-      | voornamen (02.10) | geslachtsnaam (02.40) |
-      | Jeanette          | Sanders               |
+      | voornamen (02.10) | geslachtsnaam (02.40) | geslachtsaanduiding (04.10) |
+      | Jeanette          | Sanders               | V                           |
 
   Regel: Dan is het gezag over '{aanduiding minderjarige}' gezamenlijk ouderlijk gezag met ouder '{aanduiding ouder}' en ouder '{aanduiding ouder}'
     De volgorde waarin ouders genoemd worden is willekeurig en niet relevant
@@ -73,6 +73,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "naam": {
                       "geslachtsnaam": "Jansen"
                     },
+                    "geslacht": {
+                      "code": "M"
+                    },
                     "geboorte": {
                       "datum": "20221201"
                     }
@@ -117,6 +120,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "burgerservicenummer": "000000036",
                     "naam": {
                       "geslachtsnaam": "Jansen"
+                    },
+                    "geslacht": {
+                      "code": "M"
                     },
                     "geboorte": {
                       "datum": "20221201"
@@ -231,6 +237,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "naam": {
                       "geslachtsnaam": "Jansen"
                     },
+                    "geslacht": {
+                      "code": "M"
+                    },
                     "geboorte": {
                       "datum": "20221201"
                     }
@@ -246,6 +255,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                       "naam": {
                         "voornamen": "Jeanette",
                         "geslachtsnaam": "Sanders"
+                      },
+                      "geslacht": {
+                        "code": "V"
                       }
                     }
                   ]
@@ -276,6 +288,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "naam": {
                       "geslachtsnaam": "Jansen"
                     },
+                    "geslacht": {
+                      "code": "M"
+                    },
                     "geboorte": {
                       "datum": "20221201"
                     }
@@ -291,6 +306,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                       "naam": {
                         "voornamen": "Jeanette",
                         "geslachtsnaam": "Sanders"
+                      },
+                      "geslacht": {
+                        "code": "V"
                       }
                     }
                   ]
@@ -977,6 +995,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "naam": {
                       "geslachtsnaam": "Jansen"
                     },
+                    "geslacht": {
+                      "code": "M"
+                    },
                     "geboorte": {
                       "datum": "20221201"
                     }
@@ -1023,6 +1044,9 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
                     "burgerservicenummer": "000000036",
                     "naam": {
                       "geslachtsnaam": "Jansen"
+                    },
+                    "geslacht": {
+                      "code": "M"
                     },
                     "geboorte": {
                       "datum": "20221201"
