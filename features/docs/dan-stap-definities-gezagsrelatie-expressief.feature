@@ -588,7 +588,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         """
       Dan heeft 'Bert' geen gezaghouder
 
-  Regel: Dan heeft '{aanduidingMinderjarige}' geen gezag
+  Regel: Dan heeft '{aanduidingMeerderjarige}' geen gezag
 
     @info-api @data-api
     Scenario: gevraagde persoon heeft geen gezagsrelaties
