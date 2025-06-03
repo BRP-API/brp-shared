@@ -228,7 +228,7 @@ Then(/^heeft de (minderjarige|ouder|derde) geen (\w*)$/, function (type, propert
     }
 });
 
-Then('heeft {aanduiding} geen gezaghouder', function (aanduidingMinderjarige) {
+Then('heeft {aanduiding} geen gezag(houder)', function (aanduidingMinderjarige) {
     this.context.verifyResponse = true;
 
     const expected = {
