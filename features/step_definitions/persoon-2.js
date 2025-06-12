@@ -386,7 +386,6 @@ module.exports = {
     createGezagsverhouding,
     wijzigGezagsverhouding,
     aanvullenGezagsverhouding,
-    wijzigGezagsverhouding,
     createVerblijfplaats,
     wijzigVerblijfplaats,
     createOverlijden,
