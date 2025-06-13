@@ -61,6 +61,7 @@ function uitspraakGezagEenOuderOpDatum(relatieveDatum, persoonAanduiding) {
 Given('{dd-mm-yyyy datum} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagEenOuderOpDatum);
 Given('{vandaag, gisteren of morgen x jaar geleden} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagEenOuderOpDatum);
 Given('{relatieve datum} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagEenOuderOpDatum);
+Given('met ingang geldigheid {over x jaar} is in een gerechtelijke uitspraak het gezag toegewezen aan {string}', uitspraakGezagEenOuderOpDatum);
 
 Given('in een gerechtelijke uitspraak is het gezag toegewezen aan {string} en een derde', function (persoonAanduiding) {
     createGerechtelijkeUitspraak(this.context, undefined, getIndicatieGezagVoorPersoonEnDerde(this.context, persoonAanduiding, true));

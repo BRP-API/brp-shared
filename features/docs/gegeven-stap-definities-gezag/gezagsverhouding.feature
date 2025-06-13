@@ -10,7 +10,7 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
       En de morgen 40 jaar geleden in 'Nederland' geboren 'P2' met burgerservicenummer '000000024'
       En de gisteren 17 jaar geleden in 'Nederland' geboren 'P3' met burgerservicenummer '000000036'
       * heeft 'P1' en 'P2' als ouders
-      En <relatieve datum> is in een gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende>
+      En <datum in stap> is in een gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende>
       Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
       Dan heeft persoon 'P1' de volgende rij in tabel 'lo3_pl'
         | pl_id | geheim_ind |
@@ -36,17 +36,20 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         | P3    |            2 |         0 |       0 |         000000024 | P2             |                    | 1_A____ | gisteren - 17 jaar         |
       En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_gezagsverhouding'
         | pl_id | volg_nr | minderjarig_gezag_ind | geldigheid_start_datum |
-        | P3    |       0 | <indicatie gezag>     | <relatieve datum>      |
+        | P3    |       0 | <indicatie gezag>     | <datum in database>    |
 
       Voorbeelden:
-        | relatieve datum   | gezaghebbende         | indicatie gezag | gezaghebbende in stapdefinitie |
-        |    6 jaar geleden | 'P1'                  |               1 | '{naam}'                       |
-        | vorige maand      | 'P2'                  |               2 | '{naam}'                       |
-        | gisteren - 5 jaar | een voogdijinstelling | D               | een voogdijinstelling          |
-        | gisteren - 4 jaar | een derde             | D               | een derde                      |
-        |    2 jaar geleden | beide ouders          |              12 | beide ouders                   |
-        |    2 jaar geleden | 'P1' en een derde     |              1D | '{naam}' en een derde          |
-        |    2 jaar geleden | 'P2' en een derde     |              2D | '{naam}' en een derde          |
+        | datum in stap                              | datum in database  | gezaghebbende         | indicatie gezag | gezaghebbende in stapdefinitie    |
+        |                             6 jaar geleden |     6 jaar geleden | 'P1'                  |               1 | '{naam}'                          |
+        | vorige maand                               | vorige maand       | 'P2'                  |               2 | '{naam}'                          |
+        | gisteren - 5 jaar                          | gisteren - 5 jaar  | een voogdijinstelling | D               | een voogdijinstelling             |
+        | gisteren - 4 jaar                          | gisteren - 4 jaar  | een derde             | D               | een derde                         |
+        | gisteren - 4 jaar                          | gisteren - 4 jaar  | een voogd             | D               | een voogd                         |
+        |                             2 jaar geleden |     2 jaar geleden | beide ouders          |              12 | beide ouders                      |
+        |                             2 jaar geleden |     2 jaar geleden | 'P1' en een derde     |              1D | '{naam}' en een derde             |
+        |                             2 jaar geleden |     2 jaar geleden | 'P2' en een derde     |              2D | '{naam}' en een derde             |
+        | met ingang geldigheid over 1 jaar          | vandaag - -1 jaar  | 'P1'                  |               1 | '{naam}' met datum in de toekomst |
+        | met ingang geldigheid gisteren over 1 jaar | gisteren - -1 jaar | 'P1'                  |               1 | '{naam}' met datum in de toekomst |
 
     @integratie
     Scenario: {relatievedatum} is in een nieuwe gerechtelijke uitspraak het gezag toegewezen aan <gezaghebbende in stapdefinitie>

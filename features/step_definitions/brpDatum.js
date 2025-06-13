@@ -6,7 +6,7 @@ const toDay = (dayText) => dayMapping[dayText] || 0;
 const toMonth = (monthText) => monthMapping[monthText] || 0;
 const toYear = (yearText) => yearMapping[yearText] || 0;
 
-const dagRegex = /^(?<dag>gisteren|vandaag|morgen)( - (?<jaarOffset>\d+) jaar)?$/;
+const dagRegex = /^(?<dag>gisteren|vandaag|morgen)( - (?<jaarOffset>-?\d+) jaar)?$/;
 const maandRegex = /^(?<maand>vorige maand|deze maand|volgende maand)( - (?<jaarOffset>\d+) jaar)?$/;
 const jaarRegex = /^(?<jaar>vorig jaar|dit jaar|volgend jaar)( - (?<jaarOffset>\d+) jaar)?$/;
 

@@ -108,6 +108,16 @@ defineParameterType({
 });
 
 defineParameterType({
+    name: 'over x jaar',
+    regexp: /(?:(gisteren|vandaag|morgen) )?over (\d{1,2}) jaar/,
+    transformer(dag, aantalJaren) {
+        return !dag
+            ? toDateOrString(`vandaag - -${aantalJaren} jaar`, false)
+            : toDateOrString(`${dag} - -${aantalJaren} jaar`, false);
+    }
+});
+
+defineParameterType({
     name: 'relatieve datum',
     regexp: /(gisteren|vandaag|morgen|deze maand|vorige maand|volgende maand)/
 });
