@@ -7,6 +7,10 @@ on:
       - .github/workflows/ci.yml
   workflow_dispatch:
 
+permissions:
+  contents: read
+  actions: write
+
 env:
   NODE_VERSION: '20'
 
