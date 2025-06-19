@@ -51,13 +51,6 @@ jobs:
         run: |
           ./scripts/containers-stop.sh ci
 
-      - name: Genereer test rapportage
+      - name: Genereer en upload test rapportage
         if: always()
-        run: |
-          node ./scripts/generate-cucumber-reports.js
-      - name: Upload test rapportage
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: Reports
-          path: test-reports
+        uses: ./.github/actions/genereer-en-upload-test-rapportage
