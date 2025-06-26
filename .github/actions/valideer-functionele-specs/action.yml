@@ -11,15 +11,10 @@ runs:
       run: ./scripts/specs-verify.sh
       shell: bash
 
-    - name: Genereer validatie summary
-      if: ${{ !cancelled() }}
-      run: |
-          node ./scripts/generate-step-summary.js
-      shell: bash
-
-    - name: Publiceer validatie summary in de worfklow job summary
+    - name: Genereer en publiceer validatie summary in de worfklow job summary
       if: ${{ !cancelled() }}
       run: |
           echo "### Cucumber Test Reports" >> $GITHUB_STEP_SUMMARY
+          node ./scripts/generate-step-summary.js
           cat ./test-reports/cucumber-js/step-summary.txt >> $GITHUB_STEP_SUMMARY
       shell: bash
