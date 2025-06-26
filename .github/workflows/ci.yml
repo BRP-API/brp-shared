@@ -3,8 +3,9 @@ name: continuous integration
 on:
   push:
     paths:
-      - features/**
-      - .github/workflows/ci.yml
+      - /features/**
+      - /.github/**
+      - /scripts/**
   workflow_dispatch:
 
 permissions:
