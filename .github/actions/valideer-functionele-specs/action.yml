@@ -11,14 +11,6 @@ runs:
       run: ./scripts/specs-verify.sh
       shell: bash
 
-    - name: Genereer en publiceer validatie summary in de worfklow job summary
-      if: ${{ !cancelled() }}
-      run: |
-          echo "### Cucumber Test Reports" >> $GITHUB_STEP_SUMMARY
-          node ./scripts/generate-step-summary.js
-          cat ./test-reports/cucumber-js/step-summary.txt >> $GITHUB_STEP_SUMMARY
-      shell: bash
-
     - name: Publiceer test rapportage
       if: ${{ !cancelled() }}
       uses: dorny/test-reporter@v2
@@ -27,5 +19,11 @@ runs:
         report-title: Cucumber Test Reports
         path: ./test-reports/cucumber-js/**/*.xml
         reporter: java-junit
-        only-summary: false
-        list-tests: failed
+        only-summary: true
+
+    - name: Genereer en publiceer validatie summary in de worfklow job summary
+      if: ${{ !cancelled() }}
+      run: |
+          node ./scripts/generate-step-summary.js
+          cat ./test-reports/cucumber-js/step-summary.txt >> $GITHUB_STEP_SUMMARY
+      shell: bash
