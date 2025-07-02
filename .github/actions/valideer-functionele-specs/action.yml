@@ -18,3 +18,12 @@ runs:
           node ./scripts/generate-step-summary.js
           cat ./test-reports/cucumber-js/step-summary.txt >> $GITHUB_STEP_SUMMARY
       shell: bash
+
+    - name: Publiceer test rapportage
+      if: ${{ !cancelled() }}
+      uses: dorny/test-reporter@v2
+      with:
+        name: Cucumber JS Test Reports
+        path: ./test-reports/**/*.xml
+        reporter: java-junit
+        only-summary: true
