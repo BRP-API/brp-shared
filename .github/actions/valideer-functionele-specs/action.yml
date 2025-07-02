@@ -23,7 +23,7 @@ runs:
         only-summary: true
 
     - name: Genereer en publiceer validatie summary in de worfklow job summary
-      if: ${{ failed() }}
+      if: ${{ failure() }}
       run: |
           node ./scripts/generate-step-summary.js
           cat ./test-reports/cucumber-js/step-summary.txt >> $GITHUB_STEP_SUMMARY
