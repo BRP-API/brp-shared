@@ -18,7 +18,7 @@ runs:
         name: Cucumber JS Test Reports
         report-title: Cucumber Test Reports
         path: ./test-reports/cucumber-js/**/*.xml
-        artifact: /.*//test-reports-(.*)/
+        artifact: /.*//test-result-(.*)/
         reporter: java-junit
         only-summary: true
 
