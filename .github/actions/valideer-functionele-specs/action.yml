@@ -24,6 +24,6 @@ runs:
       uses: dorny/test-reporter@v2
       with:
         name: Cucumber JS Test Reports
-        path: ./test-reports/**/*.xml
+        path: ./test-reports/cucumber-js/**/*.xml
         reporter: java-junit
         only-summary: true
