@@ -11,7 +11,7 @@ function processFile(inputPath, outputPath, caption) {
     }
 
     let finalOutput = `#### ${caption}\n`;
-    finalOutput += footerLines[0] + '\n' + footerLines[1] +'\n' + '\n';
+    finalOutput += footerLines[0] + '\n' + '\n';
 
     lines.forEach((line) => {
         const match = line.match(/^\d+\) Scenario: .*# (.+:\d+)/);
