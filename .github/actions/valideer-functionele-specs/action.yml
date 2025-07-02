@@ -27,4 +27,5 @@ runs:
         report-title: Cucumber Test Reports
         path: ./test-reports/cucumber-js/**/*.xml
         reporter: java-junit
-        only-summary: true
+        only-summary: false
+        list-tests: failed
