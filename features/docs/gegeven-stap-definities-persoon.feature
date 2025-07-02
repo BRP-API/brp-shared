@@ -22,7 +22,7 @@ Functionaliteit: Persoon, Inschrijving gegeven stap definities
       | P2    |          0 |
     En heeft persoon 'P2' de volgende rij in tabel 'lo3_pl_persoon'
       | pl_id | stapel_nr | volg_nr | persoon_type | burger_service_nr | geslachts_naam |
-      | P2    |         0 |       0 | P            |         000000024 | P2             |
+      | P2    |         0 |       0 | P            |         000000024 | P3             |
 
   @integratie
   Abstract Scenario: (de) persoon '[persoon aanduiding]' heeft de volgende gegevens
