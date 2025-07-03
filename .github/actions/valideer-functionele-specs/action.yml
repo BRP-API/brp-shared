@@ -15,8 +15,6 @@ runs:
       if: ${{ !cancelled() }}
       uses: dorny/test-reporter@v2
       with:
-        artifact: /test-result-(.*)/
-        name: $1
         report-title: Cucumber Test Reports
         path: ./test-reports/cucumber-js/**/*.xml
         reporter: java-junit
