@@ -15,13 +15,14 @@ runs:
       if: ${{ !cancelled() }}
       uses: dorny/test-reporter@v2
       with:
-        name: Cucumber JS Test Reports
+        artifact: /test-reports\/cucumber-js\/.*\/test-result-(.*)/
+        name: $1
         report-title: Cucumber Test Reports
         path: ./test-reports/cucumber-js/**/*.xml
         reporter: java-junit
         only-summary: true
 
-    - name: Genereer en publiceer validatie summary in de worfklow job summary
+    - name: Genereer en publiceer validatie summary in de worfklow job summary als er validatie fouten zijn
       if: ${{ failure() }}
       run: |
           node ./scripts/generate-step-summary.js
