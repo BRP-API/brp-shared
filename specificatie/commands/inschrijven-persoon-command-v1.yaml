@@ -1,0 +1,78 @@
+openapi: 3.1.0
+info: 
+  title: Inschrijven Persoon Command
+  version: 1.0.0
+components:
+  schemas:
+    InschrijvenPersoonCommand:
+      type: object
+      properties:
+        geslacht:
+          $ref: ../brp-api/query-parameters/geslacht-filter-v1.yaml#/components/schemas/GeslachtFilter
+        naam:
+          $ref: '#/components/schemas/Naam'
+        geboorte:
+          $ref: '#/components/schemas/Geboorte'
+        verblijfplaats:
+          $ref: '#/components/schemas/Verblijfplaats'
+    Naam:
+      type: object
+      properties:
+        voornamen:
+          $ref: '../brp/naam/voornamen-v1.yaml#/components/schemas/Voornamen'
+        voorvoegsel:
+          $ref: '../brp/naam/voorvoegsel-v1.yaml#/components/schemas/Voorvoegsel'
+        geslachtsnaam:
+          $ref: '../brp/naam/geslachtsnaam-v1.yaml#/components/schemas/Geslachtsnaam'
+        adellijkeTitelPredicaat:
+          type: string
+          pattern: ^(JV|JH)$
+    Geboorte:
+      type: object
+      properties:
+        datum:
+          $ref: '../brp/datum-v1.yaml#/components/schemas/GbaDatum'
+        plaats:
+          type: string
+        land:
+          type: string
+    Verblijfplaats:
+      type: object
+      required: 
+        -  type
+      properties:
+        type:
+          type: string
+        datumVan:
+          $ref: '../brp/datum-v1.yaml#/components/schemas/GbaDatum'
+      discriminator:
+        propertyName: type
+        mapping:
+          Adres: '#/components/schemas/Adres'
+          Locatie: '#/components/schemas/Locatie'
+    Adres:
+      allOf: 
+        - $ref: '#/components/schemas/Verblijfplaats'
+        - type: object
+          properties:
+            straat:
+              $ref: '../brp/adres/straatnaam-kort-v1.yaml#/components/schemas/KorteStraatnaam'
+            huisnummer:
+              $ref: '../brp/adres/huisnummer-v1.yaml#/components/schemas/Huisnummer'
+            huisletter:
+              $ref: '../brp/adres/huisletter-v1.yaml#/components/schemas/Huisletter'
+            huisnummertoevoeging:
+              $ref: '../brp/adres/huisnummertoevoeging-v1.yaml#/components/schemas/Huisnummertoevoeging'
+            aanduidingBijHuisnummer:
+              type: string
+            postcode:
+              $ref: '../brp/adres/postcode-v1.yaml#/components/schemas/Postcode'
+            woonplaats:
+              $ref: '../brp/adres/woonplaats-v1.yaml#/components/schemas/Woonplaats'
+    Locatie:
+      allOf: 
+        - $ref: '#/components/schemas/Verblijfplaats'
+        - type: object
+          properties:
+            locatiebeschrijving:
+              $ref: '../brp/locatie/locatiebeschrijving-v1.yaml#/components/schemas/Locatiebeschrijving'

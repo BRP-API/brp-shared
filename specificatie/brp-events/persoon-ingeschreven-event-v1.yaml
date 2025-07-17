@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Inschrijven Persoon Event
+  version: 1.0.0
+components: 
+  schemas:
+    PersoonIngeschreven:
+      allOf: 
+        - $ref: '../cloud-events/cloud-events-v1.0.2.json'
+        - type: object
+          properties:
+            data:
+              $ref: '#/components/schemas/IngeschrevenPersoon'
+    IngeschrevenPersoon:
+      type: object
+      properties:
+        burgerservicenummer:
+          $ref: '../brp/identificatienummers/burgerservicenummer-v1.yaml#/components/schemas/Burgerservicenummer'
+        geslacht:
+          $ref: ../brp/geslacht/geslachtsaanduiding-v1.yaml#/components/schemas/Geslachtsaanduiding
+        naam:
+          $ref: ../brp/naam/naam-v1.yaml#/components/schemas/GbaNaamPersoon
+        geboorte:
+          $ref: ../brp/geboorte/geboorte-v1.yaml#/components/schemas/GbaGeboorte
+        verblijfplaats:
+          $ref: ../brp/verblijfplaats/verblijfplaats-v1.yaml#/components/schemas/GbaVerblijfplaats
