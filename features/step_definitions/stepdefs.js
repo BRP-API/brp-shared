@@ -4,7 +4,7 @@ const { setWorldConstructor, setDefaultTimeout, Before, After, AfterAll, AfterSt
 const { valideer200Response, valideerProblemDetailsResponse } = require('./responseHelpers');
 const { rollbackSqlStatements } = require('./postgresqlHelpers');
 const { rollback } = require('./postgresqlHelpers-2');
-const fs = require('fs');
+const fs = require('node:fs');
 
 setWorldConstructor(World);
 
