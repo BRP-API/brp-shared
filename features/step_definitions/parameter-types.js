@@ -70,7 +70,7 @@ defineDateParameterType(
 
 defineDateParameterType(
     'dd maand yyyy datum',
-    new RegExp(`(?:op )?(?:in )?'?(?:(\\d{1,2}) )?(?:(${MAAND_NAMEN}) )?(\\d{4})'?`),
+    new RegExp(`(?:op )?(?:in )?'?(?:([0-9]{1,2}) )?(?:(${MAAND_NAMEN}) )?([0-9]{4})'?`),
     (dag, maand, jaar) => getJaar(jaar) + getMaand(maand) + getDag(dag)
 );
 

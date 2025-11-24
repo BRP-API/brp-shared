@@ -183,17 +183,21 @@ function dataTableToSqlStatements(dataTable) {
     return retval;
 }
 
+function vergelijkSqlStatementsNieuweStijl(context, dataTable) {
+    let actual = generateSqlStatementsFrom(context.data);
+
+    vulPrimaryEnForeignKeys(actual, context.sqlDataIds);
+
+    let expected = dataTableToSqlStatements(dataTable);
+
+    actual.should.deep.equalInAnyOrder(expected, `${JSON.stringify(actual, null, '\t')} != ${JSON.stringify(expected, null, '\t')}`);
+}
+
 Then(/^zijn de gegenereerde SQL statements$/, function(dataTable) {
     this.context.verifyResponse = false;
 
     if(this.context.data) {
-        let actual = generateSqlStatementsFrom(this.context.data);
-
-        vulPrimaryEnForeignKeys(actual, this.context.sqlDataIds);
-
-        let expected = dataTableToSqlStatements(dataTable);
-
-        actual.should.deep.equalInAnyOrder(expected, `${JSON.stringify(actual, null, '\t')} != ${JSON.stringify(expected, null, '\t')}`);
+        vergelijkSqlStatementsNieuweStijl(this.context, dataTable);
     }
     else {
         const { sqlData, sqlDataIds } = this.context;
