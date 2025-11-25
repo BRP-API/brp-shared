@@ -236,11 +236,11 @@ Then(/^heeft de scenario context een property '(\w*)' met waarde '(.*)'$/, funct
 });
 
 Then(/^bevat tabel '(\w*)' (\d*) (?:rij|rijen) met de volgende gegevens$/, async function (tabelNaam, expectedAantalRijen, dataTable) {
-    const actualAantalRijen = await queryRowCount(global.pool, tabelNaam);
+    const actualAantalRijen = await queryRowCount(globalThis.pool, tabelNaam);
     actualAantalRijen.should.equal(expectedAantalRijen);
 
     for(const hash of dataTable.hashes()) {
-        const actualAantalRijen = await queryRowCount(global.pool, tabelNaam, hash);
+        const actualAantalRijen = await queryRowCount(globalThis.pool, tabelNaam, hash);
         Number(actualAantalRijen).should.equal(1);
     }
 });
@@ -254,7 +254,7 @@ Then(/^heeft de response gezagsrelaties met de volgende gegevens$/, function (da
 When(/^de gegenereerde sql statements zijn uitgevoerd$/, async function () {
     await executeSqlStatements(this.context.sql,
                                this.context.sqlData,
-                               global.pool);
+                               globalThis.pool);
 });
 
 Then('is de gezag response body gelijk aan', function (docString) {

@@ -105,16 +105,16 @@ async function getOAuthAccessToken(accessTokenUrl, oAuthSettings) {
         return response.data.access_token
     }
     catch(e) {
-        global.logger.error(e);
+        globalThis.logger.error(e);
     }
 }
 
 async function createBearerAuthorizationHeader(afnemerId, gemeenteCode, oAuthSettings) {
-    global.logger.info(`createBearerAuthorizationHeader. afnemer: ${afnemerId}, gemeente: ${gemeenteCode}`);
+    globalThis.logger.info(`createBearerAuthorizationHeader. afnemer: ${afnemerId}, gemeente: ${gemeenteCode}`);
 
     const oAuthClientSettings = oAuthSettings.clients.find(client => client.afnemerID === afnemerId && client.gemeenteCode === gemeenteCode);
     if(oAuthClientSettings === undefined) {
-        global.logger.warn(`geen oAuthSettings gevonden voor afnemerId '${afnemerId}' en gemeenteCode: '${gemeenteCode}'`);
+        globalThis.logger.warn(`geen oAuthSettings gevonden voor afnemerId '${afnemerId}' en gemeenteCode: '${gemeenteCode}'`);
         return undefined;
     }
 
@@ -126,7 +126,7 @@ async function createBearerAuthorizationHeader(afnemerId, gemeenteCode, oAuthSet
         global.accessToken = {};
     }
     if(global.accessToken[key] === undefined) {
-        global.logger.debug('geen access token. Authenticate');
+        globalThis.logger.debug('geen access token. Authenticate');
         global.accessToken[key] = await getOAuthAccessToken(oAuthSettings.accessTokenUrl, oAuthClientSettings);
     }
 
@@ -186,7 +186,7 @@ async function sendBevragenRequest(context, baseUrl, url, extraHeaders, dataTabl
         headers: createHeaders(dataTable, extraHeaders)
     };
 
-    global.logger.info('request', config);
+    globalThis.logger.info('request', config);
 
     if(context.isStapDocumentatieScenario) {
         return;
