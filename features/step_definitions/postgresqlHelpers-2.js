@@ -3,7 +3,7 @@ const { toDateOrString } = require('./brpDatum');
 const { deleteStatement } = require('./parameterizedSqlStatementFactory');
 
 function mustLog(result) {
-    return (result.rowCount === null || result.rowCount === 0) && global.scenario.tags.some(t => ['@protocollering'].includes(t));
+    return (result.rowCount === null || result.rowCount === 0) && globalThis.scenario.tags.some(t => ['@protocollering'].includes(t));
 }
 
 async function executeAndLogStatement(client, statement) {
@@ -13,13 +13,13 @@ async function executeAndLogStatement(client, statement) {
         const result = await client.query(statement.text, statement.values);
 
         if(mustLog(result)) {
-            globalThis.logger.warn(`${global.scenario.name}. 0 rows affected`, statement);
+            globalThis.logger.warn(`${globalThis.scenario.name}. 0 rows affected`, statement);
         }
 
         return result;
     }
     catch(ex) {
-        globalThis.logger.error(`exception in ${global.scenario.name}`, statement, ex);
+        globalThis.logger.error(`exception in ${globalThis.scenario.name}`, statement, ex);
         throw ex;
     }
 }

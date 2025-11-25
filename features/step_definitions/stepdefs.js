@@ -41,7 +41,7 @@ AfterAll(async function() {
 });
 
 Before(function({ pickle }) {
-    global.scenario = {
+    globalThis.scenario = {
         name: pickle.name,
         tags: pickle.tags.map((t) => t.name)
     };
@@ -110,7 +110,7 @@ After(async function() {
 
     rollbackTempfiles(this.context);
 
-    await assertExpectedLogLines(this.context, globalThis.logger, global.scenario);
+    await assertExpectedLogLines(this.context, globalThis.logger, globalThis.scenario);
 });
 
 async function rollbackDbChanges(context, pool) {

@@ -15,7 +15,7 @@ function noSqlData(sqlData) {
 }
 
 function mustLog(result) {
-    return (result.rowCount === null || result.rowCount === 0) && global.scenario.tags.some(t => ['@protocollering'].includes(t));
+    return (result.rowCount === null || result.rowCount === 0) && globalThis.scenario.tags.some(t => ['@protocollering'].includes(t));
 }
 
 async function ExecuteAndLogStatement(client, sqlStatement) {
@@ -25,13 +25,13 @@ async function ExecuteAndLogStatement(client, sqlStatement) {
         const result = await client.query(sqlStatement);
 
         if(mustLog(result)) {
-            globalThis.logger.warn(`${global.scenario.name}. 0 rows affected`, sqlStatement);
+            globalThis.logger.warn(`${globalThis.scenario.name}. 0 rows affected`, sqlStatement);
         }
     
         return result;
     }
     catch(ex) {
-        globalThis.logger.error(`exception in ${global.scenario.name}`, sqlStatement, ex);
+        globalThis.logger.error(`exception in ${globalThis.scenario.name}`, sqlStatement, ex);
         throw ex;
     }
 }
