@@ -193,6 +193,37 @@ function vergelijkSqlStatementsNieuweStijl(context, dataTable) {
     actual.should.deep.equalInAnyOrder(expected, `${JSON.stringify(actual, null, '\t')} != ${JSON.stringify(expected, null, '\t')}`);
 }
 
+function vergelijkSqlStatementsOudeStijl(context, dataTable) {
+    const { sqlData, sqlDataIds } = context;
+    const expected = groepeerQueriesPerStap(dataTable);
+
+    for (const queries of expected) {
+
+        let currentStap;
+        for (const categorie of Object.keys(queries)) {
+            for (let index = 0; index < queries[categorie].length; index++) {
+                const query = queries[categorie][index];
+                if (query.stap !== '') {
+                    currentStap = Number(query.stap) - 1;
+                }
+
+                const re = /(?<type>.*)-(?<typeid>\w?\d{1,2})$/;
+                const found = re.exec(categorie);
+
+                const actual = found && !['kind', 'nationaliteit', 'ouder-1', 'ouder-2', 'partner', 'reisdocument'].includes(found.groups.type)
+                    ? sqlData[currentStap][found.groups.type][found.groups.typeid]?.data
+                    : sqlData[currentStap][categorie][index];
+                should.exist(actual, `categorie: ${categorie}`);
+
+                vergelijkActualMetExpectedStatements(categorie,
+                    query,
+                    actual,
+                    sqlDataIds);
+            }
+        }
+    }
+}
+
 Then(/^zijn de gegenereerde SQL statements$/, function(dataTable) {
     this.context.verifyResponse = false;
 
@@ -200,34 +231,7 @@ Then(/^zijn de gegenereerde SQL statements$/, function(dataTable) {
         vergelijkSqlStatementsNieuweStijl(this.context, dataTable);
     }
     else {
-        const { sqlData, sqlDataIds } = this.context;
-        const expected = groepeerQueriesPerStap(dataTable);
-    
-        for(const queries of expected) {
-    
-            let currentStap;
-            for(const categorie of Object.keys(queries)) {
-                for (let index = 0; index < queries[categorie].length; index++) {
-                    const query = queries[categorie][index];
-                    if(query.stap !== '') {
-                        currentStap = Number(query.stap) - 1;
-                    }
-    
-                    const re = /(?<type>.*)-(?<typeid>\w?\d{1,2})$/;
-                    const found = re.exec(categorie);
-    
-                    const actual = found && !['kind', 'nationaliteit', 'ouder-1', 'ouder-2', 'partner','reisdocument'].find((i) => i === found.groups.type)
-                        ? sqlData[currentStap][found.groups.type][found.groups.typeid]?.data
-                        : sqlData[currentStap][categorie][index];
-                    should.exist(actual, `categorie: ${categorie}`);
-    
-                    vergelijkActualMetExpectedStatements(categorie,
-                                                         query,
-                                                         actual,
-                                                         sqlDataIds);
-                }
-            }
-        }
+        vergelijkSqlStatementsOudeStijl(this.context, dataTable);
     }
 });
 
