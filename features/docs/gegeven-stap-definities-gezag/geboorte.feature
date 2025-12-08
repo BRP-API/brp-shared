@@ -141,6 +141,39 @@ Functionaliteit: Stap definities ten behoeve van specificeren gezagsrelaties
         |   1-1-2023 |      20230101 |
 
     @integratie
+    Scenario: is geboren op {datum} en er zijn staan 2 ouders op de geboorteakte
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En de persoon 'P3' met burgerservicenummer '000000036'
+      * heeft 'P1' en 'P2' als ouders
+      * is geboren op 31-12-2022
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | familie_betrek_start_datum |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |                            |
+      En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | familie_betrek_start_datum |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             |                   20221231 |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |                   20221231 |
+
+    @integratie
+    Scenario: is geboren op {datum} en er staat één van de ouder op de geboorteakte - de andere ouder heeft geadopteerd
+      Gegeven de persoon 'P1' met burgerservicenummer '000000012'
+      En de persoon 'P2' met burgerservicenummer '000000024'
+      En de persoon 'P3' met burgerservicenummer '000000036'
+      * heeft 'P1' als ouder
+      * 'P3' is 2 jaar geleden geadopteerd door 'P2'
+      * is geboren op 31-12-2022
+      Als de sql statements gegenereerd uit de gegeven stappen zijn uitgevoerd
+      Dan heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | familie_betrek_start_datum |
+        | P3    | P            |         0 |       0 |         000000036 | P3             |                            |
+      En heeft persoon 'P3' de volgende rijen in tabel 'lo3_pl_persoon'
+        | pl_id | persoon_type | stapel_nr | volg_nr | burger_service_nr | geslachts_naam | familie_betrek_start_datum |
+        | P3    |            1 |         0 |       0 |         000000012 | P1             |                   20221231 |
+        | P3    |            2 |         0 |       0 |         000000024 | P2             |             2 jaar geleden |
+
+    @integratie
     Abstract Scenario: is geboren in {land}
       Gegeven de persoon 'P1' met burgerservicenummer '000000012'
       * is geboren in <land>
