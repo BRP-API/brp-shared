@@ -218,9 +218,9 @@ Een stap in een scenario is gekoppeld aan de functie van een stap definitie als 
 Given(/^de persoon met burgerservicenummer '(\d*)' heeft de volgende gegevens$/, function (burgerservicenummer, dataTable) {
     createPersoon(this.context, burgerservicenummer, dataTable);
 });
+```
 Voorbeeld 6a. Stap definitie met reguliere expressie
 
-```
 De belangrijkste nadeel van het gebruik van reguliere expressies als stap definitie expressie is dat een stap aan meerdere stap definities kan worden gekoppeld als de reguliere expressie niet strict genoeg is. Dit leidt tot foutmeldingen tijdens het uitvoeren van de specificaties.
 
 Een betere alternatief is het gebruik van Cucumber Expressions. [Cucumber Expressions](https://github.com/cucumber/cucumber-expressions?tab=readme-ov-file#readme) zijn expressies die speciaal zijn ontworpen voor het koppelen van stappen aan stap definities. Cucumber Expressions kent standaard parameter types die kunnen worden gebruikt om parameters in stappen te definiëren. Deze parameter types zijn makkelijker te lezen en te begrijpen dan reguliere expressies. Zie [Parameter Types](https://github.com/cucumber/cucumber-expressions?tab=readme-ov-file#parameter-types) in de Cucumber Expressions documentatie voor een overzicht van de standaard parameter types. Onderstaand voorbeeld toont dezelfde stap definitie als in Voorbeeld 6a, maar dan met Cucumber Expressions:
@@ -228,6 +228,7 @@ Een betere alternatief is het gebruik van Cucumber Expressions. [Cucumber Expres
 Given('de persoon met burgerservicenummer {int} heeft de volgende gegevens', function (burgerservicenummer, dataTable) {
     createPersoon(this.context, burgerservicenummer, dataTable);
 });
+```
 Voorbeeld 6b. Stap definitie met Cucumber Expressions
 
 In Cucumber Expressions kan ook worden uitgebreid met custom parameter types. Door het implementeren van custom parameter types kunnen termen zoals 'gisteren', 'vorige maand' of 'vandaag 12 jaar geleden' worden omgezet naar een datum. Zie [Custom Parameter Types](https://github.com/cucumber/cucumber-expressions?tab=readme-ov-file#custom-parameter-types). Stappen die alleen verschillen in de datum parameter kunnen dan worden gekoppeld aan dezelfde functie zoals in onderstaand voorbeeld:
