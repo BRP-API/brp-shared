@@ -6,6 +6,10 @@ Gherkin is een set van regels en sleutelwoorden zoals 'Gegeven', 'Als' en 'Dan' 
 
 Belangrijk, Gherkin is geen test tool/framework. Het is geen vervanging voor andere testen zoals unit testen, integratie testen, performance testen, etc. Het is eerder een vervanging voor traditionele specificatie documenten. De primaire doel van een Gherkin feature bestand is begrijpbare, levende documentatie. Het levend houden van de documentatie wordt bereikt door de specificaties om te zetten naar uitvoerbare specificaties die valideren dat documentatie en implementatie niet uit elkaar lopen.
 
+Gherkin komt het beste tot zijn recht bij het beschrijven van de functionele requirements van een systeem. Het helpt bij het ontdekken en formuleren van de requirements. Het helpt ook bij het identificeren van randgevallen en uitzonderingen die anders misschien over het hoofd worden gezien. Daarom is het belangrijk dat de ontdekkingsfase wordt gedaan door minimaal één persoon met kennis van de gevraagde functionalieit (bijv. een product owner of business analist) samen met een developer en een tester ([De drie amigos](https://cucumber.io/docs/bdd/who-does-what/)).
+
+Gherkin features kunnen, maar hoeven niet de enige bron van requirements te zijn. Bij complexe functionaliteit kunnen andere vormen van documentatie, zoals user stories, wireframes of mockups en [diagrammen](https://mermaid.js.org) helpen bij het begrijpen en communiceren van de requirements.
+
 ## Aanbevelingen voor het beschrijven van specificaties met Gherkin
 
 ### Vermijd implementatie details in Gherkin specificaties
@@ -210,6 +214,22 @@ Regel: Het vragen van één of meerdere velden van een 'datum' veld levert alle 
 Voorbeeld 5. Redundante scenarios voor een Regel
 
 Een mogelijke reden dat deze extra scenarios (voor elke datum type eenzelfde scenario) zijn toegevoegd, is omdat deze Regel conflicteert met de Regel 'De fields parameter bevat veld paden die verwijzen naar een bestaand veld'. Afhankelijk van de datum type kan een gevraagd datum veld wel of niet bestaan bij het datum type. Door het toevoegen van deze extra scenarios wordt getest dat de correcte Regel is geïmplementeerd voor elke datum type.
+
+### Vermijd stappen die op meerdere manieren kunnen worden geïnterpreteerd
+
+Een stap waarin een situatie wordt ontkend, kan vaak op meerdere manieren worden geïnterpreteerd. De stap:
+```
+  Gegeven de persoon heeft geen partner
+```
+
+kan bijvoorbeeld als de volgende stappen worden geïnterpreteerd:
+```
+  Gegeven de persoon is niet gehuwd/heeft geen geregistreerd partnerschap
+```
+of
+```
+  Gegeven de persoon heeft een ontbonden huwelijk/geregistreerd partnerschap
+```
 
 ### Gebruik Cucumber Expressions om stappen te koppelen aan automation
 
