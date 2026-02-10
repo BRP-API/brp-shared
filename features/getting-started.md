@@ -148,7 +148,7 @@ beschrijft duidelijker de situatie dan de volgende generieke stappen:
   En 'Bert' heeft als ouders 'Gerda' en 'Aart'
 ```
 
-Hergebruik kan beter worden toegepast in de code achter de stappen (stap definities) door functies te maken die de gemeenschappelijke logica bevatten. Een voorbeeld hiervan is te zien in de [implementatie van dit expressieve stap](https://github.com/BRP-API/brp-api-gezag/blob/main/features/step_definitions/persona/gegeven-stepdefs-persona.js#L47). 
+Hergebruik kan beter worden toegepast in de code achter de stappen (stap definities) door functies te maken die de gemeenschappelijke logica bevatten. Een voorbeeld hiervan is te zien in de [implementatie van deze expressieve stap](https://github.com/BRP-API/brp-api-gezag/blob/main/features/step_definitions/persona/gegeven-stepdefs-persona.js#L47). 
 
 ### Beschrijf/benoem een requirement in een Regel en illustreer de Regel met scenarios/voorbeelden en niet meer dan dat
 
