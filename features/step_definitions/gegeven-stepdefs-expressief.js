@@ -227,10 +227,22 @@ Given(/^is geboren in het buitenland/, function () {
 });
 
 Given(/^(?:'(.*)' )?is geboren op (\d*)-(\d*)-(\d*)$/, function (aanduiding, dag, maand, jaar) {
+    let persoon = getPersoon(this.context, aanduiding);
+    let geboortedatum = toBRPDate(dag, maand, jaar)
+
+    // als een ouder staat op de geboorteakte, is de datum aanvang familierechtelijke betrekking gelijk aan de geboortedatum
+    if (persoon.hasOwnProperty('ouder-1') && persoon['ouder-1'].at(-1).akte_nr.substr(2, 1) == 'A' && persoon['ouder-1'].at(-1).hasOwnProperty('familie_betrek_start_datum') ) {
+        persoon['ouder-1'].at(-1).familie_betrek_start_datum = geboortedatum
+    }
+
+    if (persoon.hasOwnProperty('ouder-2') && persoon['ouder-2'].at(-1).akte_nr.substr(2, 1) == 'A' && persoon['ouder-2'].at(-1).hasOwnProperty('familie_betrek_start_datum') ) {
+        persoon['ouder-2'].at(-1).familie_betrek_start_datum = geboortedatum
+    }
+
     aanvullenPersoon(
         getPersoon(this.context, aanduiding),
         arrayOfArraysToDataTable([
-            ['geboortedatum (03.10)', toBRPDate(dag, maand, jaar)]
+            ['geboortedatum (03.10)', geboortedatum]
         ])
     );
 });
