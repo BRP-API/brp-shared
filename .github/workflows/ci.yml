@@ -51,7 +51,3 @@ jobs:
         if: always()
         run: |
           ./scripts/containers-stop.sh ci
-
-      - name: Genereer en upload test rapportage
-        if: always()
-        uses: ./.github/actions/genereer-en-upload-test-rapportage
