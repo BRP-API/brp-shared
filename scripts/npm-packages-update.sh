@@ -1,3 +1,3 @@
 #!/bin/sh
 
-npx ncu -u --interactive --format group
+npx --ignore-scripts ncu -u --interactive --format group
