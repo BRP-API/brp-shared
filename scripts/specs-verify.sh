@@ -4,7 +4,8 @@ echo "### Cucumber Test Reports"
 
 EXIT_CODE=0
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-zonder-dependency-integratie.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-zonder-dependency-integratie.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-zonder-dependency-integratie-summary.txt \
                 -f summary \
                 features/docs \
@@ -12,7 +13,8 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 > /dev/null
 if [[ $? -ne 0 ]]; then EXIT_CODE=1; fi
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-integratie.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-integratie.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-integratie-summary.txt \
                 -f summary \
                 features/docs \
@@ -20,7 +22,8 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 > /dev/null
 if [[ $? -ne 0 ]]; then EXIT_CODE=1; fi
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-informatie-api.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-informatie-api.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-informatie-api-summary.txt \
                 -f summary \
                 features/docs \
@@ -28,7 +31,8 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 > /dev/null
 if [[ $? -ne 0 ]]; then EXIT_CODE=1; fi
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-data-api.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-data-api.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-data-api-summary.txt \
                 -f summary \
                 features/docs \
@@ -36,7 +40,8 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 > /dev/null
 if [[ $? -ne 0 ]]; then EXIT_CODE=1; fi
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-summary.txt \
                 -f summary \
                 features/docs \
@@ -44,7 +49,8 @@ npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-
                 > /dev/null
 if [[ $? -ne 0 ]]; then EXIT_CODE=1; fi
 
-npx cucumber-js -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated.json \
+npx --ignore-scripts cucumber-js \
+                -f json:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated.json \
                 -f summary:./test-reports/cucumber-js/step-definitions/test-result-gezag-api-deprecated-summary.txt \
                 -f summary \
                 features/docs \
