@@ -7,7 +7,7 @@ inputs:
   trivy-version:
     description: 'Versie van Trivy die moet worden gebruikt'
     required: false
-    default: 'v0.70.0'
+    default: 'v0.74.0'
   artifact-name:
     description: 'Naam voor het trivy scan rapport'
     required: false
