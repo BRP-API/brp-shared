@@ -1,9 +1,7 @@
 #!/bin/bash
 
-MODE=$1
-
-if [[ "$MODE" = "ci" ]]; then
-    docker compose -f .docker/db-ci.yml down
-else
-    docker compose -f .docker/db.yml down
-fi
+# --profile tools zodat pgadmin ook wordt gestopt wanneer deze lokaal is gestart
+docker compose \
+    -f .docker/db.yml \
+    --profile tools \
+    down
